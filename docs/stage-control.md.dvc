@@ -1,0 +1,5 @@
+outs:
+- md5: 287c30abcd423d532daa69bce9242ae0
+  size: 1475
+  hash: md5
+  path: stage-control.md
