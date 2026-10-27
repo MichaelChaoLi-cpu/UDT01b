@@ -1,0 +1,79 @@
+{
+  "upstream": "https://github.com/Deltares/SFINCS",
+  "upstream_commit": "1f1d8286520a8709b2e513854dff18a3616583db",
+  "upstream_archive_url": "https://github.com/Deltares/SFINCS/archive/1f1d8286520a8709b2e513854dff18a3616583db.tar.gz",
+  "upstream_archive_sha256": "77863184118baffc7dc11168448e23250c1c5a8cf52876f6cdf87af9fc9ea097",
+  "base_image": "deltares/sfincs-cpu@sha256:4301bffc74f3cb3f334be5d21aa75dfe5742a16c9838942cdfc2f870859fb404",
+  "platform": "linux/amd64",
+  "base_overlay_and_build_support_sha256": {
+    "base_overlay/source/src/udt_clock_budget.f90": "30c0f9e632b1e221c4a0720e4e5058138fdbbe6b0a5f13cbebfabdcf7635f6a5",
+    "base_overlay/source/src/sfincs_continuity.f90": "9d5b089ad8777613b35105066168dcf5c492470e0fa394ec363a45be970358ea",
+    "base_overlay/source/src/sfincs_ncinput.F90": "fc221fd1c28d4a90347e34f7216daf5d942028bfb438017cfd7ed2e4a5d835b2",
+    "base_overlay/source/src/sfincs_output.f90": "a5721a462099ed23779fc1d1634f5c04a1b70bb174540541028565b863167019",
+    "base_overlay/source/src/Makefile.am": "82642f15cafbe2afa0ab885e67706b1ac6585a7465a51c44c093a5eee243ee22",
+    "base_overlay/source/src/sfincs_lib.f90": "17eeac1a89669a7b6280b73e9924470b250cce673e975603d0c625d8cb74f9e8",
+    "base_overlay/source/src/udt_rain_clock.f90": "7ede9c2b769362e9acd9fbf26c74a1eb23d86ddd293b99d0693d1075821efe86",
+    "build_support/build-and-check.sh": "339be1baaf735da7267c17aed4bc46a1e343eee3388c9ff945c83da0216af734",
+    "build_support/netcdf_link_probe.f90": "e239c7988b6d3e29910efc3d55860f2c49b6cff8b778f79ccde76908c17ae6d6",
+    "build_support/loader_probe.c": "aec5b808b62dc6b87ff2ac418eafaec3c7374933397684979e729002a5038b30",
+    "build_support/production_rain_driver.f90": "b06df31c7d51b32862f39a8a98137f5957889c65633f644de4694f0503593433",
+    "build_support/production_budget_driver.f90": "4de15fbf1975f73ff07161edcf286315c1fd5888f639bdc33bd2e6eccff403fa"
+  },
+  "variants": {
+    "historical": {
+      "original_image_id": "sha256:5415c73fc6ac335bd225336d0b2055c0ea0345c2eced42ba9cef8e1c44ae1ace",
+      "source_files_sha256": {
+        "udt_clock_budget.f90": "92f8208d214491a5d1a17fb95f4de3b4fe89635a90934826f0272b3c16d56c9b",
+        "adaptive_positivity_fixture.f90": "b6a83157dfae65164b74d3170c738c8bb06e74975912c27ed68011caff2706c0",
+        "sfincs_continuity.f90": "d3d28a576caf415cb414fb1dfc22714768c223ed7606a9d332f0691b9126c5cc",
+        "rain_integral_fixture.f90": "e09c1ce4882a73c365141d3d35e903715e344a87be400b72905c5234ea7c1660",
+        "positivity_fixture.f90": "234f67cf3852408a172d8286d23ab45c5ef88dd9359ffd259ff8639f8ea6d7e7",
+        "radar_reader_fixture_v1.f90": "883471ca4d8e6ded8ee8a15f6d6cd6eca0f542b1336e10bb9361bd41674b3fd5",
+        "radar_budget_profile_fixture_v2.f90": "d6ded42e9dad42d663280250a1048eaa3666f0d2d0f4d2a356664c9585c601c6",
+        "radar_block_rain_fixture_v1.f90": "ebd6fe50e8800b65b9077decc0a33dc28166640bd76c7cf5acc3e01e0c18c1c1",
+        "adaptive_missing_child_fixture.f90": "7cd42c8c514c8369627d963de9207353f65c956e379841fbbce104e25550bc77",
+        "sfincs_meteo.f90": "1d45ea5c8d20ec41cc586a6cc425e7294e83a94e26bb8d78f52343e710b006a7",
+        "sfincs_boundaries.f90": "937eb1397d2d66ed1b471f0f45f4fbfc421fd53267f18a8d5ba13e3458d42c85",
+        "udt_rain_clock.f90": "0657e61f27ee9f88cf7e42f718023fbef537f4714794abe1b90196ea866c44c4"
+      }
+    },
+    "static_pumps": {
+      "original_image_id": "sha256:8041574613137ed54162e0817c632ce92a1fe79816385cf1d0cecbcf63aca883",
+      "source_files_sha256": {
+        "udt_clock_budget.f90": "c47d42149125e5a47f1ff13a12c7d002b5312146b85682fc8d213aa267fa6082",
+        "adaptive_positivity_fixture.f90": "b6a83157dfae65164b74d3170c738c8bb06e74975912c27ed68011caff2706c0",
+        "sfincs_continuity.f90": "e3a9c4714ead32cb29b5fff7206071d0a011bf593d792a97e08b54b8fc06cc02",
+        "rain_integral_fixture.f90": "e09c1ce4882a73c365141d3d35e903715e344a87be400b72905c5234ea7c1660",
+        "pump_fixture.f90": "adff58c2d8e68349ce1706ae332ae00ae90ead5c1d0f278b6d2ab55689d6167d",
+        "positivity_fixture.f90": "234f67cf3852408a172d8286d23ab45c5ef88dd9359ffd259ff8639f8ea6d7e7",
+        "radar_reader_fixture_v1.f90": "883471ca4d8e6ded8ee8a15f6d6cd6eca0f542b1336e10bb9361bd41674b3fd5",
+        "radar_budget_profile_fixture_v2.f90": "d6ded42e9dad42d663280250a1048eaa3666f0d2d0f4d2a356664c9585c601c6",
+        "radar_block_rain_fixture_v1.f90": "ebd6fe50e8800b65b9077decc0a33dc28166640bd76c7cf5acc3e01e0c18c1c1",
+        "adaptive_missing_child_fixture.f90": "7cd42c8c514c8369627d963de9207353f65c956e379841fbbce104e25550bc77",
+        "sfincs_meteo.f90": "1d45ea5c8d20ec41cc586a6cc425e7294e83a94e26bb8d78f52343e710b006a7",
+        "sfincs_boundaries.f90": "937eb1397d2d66ed1b471f0f45f4fbfc421fd53267f18a8d5ba13e3458d42c85",
+        "udt_rain_clock.f90": "0657e61f27ee9f88cf7e42f718023fbef537f4714794abe1b90196ea866c44c4"
+      }
+    },
+    "weighted_pools": {
+      "original_image_id": "sha256:2fd2cb87bfcafaf85db7ac065e208f2e0d13b9bf4b6eb7ae20d4a1690ca927cf",
+      "source_files_sha256": {
+        "udt_clock_budget.f90": "c47d42149125e5a47f1ff13a12c7d002b5312146b85682fc8d213aa267fa6082",
+        "adaptive_positivity_fixture.f90": "b6a83157dfae65164b74d3170c738c8bb06e74975912c27ed68011caff2706c0",
+        "sfincs_continuity.f90": "5a8e4ed96cd97bde7143b71f27034f1b6e72fcd8c35aa19b31d02d49a59fef51",
+        "weighted_pool_fixture.f90": "642b8f6f2d3663624265e6fbaee3efafafe716e940ba65dccd9fdacbe8e92290",
+        "rain_integral_fixture.f90": "e09c1ce4882a73c365141d3d35e903715e344a87be400b72905c5234ea7c1660",
+        "pump_fixture.f90": "adff58c2d8e68349ce1706ae332ae00ae90ead5c1d0f278b6d2ab55689d6167d",
+        "positivity_fixture.f90": "234f67cf3852408a172d8286d23ab45c5ef88dd9359ffd259ff8639f8ea6d7e7",
+        "radar_reader_fixture_v1.f90": "883471ca4d8e6ded8ee8a15f6d6cd6eca0f542b1336e10bb9361bd41674b3fd5",
+        "radar_budget_profile_fixture_v2.f90": "d6ded42e9dad42d663280250a1048eaa3666f0d2d0f4d2a356664c9585c601c6",
+        "radar_block_rain_fixture_v1.f90": "ebd6fe50e8800b65b9077decc0a33dc28166640bd76c7cf5acc3e01e0c18c1c1",
+        "adaptive_missing_child_fixture.f90": "7cd42c8c514c8369627d963de9207353f65c956e379841fbbce104e25550bc77",
+        "sfincs_meteo.f90": "1d45ea5c8d20ec41cc586a6cc425e7294e83a94e26bb8d78f52343e710b006a7",
+        "sfincs_boundaries.f90": "937eb1397d2d66ed1b471f0f45f4fbfc421fd53267f18a8d5ba13e3458d42c85",
+        "udt_rain_clock.f90": "0657e61f27ee9f88cf7e42f718023fbef537f4714794abe1b90196ea866c44c4"
+      }
+    }
+  },
+  "note": "Source-equivalent reconstruction inputs. A new build has its own binary/image identity; original numerical admission is not automatically inherited."
+}

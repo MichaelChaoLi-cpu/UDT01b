@@ -1,0 +1,16 @@
+from pathlib import Path
+import json
+R=Path(__file__).resolve().parents[2];O=R/'data/exp/data-briefing/tokyo_inundation_reference';P=R/'data/processed/tokyo_inundation_reference'
+notes={'kanda_field_semantics':{'status':'unresolved','scope':'Nonzero values within three wards only: 1,2,3,4,5,6,7; both official bureau CSV variants show these integers in spot checks.','interpretation':'Possible rounding or class encoding; not established. Do not treat as precise metre depths.','export':'raw_inundation_value preserved; depth_m/NPZ depth unassigned for Kanda.','effect_on_plateau':'Original PLATEAU ranks retained as published; corresponding source-value-to-rank processing not independently validated.'},'history_source_discrepancy_example':{'date':'2024-08-21','ward':'港区','town_api':'10 town records, reported building-count field total 15','ward_pdf':'1 household above-floor, 1 household below-floor, 3 underground buildings, 6 road-ponding reports','interpretation':'Different sources/categories/update states; not directly reconciled or summed.'},'road_data_scope':'Road-ponding maps obtained; complete road-closure/reopening time series was not found in the bounded official-source search.'}
+(O/'interpretation_notes.json').write_text(json.dumps(notes,ensure_ascii=False,indent=2)+'\n')
+(P/'README.txt').write_text('Official Tokyo reference data, acquired 2026-10-13.\n\nRun src/exp/acquire_inundation_data.py, then acquire_inundation_supplements.py, then analyze_inundation_reference.py from the project root.\n\nFour source CSV/NPZ subsets retain raw grid point locations and source terrain. They are maximum-design-scenario spatial values, not temporal observations. Source lon/lat remain unchanged; EPSG6668 is assumed for boundary clipping following available package metadata. No datum shifts or terrain resampling are applied.\n\nKanda: raw_inundation_value contains the original field. Nonzero three-ward values are integers 1–7; semantics require checking. depth_m is blank and NPZ depth is NaN intentionally. Other sources: depth_m follows the published numeric field. Source ground gaps are preserved.\n\nHistorical town records contain raw addresses and incident counts; no synthetic geocoding. Historical GIS footprints are approximate and overlap the town/PDF archives; never sum them as independent observations. Pre-1989 API features are stored separately from the documented 1989-onward map scope.\n')
+old=R/'data/exp/data-briefing/plateau_hazard_overview';msg='后续数据检查（2026-10-13）：神田川三区内原CSV非零浸水字段只出现整数1–7，取整／编码含义尚未确认。此处PLATEAU等级保持官方原值，其来源转换不能据此视为已验证的精确水深；详见tokyo_inundation_reference的数据检查。\n\n'
+p=old/'assessment.txt';s=p.read_text();
+if not s.startswith('后续数据检查'):p.write_text(msg+s)
+p=old/'scenario_inventory.json';rows=json.loads(p.read_text());
+for row in rows:
+ if row['scenario_id']=='fld_8_2':row['followup_source_value_status']='Original CSV nonzero three-ward values are integers 1–7; metre-depth/code semantics pending verification; original PLATEAU rank retained.'
+p.write_text(json.dumps(rows,ensure_ascii=False,indent=2)+'\n')
+p=old/'review.html';s=p.read_text();needle='<h1>东京已有浸水风险数据，先看整体格局</h1>'
+add='<p class="note">后续检查：神田川原CSV在三区内只出现整数1–7的非零浸水字段，含义待核对。此页仍保留官方原等级；请结合<a href="../tokyo_inundation_reference/review.html">新的数值数据检查</a>使用。</p>'
+if add not in s:p.write_text(s.replace(needle,needle+add))
