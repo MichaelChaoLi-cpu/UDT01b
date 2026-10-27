@@ -1,0 +1,2683 @@
+doc_type: actionbrief
+version: 1.0.1
+datasetDictionary:
+  pilot_road_trajectories:
+    datasetSourceName: road_trajectories_preprocessed.parquet
+    datasetDescription: Road trajectories; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/road_trajectories_preprocessed.parquet
+    sha256: c11f4fdd8b7dcc24b455ae26bb01ba44749c8623b17f550b9e9dbe159636ca1e
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/road_trajectories.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_road_trajectories.py
+    rows: 41856
+    fields: 14
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_road_summaries:
+    datasetSourceName: road_summaries_preprocessed.parquet
+    datasetDescription: Road summaries; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/road_summaries_preprocessed.parquet
+    sha256: 3fd12657fab4046862171ec413f2cc098792c9403246646390f68259a55b8ff2
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/road_summary.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_road_summaries.py
+    rows: 384
+    fields: 11
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_resident_trajectories:
+    datasetSourceName: resident_trajectories_preprocessed.parquet
+    datasetDescription: Resident trajectories; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/resident_trajectories_preprocessed.parquet
+    sha256: b6afa81c54d95f44979d414524ac945cb0b9831864c88e2042012fe22bbcd056
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/population_trajectories.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_resident_trajectories.py
+    rows: 41856
+    fields: 13
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_paired_resident_trajectories:
+    datasetSourceName: paired_resident_trajectories_preprocessed.parquet
+    datasetDescription: Paired resident trajectories; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/paired_resident_trajectories_preprocessed.parquet
+    sha256: a20d2671b49cd80728fe10d1981ac4e3a46e22207c4c0bae78b9af766c4cbd1a
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/paired_population_effects.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_paired_resident_trajectories.py
+    rows: 31392
+    fields: 15
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_fixed_time_paired_resident_benefits:
+    datasetSourceName: fixed_time_paired_resident_benefits_preprocessed.parquet
+    datasetDescription: Fixed-time paired resident benefits; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/fixed_time_paired_resident_benefits_preprocessed.parquet
+    sha256: 26d2f74d7c2351ccb614146fb1ee604d6a6d5dd8a589fbe88f480e4d888252e0
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/effect_summary/paired_population_at_reference_time.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_fixed_time_paired_resident_benefits.py
+    rows: 288
+    fields: 17
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_traffic_states:
+    datasetSourceName: traffic_states_preprocessed.parquet
+    datasetDescription: Traffic states; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: One frozen diagnostic snapshot per original pilot event-stage-arm; 16 records. Its
+      anchors remain separate from the later four-time September supplement.
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/traffic_states_preprocessed.parquet
+    sha256: 7f8917d1d5482e89ddbfdd37501212bbc0ffcec734b3b88a31c7fcc54b3d892c
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/traffic/physical_traffic_outcomes.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_traffic_states.py
+    rows: 16
+    fields: 12
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_instantaneous_transfer_screening:
+    datasetSourceName: instantaneous_transfer_screening_preprocessed.parquet
+    datasetDescription: Instantaneous transfer screening; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/instantaneous_transfer_screening_preprocessed.parquet
+    sha256: d8a149894c3713c57bbdf57efdf499f831d6dc859fc5d270708394db766457ce
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/neighbor_transfer_screen.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_instantaneous_transfer_screening.py
+    rows: 1308
+    fields: 9
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_any_time_transfer_locations:
+    datasetSourceName: any_time_transfer_locations_preprocessed.parquet
+    datasetDescription: Any-time transfer locations; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2025-09-11. Resident fields, where present, use
+      official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/any_time_transfer_locations_preprocessed.parquet
+    sha256: 84cfb6e8738d26cbb03494561829290fba61c660d2716fbf9b450363925512ee
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/effect_summary/risk_transfer_ward_locations.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_any_time_transfer_locations.py
+    rows: 48
+    fields: 7
+    rainfallParentCount: 2
+    rowCountIsIndependentEventCount: false
+  pilot_official_resident_baseline:
+    datasetSourceName: official_resident_baseline_preprocessed.parquet
+    datasetDescription: Official resident baseline; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: Statistics Bureau of Japan, 2020 Population Census, via e-Stat; project-preserved official
+      units.
+    datasetGenerationInfo: Official statistical-unit resident stock.
+    datasetPeriod: 2020 Population Census resident stock.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Official basic statistical units; irregular polygons, not 125 m occupancy.
+    datasetTemporalResolution: Static census stock.
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/official_resident_baseline_preprocessed.parquet
+    sha256: b90dd134cc5c7e3e358910cb599244c821e1838376e758f6c4cebeb631798dd4
+    sourcePath: data/processed/three_ward_population_block_stability_v1/official_2020_block_count_baseline.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_official_resident_baseline.py
+    rows: 4746
+    fields: 7
+    rowCountIsIndependentEventCount: false
+  pilot_five_parent_rain_intervals:
+    datasetSourceName: five_parent_rain_intervals_preprocessed.parquet
+    datasetDescription: Five-parent rain intervals; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-06-18, 2024-07-31, 2024-08-30, 2025-07-10, 2025-09-11.
+      Resident fields, where present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: Five-minute intervals in each nine-hour rainfall window.
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_analysis_contract_v1/five_parent_rain_intervals_preprocessed.parquet
+    sha256: a16710fcd9cf4ec47480e60b263cda670f71ab892d5d2203b78199a0a2f2522e
+    sourcePath: data/processed/three_ward_five_event_temporal_analysis_v1/rainfall_trajectories.csv
+    preprocessingScript: src/preprocessing/preprocess_transport_five_parent_rain_intervals.py
+    rows: 540
+    fields: 4
+    rainfallParentCount: 5
+    rowCountIsIndependentEventCount: false
+  extension_three_parent_road_comparison:
+    datasetSourceName: three_parent_road_comparison_preprocessed.parquet
+    datasetDescription: extension three parent road comparison; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_final_evidence_v1/three_parent_road_comparison_preprocessed.parquet
+    sha256: d4a981d8a1593c92bf9d6cfbc40a336ff0bd933c1aea9164dcf4b056d1b3a368
+    sourcePath: data/processed/three_ward_s1r_cross_event_validation_v1/three_parent_road_comparison.csv
+    preprocessingScript: src/preprocessing/preprocess_final_three_parent_road_comparison.py
+    rows: 96
+    fields: 17
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  extension_three_parent_Q5_vs_Q2p5_population_summary:
+    datasetSourceName: three_parent_Q5_vs_Q2p5_population_summary_preprocessed.parquet
+    datasetDescription: extension three parent Q5 vs Q2p5 population summary; retained evidence with original counting
+      units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_final_evidence_v1/three_parent_Q5_vs_Q2p5_population_summary_preprocessed.parquet
+    sha256: 2d3674ec48984798c407c62e033c1c95ec31698908b32767758f93eae3fecb7a
+    sourcePath: data/processed/three_ward_s1r_cross_event_validation_v1/three_parent_Q5_vs_Q2p5_population_summary.csv
+    preprocessingScript: src/preprocessing/preprocess_final_three_parent_Q5_vs_Q2p5_population_summary.py
+    rows: 144
+    fields: 19
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  extension_three_parent_population_totals_all_arms:
+    datasetSourceName: three_parent_population_totals_all_arms_preprocessed.parquet
+    datasetDescription: extension three parent population totals all arms; retained evidence with original counting
+      units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_final_evidence_v1/three_parent_population_totals_all_arms_preprocessed.parquet
+    sha256: aabff534c16ab54f88fdd7523d0966e45273160c17774adbd76549198b56b657
+    sourcePath: data/processed/three_ward_s1r_cross_event_validation_v1/three_parent_population_totals_all_arms.csv
+    preprocessingScript: src/preprocessing/preprocess_final_three_parent_population_totals_all_arms.py
+    rows: 576
+    fields: 13
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  extension_three_parent_head_transfer_comparison:
+    datasetSourceName: three_parent_head_transfer_comparison_preprocessed.parquet
+    datasetDescription: extension three parent head transfer comparison; retained evidence with original counting
+      units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: 'Preserved source support: 109 five-minute hydraulic states, nine-hour summaries
+      or declared static traffic snapshots; rows are not independent events.'
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_final_evidence_v1/three_parent_head_transfer_comparison_preprocessed.parquet
+    sha256: 4963ac40e49203227031dcc587d66c53fea9254efb9671d2a676f6e29c42588e
+    sourcePath: data/processed/three_ward_s1r_cross_event_validation_v1/three_parent_head_transfer_comparison.csv
+    preprocessingScript: src/preprocessing/preprocess_final_three_parent_head_transfer_comparison.py
+    rows: 48
+    fields: 11
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  extension_all_times_traffic_outcomes:
+    datasetSourceName: all_times_traffic_outcomes_preprocessed.parquet
+    datasetDescription: extension all times traffic outcomes; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2025-09-11. Resident fields, where present, use official
+      2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: Four declared static-assignment snapshots at elapsed 2:25, 4:00, 6:00 and 9:00; two
+      stages and three configurations, 24 records. Not a continuous dynamic traffic history.
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_final_evidence_v1/all_times_traffic_outcomes_preprocessed.parquet
+    sha256: 83c95531781d50cf9f0950fac34b06805f00e810f462d07780c30ecc47f6993d
+    sourcePath: data/processed/three_ward_s1r_september_traffic_phases_v1/all_times_traffic_outcomes.csv
+    preprocessingScript: src/preprocessing/preprocess_final_all_times_traffic_outcomes.py
+    rows: 24
+    fields: 16
+    rainfallParentCount: 1
+    rowCountIsIndependentEventCount: false
+    snapshotFrames:
+    - 29
+    - 48
+    - 72
+    - 108
+    snapshotElapsedSeconds:
+    - 8700
+    - 14400
+    - 21600
+    - 32400
+  extension_all_times_paired_traffic_effects:
+    datasetSourceName: all_times_paired_traffic_effects_preprocessed.parquet
+    datasetDescription: extension all times paired traffic effects; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2025-09-11. Resident fields, where present, use official
+      2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: Four declared static-assignment snapshots at elapsed 2:25, 4:00, 6:00 and 9:00; two
+      stages and three configurations, 24 records. Not a continuous dynamic traffic history.
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_final_evidence_v1/all_times_paired_traffic_effects_preprocessed.parquet
+    sha256: 2dbebba10251e71e43157792248ee67d683fb2b1b716b14647ec5687f013d053
+    sourcePath: data/processed/three_ward_s1r_september_traffic_phases_v1/all_times_paired_traffic_effects.csv
+    preprocessingScript: src/preprocessing/preprocess_final_all_times_paired_traffic_effects.py
+    rows: 24
+    fields: 13
+    rainfallParentCount: 1
+    rowCountIsIndependentEventCount: false
+    periodProvenance:
+      inheritedFromDataset: final_traffic_states
+      campaignManifest: data/processed/three_ward_s1r_september_traffic_phases_v1/batches/f048/state_manifest.json
+      parentEvents:
+      - E20250911
+      reason: Derived tables omit the redundant event column but retain the same campaign, frames, stages and portfolios.
+    snapshotFrames:
+    - 29
+    - 48
+    - 72
+    - 108
+    snapshotElapsedSeconds:
+    - 8700
+    - 14400
+    - 21600
+    - 32400
+  extension_fixed_all_times_cohort_costs:
+    datasetSourceName: fixed_all_times_cohort_costs_preprocessed.parquet
+    datasetDescription: extension fixed all times cohort costs; retained evidence with original counting units.
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived evidence; original JMA, census and geospatial sources are documented
+      separately.
+    datasetGenerationInfo: Existing qualified model results, exported by the recorded preprocessing script without
+      changing values or nulls.
+    datasetPeriod: 'Named historical-rainfall windows: 2025-09-11. Resident fields, where present, use official
+      2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting support; native hydraulic grid 10 m, road vectors or statistical-unit
+      aggregation as applicable.
+    datasetTemporalResolution: Four declared static-assignment snapshots at elapsed 2:25, 4:00, 6:00 and 9:00; two
+      stages and three configurations, 24 records. Not a continuous dynamic traffic history.
+    datasetPreprocessingInfo: Recorded field selection and English readable rename only; exact values, row order,
+      identifiers and nulls retained.
+    processedPath: data/processed/three_ward_final_evidence_v1/fixed_all_times_cohort_costs_preprocessed.parquet
+    sha256: 037d43ba2a66d9f5046807c71467db5c02cc6c8a024a607c97803c538285471f
+    sourcePath: data/processed/three_ward_s1r_september_traffic_phases_v1/fixed_all_times_cohort_costs.csv
+    preprocessingScript: src/preprocessing/preprocess_final_fixed_all_times_cohort_costs.py
+    rows: 24
+    fields: 9
+    rainfallParentCount: 1
+    rowCountIsIndependentEventCount: false
+    periodProvenance:
+      inheritedFromDataset: final_traffic_states
+      campaignManifest: data/processed/three_ward_s1r_september_traffic_phases_v1/batches/f048/state_manifest.json
+      parentEvents:
+      - E20250911
+      reason: Derived tables omit the redundant event column but retain the same campaign, frames, stages and portfolios.
+    snapshotFrames:
+    - 29
+    - 48
+    - 72
+    - 108
+    snapshotElapsedSeconds:
+    - 8700
+    - 14400
+    - 21600
+    - 32400
+  final_road_effects:
+    datasetSourceName: road_effects.parquet
+    datasetDescription: 'Current publication evidence ledger: road effects.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Nine-hour integrated outcomes using the original 109 simultaneous hydraulic/access
+      states; each row is a case or paired-reference summary.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/road_effects.parquet
+    sha256: 68f2571ae85085355a3e6fc1ca95fd58ee1e48213295b2cc374d91a044195a8e
+    rows: 12
+    fields: 16
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  final_resident_loss:
+    datasetSourceName: resident_loss.parquet
+    datasetDescription: 'Current publication evidence ledger: resident loss.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Nine-hour integrated outcomes using the original 109 simultaneous hydraulic/access
+      states; each row is a case or paired-reference summary.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/resident_loss.parquet
+    sha256: f6b3048bb83cf8c9afc0aee232682b6a14933f1acb90859d9c630cefbdafaa70
+    rows: 18
+    fields: 11
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  final_paired_resident_effects:
+    datasetSourceName: paired_resident_effects.parquet
+    datasetDescription: 'Current publication evidence ledger: paired resident effects.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Nine-hour integrated outcomes using the original 109 simultaneous hydraulic/access
+      states; each row is a case or paired-reference summary.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/paired_resident_effects.parquet
+    sha256: 5ebe945a2de5a48b86f033f0c59487c47e46bd8e69e1e741b40715d30e512a01
+    rows: 18
+    fields: 11
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  final_adverse_head_changes:
+    datasetSourceName: adverse_head_changes.parquet
+    datasetDescription: 'Current publication evidence ledger: adverse head changes.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Peak simultaneous and any-time-union summaries over 109 saved states; these are distinct
+      temporal operators.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/adverse_head_changes.parquet
+    sha256: 711dd107b379d8cf504fab3f3cd050e78293ea3ce277cfe67a5a7c6f48d87463
+    rows: 12
+    fields: 11
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  final_traffic_states:
+    datasetSourceName: traffic_states.parquet
+    datasetDescription: 'Current publication evidence ledger: traffic states.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2025-09-11. Resident fields, where present, use official
+      2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Four declared static-assignment snapshots at elapsed 2:25, 4:00, 6:00 and 9:00; two
+      stages and three configurations, 24 records. Not a continuous dynamic traffic history.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/traffic_states.parquet
+    sha256: 0189cd01e30a71716f83b5120901bbb250ce7e405996a70074edf2c233693cb4
+    rows: 24
+    fields: 16
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 1
+    rowCountIsIndependentEventCount: false
+    snapshotFrames:
+    - 29
+    - 48
+    - 72
+    - 108
+    snapshotElapsedSeconds:
+    - 8700
+    - 14400
+    - 21600
+    - 32400
+  final_fixed_temporal_cohort:
+    datasetSourceName: fixed_temporal_cohort.parquet
+    datasetDescription: 'Current publication evidence ledger: fixed temporal cohort.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2025-09-11. Resident fields, where present, use official
+      2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Four declared static-assignment snapshots at elapsed 2:25, 4:00, 6:00 and 9:00; two
+      stages and three configurations, 24 records. Not a continuous dynamic traffic history.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/fixed_temporal_cohort.parquet
+    sha256: c15e4467a06b26f2121db1b80164cd1b3792875ab3da60f02da20df5ae2e95f4
+    rows: 24
+    fields: 9
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 1
+    rowCountIsIndependentEventCount: false
+    periodProvenance:
+      inheritedFromDataset: final_traffic_states
+      campaignManifest: data/processed/three_ward_s1r_september_traffic_phases_v1/batches/f048/state_manifest.json
+      parentEvents:
+      - E20250911
+      reason: Derived tables omit the redundant event column but retain the same campaign, frames, stages and portfolios.
+    snapshotFrames:
+    - 29
+    - 48
+    - 72
+    - 108
+    snapshotElapsedSeconds:
+    - 8700
+    - 14400
+    - 21600
+    - 32400
+  final_paired_traffic_effects:
+    datasetSourceName: paired_traffic_effects.parquet
+    datasetDescription: 'Current publication evidence ledger: paired traffic effects.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2025-09-11. Resident fields, where present, use official
+      2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Four declared static-assignment snapshots at elapsed 2:25, 4:00, 6:00 and 9:00; two
+      stages and three configurations, 24 records. Not a continuous dynamic traffic history.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/paired_traffic_effects.parquet
+    sha256: 76bfe6bfb7e4f16c93eddc3e1bdb1dc71affa206903719d62987e393cadbc524
+    rows: 24
+    fields: 13
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 1
+    rowCountIsIndependentEventCount: false
+    periodProvenance:
+      inheritedFromDataset: final_traffic_states
+      campaignManifest: data/processed/three_ward_s1r_september_traffic_phases_v1/batches/f048/state_manifest.json
+      parentEvents:
+      - E20250911
+      reason: Derived tables omit the redundant event column but retain the same campaign, frames, stages and portfolios.
+    snapshotFrames:
+    - 29
+    - 48
+    - 72
+    - 108
+    snapshotElapsedSeconds:
+    - 8700
+    - 14400
+    - 21600
+    - 32400
+  final_map_classifications:
+    datasetSourceName: map_classifications.parquet
+    datasetDescription: 'Current publication evidence ledger: map classifications.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-08-30. Resident fields, where present, use official
+      2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Frozen August frame 97, elapsed 29,100 s; two stages and one record per reporting
+      unit. Not a full trajectory.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/map_classifications.parquet
+    sha256: 7eb499aa953ac203bd55b214bd1afa653b1dadb02c5a17c82a95d9ff8a41cb7a
+    rows: 9492
+    fields: 14
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 1
+    rowCountIsIndependentEventCount: false
+  final_numerical_admission:
+    datasetSourceName: numerical_admission.parquet
+    datasetDescription: 'Current publication evidence ledger: numerical admission.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: 'Named historical-rainfall windows: 2024-07-31, 2024-08-30, 2025-09-11. Resident fields, where
+      present, use official 2020 stock.'
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: One existing numerical-admission record per treatment case; audit metadata, not a
+      sampled hydraulic trajectory.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/numerical_admission.parquet
+    sha256: 19c3f3d463e79fdbefb89e20673e72ceab092569e13dff5a21e847896239c796
+    rows: 12
+    fields: 4
+    lineageDecision: MILI-D-20261024-002
+    rainfallParentCount: 3
+    rowCountIsIndependentEventCount: false
+  final_scope_and_units:
+    datasetSourceName: scope_and_units.parquet
+    datasetDescription: 'Current publication evidence ledger: scope and units.'
+    datasetAttribute: table
+    datasetProvider: UDT01b project-derived, from the existing qualified source states.
+    datasetGenerationInfo: Existing final-evidence consolidation; explicit keys, original units and reference-specific
+      paired contrasts; not a new hydraulic run or traffic fit.
+    datasetPeriod: Static metadata applying to the separately declared experiment windows; not a dated measurement
+      series.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Common qualified roads, native 10 m cells or official resident units; scope is specified
+      by record.
+    datasetTemporalResolution: Static interpretation/support metadata; no temporal sampling cadence.
+    datasetPreprocessingInfo: Read without modification; units, support, interval endpoints and quality-only records
+      remain separate.
+    processedPath: data/processed/three_ward_final_evidence_v1/scope_and_units.parquet
+    sha256: 1dfd45b487af85e8fa4589607c559deba8dd60ab272360dd64e6065e61b3d510
+    rows: 10
+    fields: 2
+    lineageDecision: MILI-D-20261024-002
+    rowCountIsIndependentEventCount: false
+  native_terrain:
+    datasetSourceName: sfincs.dep
+    datasetDescription: Active-cell bed elevation; retained bare-earth DEM and PLATEAU gap filling.
+    datasetAttribute: other
+    datasetProvider: Tokyo public terrain and MLIT PLATEAU inputs; UDT01b frozen model preparation.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Mixed source survey epochs; frozen model inputs, not a terrain survey at storm time.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: 10 m model grid with retained subgrid terrain information.
+    datasetTemporalResolution: Static input or normal-reference resource; no time-series sampling cadence.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs.dep
+    sha256: 3308e3d1a2703012319a92802feef1b3510d5575fa1bb0427d8c733b403ef5de
+    activeBedValues: 368872
+  native_urban_constraints:
+    datasetSourceName: building_closures.thd
+    datasetDescription: Frozen closed building faces within the urban-constrained representation.
+    datasetAttribute: other
+    datasetProvider: MLIT PLATEAU city geometry and project road/connectivity constraints.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Frozen source city-model configuration; not all structures contemporaneous with every event.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: 10 m native faces; original building/road geometry retained through existing preparation.
+    datasetTemporalResolution: Static input or normal-reference resource; no time-series sampling cadence.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/building_closures.thd
+    sha256: f38480a89c7465330747c2ea4286f4bb3f2a658da1a8e2c873932b44d26858fb
+    closedFaceRecords: 40310
+  native_surface_states:
+    datasetSourceName: sfincs_map.nc
+    datasetDescription: Representative saved hydraulic state resource; manifest locates all other cases.
+    datasetAttribute: netcdf
+    datasetProvider: UDT01b version-bound SFINCS surface-water calculation.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: 2025-09-11 anchor; other event-stage histories remain in their manifests.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: 10 m rectangular storage grid; active support from original masks.
+    datasetTemporalResolution: 109 saved hydraulic output states at nominal 300 s spacing; actual times retain their
+      original clock contract.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs_map.nc
+    sha256: d641ef1fef96672a11a8f0aae7bf9fd83fd418c98fd678596dc5d9123b86b694
+    storedTimeStates: 109
+    arrayDimensions:
+      n: 1012
+      m: 770
+      time: 109
+  native_receiving_stages:
+    datasetSourceName: sfincs.bzs
+    datasetDescription: Prescribed water-surface boundary time series; scenario input rather than measured river
+      hydrograph.
+    datasetAttribute: other
+    datasetProvider: UDT01b scenario boundary construction.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: 2025-09-11 anchor; low and raised alternatives selected in original protocols.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original boundary points; source water polygons do not supply bathymetry.
+    datasetTemporalResolution: Six prescribed input time knots over nine hours, with nonuniform spacing; piecewise
+      linear interpolation in the retained reader. Hydraulic output is stored separately at 109 nominal five-minute
+      states.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs.bzs
+    sha256: 5d200a64f310179fd43129ed459bed8880a5aa87fd0aa024044172d88bf4d5fb
+    storedTimeRows: 6
+    timeKnotsSeconds: &id001
+    - 0.0
+    - 10800.0
+    - 12600.0
+    - 14400.0
+    - 18000.0
+    - 32400.0
+    timeKnotCount: 6
+    boundaryPointCount: 10488
+    inputInterpolation: Piecewise linear in time between adjacent knots; first/last input values at the endpoints.
+      The input file covers the complete run window.
+    interpolationSource:
+      archive: data/processed/three_ward_cpu_solver_build_v1/upstream_source.tar.gz
+      member: SFINCS-1f1d8286520a8709b2e513854dff18a3616583db/source/src/sfincs_boundaries.f90
+      sha256: ed348429e37a51f601dc7d077708cd05a9ded1348389c74830ebe0a727f1b063
+      lines:
+      - 698
+      - 732
+      sourceBinding: data/processed/three_ward_cpu_solver_build_v1/source_binding.json
+    outputStateDataset: native_surface_states
+  native_road_depth:
+    datasetSourceName: E20250911__H__U__none.npz
+    datasetDescription: Existing mapped lower/upper road-depth arrays for one qualified anchor.
+    datasetAttribute: other
+    datasetProvider: UDT01b native hydraulic-to-road projection.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: 2025-09-11 high-stage no-action anchor.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original road sampling and common ground support; unknown structural heights remain
+      unknown.
+    datasetTemporalResolution: 109 saved mapped-depth states at the corresponding hydraulic output times.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_barrier_drainage_v1/exposure/E20250911__H__U__none.npz
+    sha256: 3b890bbd85e630765286cd8fa367d986e0048f23f3ee09b6dcbd060fb1bd1d97
+    arrayMetadata:
+      lower:
+        shape:
+        - 109
+        - 28064
+        dtype: float64
+      upper:
+        shape:
+        - 109
+        - 28064
+        dtype: float64
+      road_indices:
+        shape:
+        - 28064
+        dtype: int64
+      road_state_codes:
+        shape:
+        - 109
+        - 2
+        - 28064
+        dtype: uint8
+      actual_times:
+        shape:
+        - 109
+        dtype: float64
+      analysis_times:
+        shape:
+        - 109
+        dtype: float64
+      native_depth:
+        shape:
+        - 109
+        - 779240
+        dtype: float32
+  native_vehicle_network:
+    datasetSourceName: turn_router.npz
+    datasetDescription: Turn-state directed routing graph and physical-node membership.
+    datasetAttribute: other
+    datasetProvider: UDT01b prepared road network, based on retained OpenStreetMap and existing access/structure
+      evidence.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Frozen normal-network snapshot; not surveyed event-time permissions.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Vector road arcs, turn states and nodes, including necessary external connections.
+    datasetTemporalResolution: Static input or normal-reference resource; no time-series sampling cadence.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_normal_vehicle_repair_v1/turn_router.npz
+    sha256: d628ecb540b0373ea9e597838f53664db2a1256f2d487eef13a82c1a53d85c15
+    arrayMetadata:
+      indices:
+        shape:
+        - 1787724
+        dtype: int32
+      indptr:
+        shape:
+        - 717064
+        dtype: int32
+      cost:
+        shape:
+        - 1787724
+        dtype: float64
+      shape:
+        shape:
+        - 2
+        dtype: int64
+      state_physical_arc:
+        shape:
+        - 717063
+        dtype: int64
+      node_component:
+        shape:
+        - 337301
+        dtype: int32
+      state_arc_end_node:
+        shape:
+        - 717063
+        dtype: int32
+  native_demand:
+    datasetSourceName: multi_routing_demands.npz
+    datasetDescription: Expanded original request records and period weights; source and through-demand branches
+      remain distinct.
+    datasetAttribute: other
+    datasetProvider: UDT01b survey-derived small-vehicle driver-request reconstruction.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Original survey snapshot and declared period scenarios; not historical event-hour observed demand.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Expanded origin/destination endpoints at original source zoning and network attachment.
+    datasetTemporalResolution: Static expanded OD records with five stored period-weight columns; the current traffic
+      comparison holds the declared 17:00 proxy fixed.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_normal_vehicle_repair_v1/multi_routing_demands.npz
+    sha256: f8f1abfa2f80a7c9c5933abf32838f618cda40015f5af061e23bca5d969d3804
+    arrayMetadata:
+      origin_endpoint:
+        shape:
+        - 75398
+        dtype: int32
+      destination_endpoint:
+        shape:
+        - 75398
+        dtype: int32
+      period_weights:
+        shape:
+        - 75398
+        - 5
+        dtype: float64
+      base:
+        shape:
+        - 75398
+        dtype: bool
+      through_plus:
+        shape:
+        - 75398
+        dtype: bool
+      source_fine_od_index:
+        shape:
+        - 75398
+        dtype: int32
+      source_fraction:
+        shape:
+        - 75398
+        dtype: float64
+  native_road_capacity:
+    datasetSourceName: capacity_assumptions.npz
+    datasetDescription: Hourly lane/class road-capacity proxy.
+    datasetAttribute: other
+    datasetProvider: UDT01b declared lane and road-class assumptions.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Fixed across the retained transport comparisons.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Directed physical road arcs; not measured historical per-link capacities.
+    datasetTemporalResolution: Static input or normal-reference resource; no time-series sampling cadence.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_demand_protection_feedback_v1/capacity_assumptions.npz
+    sha256: b6871aa16c9ca4fd47d44b67e9732e91874eb7619029cd40e7437eb3e3316edb
+    arrayMetadata:
+      hourly_capacity:
+        shape:
+        - 716876
+        dtype: float64
+      effective_lanes:
+        shape:
+        - 716876
+        dtype: float64
+      lane_provenance:
+        shape:
+        - 716876
+        dtype: <U33
+  native_reference_cost:
+    datasetSourceName: choice_costs.npz
+    datasetDescription: Frozen generalized route-cost arrays with original toll and road-class variants.
+    datasetAttribute: other
+    datasetProvider: UDT01b normal-vehicle-choice specification.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Frozen reference before flood and loading changes.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Directed physical arcs; scenario cost variants, not measured free-flow times.
+    datasetTemporalResolution: Static input or normal-reference resource; no time-series sampling cadence.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_normal_vehicle_choice_v1/choice_costs.npz
+    sha256: 47a0107297fe0692fc2ef1bac924682b2324a223fe0e6304afb8a9bb5fae7506
+    arrayMetadata:
+      arc_cost_seconds:
+        shape:
+        - 2
+        - 3
+        - 716876
+        dtype: float64
+      unperturbed_generalized_seconds:
+        shape:
+        - 2
+        - 716876
+        dtype: float64
+      travel_seconds:
+        shape:
+        - 716876
+        dtype: float64
+      tolled_arc:
+        shape:
+        - 716876
+        dtype: bool
+      toll_proxy_seconds:
+        shape:
+        - 716876
+        dtype: float64
+      arc_factor:
+        shape:
+        - 3
+        - 716876
+        dtype: float64
+      arc_is_core:
+        shape:
+        - 716876
+        dtype: bool
+      arc_is_motorway:
+        shape:
+        - 716876
+        dtype: bool
+  native_normal_access:
+    datasetSourceName: normal_node_access.npz
+    datasetDescription: Normal inward/outward portal access and bidirectional indicator.
+    datasetAttribute: other
+    datasetProvider: UDT01b directed-network reference accessibility.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Static normal reference.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original physical nodes and conditional external portals.
+    datasetTemporalResolution: Static input or normal-reference resource; no time-series sampling cadence.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_night_population_transport_v1/normal_node_access.npz
+    sha256: c4acd18493024a77f33e4ecb1d124d853c6663569c84ac0e920a8ceab54b6964
+    arrayMetadata:
+      outward_reference_seconds:
+        shape:
+        - 337301
+        dtype: float64
+      inward_reference_seconds:
+        shape:
+        - 337301
+        dtype: float64
+      bidirectional:
+        shape:
+        - 337301
+        dtype: bool
+  native_population_candidates:
+    datasetSourceName: block_access_support.npz
+    datasetDescription: Ragged official-unit-to-road candidate sets at 0, 10 and 25 m.
+    datasetAttribute: other
+    datasetProvider: UDT01b frozen population attachment using official 2020 statistical units.
+    datasetGenerationInfo: Existing native resource; case manifests and the native-input contract preserve provenance
+      and solver identity.
+    datasetPeriod: Official stock 2020; fixed attachment snapshot.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original reporting-unit geometries and candidate node sets; no centroid or building
+      point allocation.
+    datasetTemporalResolution: Static input or normal-reference resource; no time-series sampling cadence.
+    datasetPreprocessingInfo: No transformation or re-export. Only metadata and declared array lengths are inspected
+      for this dictionary.
+    processedPath: data/processed/three_ward_night_population_transport_v1/block_access_support.npz
+    sha256: ec7e4012ce7c0f60703a88082cd87c9ed66ca6e4861690e25211907f3be4bfe8
+    arrayMetadata:
+      block_ids:
+        shape:
+        - 4746
+        dtype: <U14
+      offsets_0m:
+        shape:
+        - 4747
+        dtype: int64
+      offsets_10m:
+        shape:
+        - 4747
+        dtype: int64
+      offsets_25m:
+        shape:
+        - 4747
+        dtype: int64
+      node_indices_0m:
+        shape:
+        - 23662
+        dtype: int32
+      node_indices_10m:
+        shape:
+        - 60261
+        dtype: int32
+      node_indices_25m:
+        shape:
+        - 78421
+        dtype: int32
+  native_spatial_rain:
+    datasetSourceName: historical_rain.nc
+    datasetDescription: Representative spatial precipitation actually read by the September high-stage no-action
+      run; not the area-mean summary.
+    datasetAttribute: netcdf
+    datasetProvider: JMA parameter203 composite radar intensity, archived by Kyoto University RISH; project forcing
+      preparation.
+    datasetGenerationInfo: Representative radar intensity held over the preceding source interval; start-stamped
+      block forcing on the recipient grid, with existing conservative roof/source redistribution.
+    datasetPeriod: 2025-09-11T04:15:00+00:00 to 2025-09-11T13:15:00+00:00; 2025-09-11T13:15:00+09:00 to 2025-09-11T22:15:00+09:00.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Source radar approximately 1 km; prepared recipient coordinates at 10 m with halo.
+      Recipient spacing does not add rainfall detail.
+    datasetTemporalResolution: 108 right-held 300 s intervals plus the original terminal record, 109 stored times;
+      exact integration on actual solver steps.
+    datasetPreprocessingInfo: Existing input read unchanged; original source-recipient matrices and rainfall-volume
+      qualification retained.
+    processedPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/historical_rain.nc
+    sha256: ef42410d5b4a2bafd188cb6c140038d5a0b53929827744222234a7d100878874
+    rainfallParent: HIST-RADAR-TOKYO-20250911
+    forcingField: Precipitation
+    forcingUnits: mm h-1
+    representativeCase: E20250911__H__U__none
+    configurationPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs.inp
+    acquisitionMetadata: data/processed/three_ward_cross_event_protection_v1/rainfall/E20250911/event_summary.json
+    sourceRecipientQA: data/processed/three_ward_cross_event_protection_v1/rainfall/E20250911/spatial_forcing_qa.json
+    sourceRecipientMatricesUnchanged: true
+    otherCaseForcingLocator: historical_case_inventory
+  historical_case_inventory:
+    datasetSourceName: input_inventory.csv
+    datasetDescription: Qualified five-parent no-action case inventory; explicit per-case spatial-forcing locators.
+    datasetAttribute: table
+    datasetProvider: UDT01b existing qualified case inventory.
+    datasetGenerationInfo: Ten stage-case histories share five historical rain parents; original case configurations
+      locate their forcing files.
+    datasetPeriod: 2024-06-18, 2024-07-31, 2024-08-30, 2025-07-10 and 2025-09-11.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original hydraulic domain and admitted road support.
+    datasetTemporalResolution: 109 saved states per case, nominal 300 s output spacing; not independent rainfall
+      observations.
+    datasetPreprocessingInfo: Read only; no additional source acquisition or forcing reconstruction.
+    processedPath: data/processed/three_ward_five_event_temporal_analysis_v1/input_inventory.csv
+    sha256: 219b6775834bdb0005a66c454a95007147b660cd10e240fe436759b192887114
+    caseForcingSources:
+    - case: E20240618__H__U
+      rainfallParent: HIST-RADAR-TOKYO-20240618
+      configurationPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240618__H__U/sfincs.inp
+      configurationSHA256: 49b1e013d088986a2ab8a7f7e76afabe799bc07c219f5854ff5ca55300c09b94
+      spatialForcingPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240618__H__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_five_event_population_validation_v1/execution/E20240618__H__U/audit.json
+    - case: E20240618__L__U
+      rainfallParent: HIST-RADAR-TOKYO-20240618
+      configurationPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240618__L__U/sfincs.inp
+      configurationSHA256: 49b1e013d088986a2ab8a7f7e76afabe799bc07c219f5854ff5ca55300c09b94
+      spatialForcingPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240618__L__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_five_event_population_validation_v1/execution/E20240618__L__U/audit.json
+    - case: E20240731__H__U
+      rainfallParent: HIST-RADAR-TOKYO-20240731
+      configurationPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240731__H__U/sfincs.inp
+      configurationSHA256: 8d0d3e383031e581de9c30375c3b7b35af0abe46fd053e0b8bf2862c9068127d
+      spatialForcingPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240731__H__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_five_event_population_validation_v1/execution/E20240731__H__U/audit.json
+    - case: E20240731__L__U
+      rainfallParent: HIST-RADAR-TOKYO-20240731
+      configurationPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240731__L__U/sfincs.inp
+      configurationSHA256: 8d0d3e383031e581de9c30375c3b7b35af0abe46fd053e0b8bf2862c9068127d
+      spatialForcingPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20240731__L__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_five_event_population_validation_v1/execution/E20240731__L__U/audit.json
+    - case: E20240830__H__U
+      rainfallParent: HIST-RADAR-TOKYO-20240829-30
+      configurationPath: data/processed/three_ward_cross_event_protection_v1/runs/E20240830__H__U/sfincs.inp
+      configurationSHA256: 22188f1e7e435df1ed6cfb61d4ad4fe21134205471e62843d752c07b02a6953c
+      spatialForcingPath: data/processed/three_ward_cross_event_protection_v1/runs/E20240830__H__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_cross_event_protection_v1/execution/E20240830__H__U/audit.json
+    - case: E20240830__L__U
+      rainfallParent: HIST-RADAR-TOKYO-20240829-30
+      configurationPath: data/processed/three_ward_cross_event_protection_v1/runs/E20240830__L__U/sfincs.inp
+      configurationSHA256: 22188f1e7e435df1ed6cfb61d4ad4fe21134205471e62843d752c07b02a6953c
+      spatialForcingPath: data/processed/three_ward_cross_event_protection_v1/runs/E20240830__L__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_cross_event_protection_v1/execution/E20240830__L__U/audit.json
+    - case: E20250710__H__U
+      rainfallParent: HIST-RADAR-TOKYO-20250710
+      configurationPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20250710__H__U/sfincs.inp
+      configurationSHA256: 396108c75ee67a722b30f54fbad66e058233838c866c2a80bd7cb1a0aed5f92e
+      spatialForcingPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20250710__H__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_five_event_population_validation_v1/execution/E20250710__H__U/audit.json
+    - case: E20250710__L__U
+      rainfallParent: HIST-RADAR-TOKYO-20250710
+      configurationPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20250710__L__U/sfincs.inp
+      configurationSHA256: 396108c75ee67a722b30f54fbad66e058233838c866c2a80bd7cb1a0aed5f92e
+      spatialForcingPath: data/processed/three_ward_five_event_population_validation_v1/runs/E20250710__L__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_five_event_population_validation_v1/execution/E20250710__L__U/audit.json
+    - case: E20250911__H__U
+      rainfallParent: HIST-RADAR-TOKYO-20250911
+      configurationPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs.inp
+      configurationSHA256: 382bf2e433dd1d21ce32654fbc448db07fd3601d1bb55c318a4dc25a59580e45
+      spatialForcingPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_cross_event_protection_v1/execution/E20250911__H__U/audit.json
+    - case: E20250911__L__U
+      rainfallParent: HIST-RADAR-TOKYO-20250911
+      configurationPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__L__U/sfincs.inp
+      configurationSHA256: 382bf2e433dd1d21ce32654fbc448db07fd3601d1bb55c318a4dc25a59580e45
+      spatialForcingPath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__L__U/historical_rain.nc
+      qualificationPath: data/exp/estimation/three_ward_cross_event_protection_v1/execution/E20250911__L__U/audit.json
+    sourceHashScope: The inventory and listed configuration hashes are bound here; only the representative rainfall
+      payload is independently hashed by this dictionary. Existing per-case qualification remains authoritative.
+  source_terrain_mosaic:
+    datasetSourceName: terrain_sampling_0_50m.tif
+    datasetDescription: Retained fine terrain sampling mosaic used for context rendering and native terrain preparation.
+    datasetAttribute: raster
+    datasetProvider: Tokyo public bare-earth terrain with PLATEAU terrain gap filling; project-retained mosaic.
+    datasetGenerationInfo: Existing extraction, clipping and terrain sampling; unchanged inputs of the accepted
+      study-area figure.
+    datasetPeriod: Mixed source survey epochs, retained as frozen terrain; not an event-date survey.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: 0.50 m sampling in the retained mosaic; sampling interval does not establish vertical
+      accuracy.
+    datasetTemporalResolution: Static source layer; no hydraulic output cadence.
+    datasetPreprocessingInfo: No processing repeated; accepted context bindings and scene provenance locate the
+      original preparation.
+    processedPath: data/processed/three_ward_sfincs_scenarios/terrain_sampling_0_50m.tif
+    sha256: 670f206c892cfe5e07301d0c63921f39d702e59469c61c79d74e88b6752b5aef
+    acceptedContextSource: src/analyses/figure_study_area_and_urban_flood_computation.py
+    provenancePath: data/exp/figure-table-generation/three_ward_transport_v1/study_area_and_urban_flood_computation/source_bindings.json
+  source_urban_vectors:
+    datasetSourceName: constraint_vectors_6677.geojson
+    datasetDescription: Retained building and ground-road vector layers used by the accepted context figure and
+      urban-constraint preparation.
+    datasetAttribute: geojson
+    datasetProvider: MLIT PLATEAU city-model inputs and project layer extraction.
+    datasetGenerationInfo: Existing extraction, clipping and terrain sampling; unchanged inputs of the accepted
+      study-area figure.
+    datasetPeriod: Frozen source city-model configuration; layer release dates are not assumed survey dates.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Source vector geometries in EPSG:6677; no single raster resolution.
+    datasetTemporalResolution: Static source layer; no hydraulic output cadence.
+    datasetPreprocessingInfo: No processing repeated; accepted context bindings and scene provenance locate the
+      original preparation.
+    processedPath: data/processed/three_ward_urban_constraints/constraint_vectors_6677.geojson
+    sha256: 987eb23d738f7950349b92005cf1a817a66dd35cfc5f472f2c4d0325676326bf
+    acceptedContextSource: src/analyses/figure_study_area_and_urban_flood_computation.py
+    provenancePath: data/exp/figure-table-generation/three_ward_transport_v1/study_area_and_urban_flood_computation/source_bindings.json
+  source_water_polygons:
+    datasetSourceName: central_three_wards_wtr.geojson
+    datasetDescription: Clipped/deduplicated PLATEAU water polygons for the central three wards; contextual footprint
+      and original explicit vertex elevations.
+    datasetAttribute: geojson
+    datasetProvider: MLIT PLATEAU water layer, project extraction.
+    datasetGenerationInfo: Existing extraction, clipping and terrain sampling; unchanged inputs of the accepted
+      study-area figure.
+    datasetPeriod: Frozen source city-model water layer; not historical event water levels.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original water geometry in EPSG:6677; not surveyed riverbed or channel bathymetry.
+    datasetTemporalResolution: Static source layer; no hydraulic output cadence.
+    datasetPreprocessingInfo: No processing repeated; accepted context bindings and scene provenance locate the
+      original preparation.
+    processedPath: data/processed/plateau_water/central_three_wards_wtr.geojson
+    sha256: 96da00547ba20fa571d5539390f47fabb8f231cc2337f58a1961a66041df2260
+    acceptedContextSource: src/analyses/figure_study_area_and_urban_flood_computation.py
+    provenancePath: data/exp/figure-table-generation/three_ward_transport_v1/study_area_and_urban_flood_computation/source_bindings.json
+  source_citygml_archive_lineage:
+    datasetSourceName: scene_sources.json
+    datasetDescription: Provenance of the existing local 3D scene, including direct CityGML archive/member locators.
+    datasetAttribute: other
+    datasetProvider: MLIT PLATEAU 2025 Chiyoda release; project scene-source record.
+    datasetGenerationInfo: Four retained building members and one water member from the named CityGML archive; archived
+      member hashes and central-directory CRC/size records.
+    datasetPeriod: 2025 source release label; no uniform survey epoch or event-time occupancy is inferred.
+    datasetScale: Hibiya-Marunouchi context rectangle inside Chiyoda; not all three-ward building records.
+    datasetSpatialResolution: Original CityGML geometry, retained scene display terrain spacing 5 m and height exaggeration
+      one.
+    datasetTemporalResolution: Static source-release and scene record; no time-series sampling.
+    datasetPreprocessingInfo: Existing scene cache retained; no new geometry extraction, resampling or scene rendering.
+    processedPath: data/exp/figure-table-generation/three_ward_transport_v1/study_area_and_urban_flood_computation/scene_sources.json
+    sha256: e7538e2a066bd9d9ecd69c4731c4824ce95ace0904d6f7eed36082b29f1881a7
+    archivePath: data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip
+    memberBindings:
+    - archive: data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip
+      member: udx/bldg/53394600_bldg_6697_op.gml
+      sha256_uncompressed: 37a6b704405654c2301743826cc7ef4b622c0e0d4838f7a252566c757a1e85cd
+      crc32: bd54efe9
+      bytes: 142636096
+    - archive: data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip
+      member: udx/bldg/53394601_bldg_6697_op.gml
+      sha256_uncompressed: f2ed9a5be5bfeabe84c9b32ff7978d1932059d584d9a84251635f87ba2920822
+      crc32: 0ace52d7
+      bytes: 219455554
+    - archive: data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip
+      member: udx/bldg/53394610_bldg_6697_op.gml
+      sha256_uncompressed: f2b58e205f91d9b5b4fce2eea6a9aa34ed5278eecf682bd1c0afdb87b10db403
+      crc32: cf1560be
+      bytes: 21936620
+    - archive: data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip
+      member: udx/bldg/53394611_bldg_6697_op.gml
+      sha256_uncompressed: 3448bec01ea015913fc2a5ac31e25831d667cd20d68e8d576d8627054d5c160e
+      crc32: 1cec0afa
+      bytes: 166216449
+    - archive: data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip
+      member: udx/wtr/533946_wtr_6697_op.gml
+      sha256_uncompressed: 9f1adac710b572c891b20cca7b096db1ec5560889e5e1d083d557686ce1ecbc9
+      crc32: 585ffa8e
+      bytes: 20498276
+    archiveIdentityScope: Existing uncompressed-member hashes retained; archive size and central-directory member
+      CRC/sizes checked here. No claim of a newly recomputed whole-archive hash.
+    sceneGenerator: src/analyses/figure_study_area_and_urban_flood_computation.py
+  geometry_case_manifest:
+    datasetSourceName: run_manifest.json
+    datasetDescription: Separate twelve-case geometry/rainfall/stage experimental manifest.
+    datasetAttribute: other
+    datasetProvider: UDT01b retained geometry comparison.
+    datasetGenerationInfo: Existing terrain/urban, dry/reference/scaled-rain and two-stage comparison; no new event
+      family.
+    datasetPeriod: 2024-08-21 reference family, distinct from the five-parent no-action consequence block.
+    datasetScale: Chiyoda, Chuo and Minato; adjoining hydraulic and directed-road connections retained where required.
+    datasetSpatialResolution: Original matched terrain/urban grids and admitted comparison support.
+    datasetTemporalResolution: Nine-hour histories; recorded original case clocks and source identities.
+    datasetPreprocessingInfo: Read only; case reuse and geometry-parent identities remain explicit.
+    processedPath: data/processed/three_ward_formal_transport_experiments_v1/run_manifest.json
+    sha256: fa79ef94104ee6897356021d6312a3f211b57a62b72970d5bfd69178acd2c2b0
+variableDictionary:
+  rainfall_forcing:
+    variableNameInDataset: Mean Rainfall Rate
+    variableNameInArticle: Rainfall Forcing
+    articleFullName: Prescribed rainfall field through time
+    variableAttribute: continuous
+    variableUnit: mm h-1
+    variableDescription: Original source rainfall in physical units and actual time. Preserve parent lineage, radar
+      coverage, second-level knots, integrated volume and conservative roof redistribution. This tabular rate is
+      an area-weighted summary, not the full spatial forcing. JMA parameter203 representative intensity is archived
+      by Kyoto University RISH; approximately 1 km, 300 s cadence. End-stamped source intensity represents the preceding
+      interval; solver forcing is start-stamped and right-held over the same interval, with exact step integration.
+      The 2024-08-21 geometry forcing is a separate family.
+    variableSource: pilot_five_parent_rain_intervals
+    observationNumber: 540
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Mean Rainfall Rate: float64
+    sourcePath: data/processed/three_ward_analysis_contract_v1/five_parent_rain_intervals_preprocessed.parquet
+    role: Physical input
+    isFinalVariable: true
+    linkedResourceDatasets:
+    - native_spatial_rain
+    - historical_case_inventory
+    - geometry_case_manifest
+    componentRoles:
+      pilot_five_parent_rain_intervals: Area-weighted summary; the declared 540 observations count interval-summary
+        rows.
+      native_spatial_rain: Actual representative spatial solver input; not a spatially uniform replacement.
+      historical_case_inventory: Locates the existing per-case input configurations and rainfall payloads for all
+        five no-action parents.
+      geometry_case_manifest: Keeps the separate 2024-08-21 geometry family explicit.
+  receiving_water_stage:
+    variableNameInDataset: sfincs.bzs water-level columns
+    variableNameInArticle: Receiving Water Stage
+    articleFullName: Prescribed receiving-water surface elevation
+    variableAttribute: continuous
+    variableUnit: m relative to retained model reference
+    variableDescription: Existing low/high stage scenario at fixed boundary points. Scenario water levels; not modeled
+      dry-weather discharge or observed historical river hydrographs. Each row contains one time and all boundary-point
+      values. Full time-dependent low/raised alternatives remain in case-specific files.
+    variableSource: native_receiving_stages
+    observationNumber: 6
+    observationBasis: Time rows in one representative prescribed boundary file; not boundary points, independent
+      rivers or observed water levels.
+    sourceDtypes:
+      sfincs.bzs water-level columns: ASCII numeric values parsed as float64
+    sourcePath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs.bzs
+    role: Boundary input
+    isFinalVariable: true
+    linkedResourceDatasets:
+    - native_surface_states
+    inputTimeKnotsSeconds: *id001
+    inputInterpolation: Piecewise linear between prescribed knots; separate from hydraulic output sampling.
+  terrain:
+    variableNameInDataset: sfincs.dep
+    variableNameInArticle: Terrain
+    articleFullName: Ground-surface elevation and provenance
+    variableAttribute: continuous
+    variableUnit: m relative to retained elevation reference
+    variableDescription: 'Existing datum-aware elevation surface. Preserve acquired bare-earth terrain and declared
+      city-model gap filling. '
+    variableSource: native_terrain
+    observationNumber: 368872
+    observationBasis: Finite active bed-elevation records in the representative native grid, not the count of source
+      DEM pixels.
+    sourceDtypes:
+      sfincs.dep: float32
+    sourcePath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs.dep
+    role: Physical input
+    isFinalVariable: true
+    linkedResourceDatasets:
+    - source_terrain_mosaic
+  urban_geometry:
+    variableNameInDataset: BuildingClosure face records
+    variableNameInArticle: Urban Geometry
+    articleFullName: Building, road and surface-connectivity representation
+    variableAttribute: other
+    variableUnit: native-face constraints
+    variableDescription: Frozen geometry representation under a named matched configuration. Terrain-only or urban
+      constraints; detailed geometry is not assumed accurate by construction. Road elevations, building-blocking
+      faces and subgrid geometry remain separate source components; this record count describes only the named face
+      resource.
+    variableSource: native_urban_constraints
+    observationNumber: 40310
+    observationBasis: Closed building-face records in the representative urban grid; not buildings, complete geometry
+      objects or independent scenarios.
+    sourceDtypes:
+      BuildingClosure face records: Native record; see source metadata
+    sourcePath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/building_closures.thd
+    role: Experimental input
+    isFinalVariable: true
+    linkedResourceDatasets:
+    - source_urban_vectors
+    - source_water_polygons
+    - source_citygml_archive_lineage
+    - source_terrain_mosaic
+    - geometry_case_manifest
+  surface_water_state:
+    variableNameInDataset:
+    - zs
+    - h
+    - subgrid_volume
+    variableNameInArticle: Surface Water State
+    articleFullName: Simultaneous modeled surface-water state
+    variableAttribute: other
+    variableUnit: m for elevation/depth; m3 for storage
+    variableDescription: Native water level, storage and depth at actual output time, including explicitly scoped
+      paired head-change summaries. Retain censor bounds, numerical admission and the distinction between water-surface
+      elevation, depth and road-mapped depth. Do not join cellwise time maxima as a simultaneous state. Spatial
+      dimensions are 1012 by 770, with the native active mask retained. No filled rectangular array is treated as
+      complete valid support.
+    variableSource: native_surface_states
+    observationNumber: 109
+    observationBasis: Saved time states in one representative nine-hour run; not the number of wet cells, valid
+      cell-values or independent model cases.
+    sourceDtypes:
+      zs: float32
+      h: float32
+      subgrid_volume: float32
+    sourcePath: data/processed/three_ward_cross_event_protection_v1/runs/E20250911__H__U/sfincs_map.nc
+    role: Physical response
+    isFinalVariable: true
+  road_depth:
+    variableNameInDataset:
+    - lower
+    - upper
+    variableNameInArticle: Road Depth
+    articleFullName: Mapped road-water depth bounds
+    variableAttribute: continuous
+    variableUnit: m
+    variableDescription: 'Existing point-to-road maximum depth reduction with lower and upper branches. Common admitted
+      ground and unchanged structural unknowns; road surface elevation matters. '
+    variableSource: native_road_depth
+    observationNumber: 109
+    observationBasis: Saved output times in one representative mapped-road-depth history; per-frame road dimensions
+      and both bound branches are retained in array metadata.
+    sourceDtypes:
+      lower: float64
+      upper: float64
+    sourcePath: data/processed/three_ward_barrier_drainage_v1/exposure/E20250911__H__U__none.npz
+    role: Hazard-to-network link
+    isFinalVariable: true
+  vehicle_network:
+    variableNameInDataset: state_physical_arc
+    variableNameInArticle: Vehicle Network
+    articleFullName: Directed vehicle connections
+    variableAttribute: other
+    variableUnit: turn-state records
+    variableDescription: 'Existing motor permissions, direction, turn memory and structural semantics. Preserve
+      surrounding connections and conditional outer portals. No new pointwise legal-access certification. '
+    variableSource: native_vehicle_network
+    observationNumber: 717063
+    observationBasis: Turn-state-to-physical-arc mapping records; not unique clipped roads, observed trips or independent
+      transport samples.
+    sourceDtypes:
+      state_physical_arc: int64
+    sourcePath: data/processed/three_ward_normal_vehicle_repair_v1/turn_router.npz
+    role: Transport input
+    isFinalVariable: true
+  closed_road_length:
+    variableNameInDataset: Closed Road Length
+    variableNameInArticle: Closed Road Length
+    articleFullName: Simultaneous qualified impassable length
+    variableAttribute: continuous
+    variableUnit: km
+    variableDescription: 'Unique clipped road length at depth at least 0.30 m. The threshold is a vehicle scenario
+      rule; report qualified and unknown support separately. '
+    variableSource: pilot_road_trajectories
+    observationNumber: 41856
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Closed Road Length: float64
+    sourcePath: data/processed/three_ward_analysis_contract_v1/road_trajectories_preprocessed.parquet
+    role: Primary outcome
+    isFinalVariable: true
+  slow_road_length:
+    variableNameInDataset: Slow Road Length
+    variableNameInArticle: Slow Road Length
+    articleFullName: Simultaneous qualified reduced-passability length
+    variableAttribute: continuous
+    variableUnit: km
+    variableDescription: 'Unique clipped length at depth at least 0.10 m but below 0.30 m. Existing traffic rule
+      doubles reference cost and halves capacity. '
+    variableSource: pilot_road_trajectories
+    observationNumber: 41856
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Slow Road Length: float64
+    sourcePath: data/processed/three_ward_analysis_contract_v1/road_trajectories_preprocessed.parquet
+    role: Outcome
+    isFinalVariable: true
+  closed_road_duration:
+    variableNameInDataset: Remaining Closed Road Duration
+    variableNameInArticle: Closed Road Duration
+    articleFullName: Window-integrated qualified closure
+    variableAttribute: continuous
+    variableUnit: km h
+    variableDescription: 'Length-time integral in km h over the same nine-hour window. Sampled trapezoidal integration;
+      five-minute temporal resolution and right censoring retained. Main ledger: 12 allowance-treatment contexts;
+      no-action, restored, newly closed and avoided exposure retain separate fields. Earlier pilot variants remain
+      in their own source tables.'
+    variableSource: final_road_effects
+    observationNumber: 12
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Remaining Closed Road Duration: float64
+    sourcePath: data/processed/three_ward_final_evidence_v1/road_effects.parquet
+    role: Primary outcome
+    isFinalVariable: true
+  vehicle_access:
+    variableNameInDataset: bidirectional
+    variableNameInArticle: Vehicle Access
+    articleFullName: Conditional bidirectional road access
+    variableAttribute: boolean
+    variableUnit: binary access indicator
+    variableDescription: 'Availability of both outward and inward paths to the declared external portal set. Fixed
+      directed network; not access to every destination, emergency refuge or rail service. '
+    variableSource: native_normal_access
+    observationNumber: 337301
+    observationBasis: Physical nodes in the normal reference; event-state access masks are separate model resources,
+      not newly computed here.
+    sourceDtypes:
+      bidirectional: bool
+    sourcePath: data/processed/three_ward_night_population_transport_v1/normal_node_access.npz
+    role: Network outcome
+    isFinalVariable: true
+  vehicle_demand:
+    variableNameInDataset: original_core_request_proxy
+    variableNameInArticle: Vehicle Demand
+    articleFullName: Original vehicle-request proxy
+    variableAttribute: continuous
+    variableUnit: vehicle-request proxy per represented demand hour
+    variableDescription: Existing survey-derived small-vehicle driver proxy for the fixed demand hour and scope.
+      Preserve retained, unreachable, held and unrepresented demand distinctions; not unique persons or observed
+      event-hour vehicles. 24 September static states repeat a fixed 17:00 survey-derived small-vehicle driver proxy
+      multiplied by two. Its native expanded records and other period weights are documented by native_demand; the
+      repeated values are not 24 independent demand measurements.
+    variableSource: final_traffic_states
+    observationNumber: 24
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      original_core_request_proxy: float64
+    sourcePath: data/processed/three_ward_final_evidence_v1/traffic_states.parquet
+    role: Traffic input
+    isFinalVariable: true
+  road_capacity:
+    variableNameInDataset: hourly_capacity
+    variableNameInArticle: Road Capacity
+    articleFullName: Scenario hourly road capacity
+    variableAttribute: continuous
+    variableUnit: vehicle-request proxy h-1
+    variableDescription: 'Existing lane/class capacity proxy. Do not calibrate using treatment results; unknown
+      and omitted vehicle demand remain explicit. '
+    variableSource: native_road_capacity
+    observationNumber: 716876
+    observationBasis: Physical directed arcs with an existing capacity assumption; the array length is not qualified
+      ward-clipped road length.
+    sourceDtypes:
+      hourly_capacity: float64
+    sourcePath: data/processed/three_ward_demand_protection_feedback_v1/capacity_assumptions.npz
+    role: Traffic input
+    isFinalVariable: true
+  reference_travel_cost:
+    variableNameInDataset: unperturbed_generalized_seconds
+    variableNameInArticle: Reference Travel Cost
+    articleFullName: Frozen generalized route cost
+    variableAttribute: continuous
+    variableUnit: generalized seconds
+    variableDescription: 'Existing reference time/cost before flood and load adjustments. Not an observed uncongested
+      free-flow time or measured delay. '
+    variableSource: native_reference_cost
+    observationNumber: 716876
+    observationBasis: Physical directed arcs in each of two frozen reference-cost variants; the count is per variant,
+      not the total number of array elements.
+    sourceDtypes:
+      unperturbed_generalized_seconds: float64
+    sourcePath: data/processed/three_ward_normal_vehicle_choice_v1/choice_costs.npz
+    role: Traffic input
+    isFinalVariable: true
+  unreachable_vehicle_requests:
+    variableNameInDataset: unreachable_core_request_proxy
+    variableNameInArticle: Unreachable Vehicle Requests
+    articleFullName: Unserved retained demand due to routing loss
+    variableAttribute: continuous
+    variableUnit: vehicle-request proxy
+    variableDescription: 'Original eligible requests lacking a represented route. Keep original denominator; restoration
+      and costs use distinct accounting. '
+    variableSource: final_traffic_states
+    observationNumber: 24
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      unreachable_core_request_proxy: float64
+    sourcePath: data/processed/three_ward_final_evidence_v1/traffic_states.parquet
+    role: Traffic outcome
+    isFinalVariable: true
+  common_od_cost:
+    variableNameInDataset:
+    - common_cohort_mean_model_cost_min
+    - same_time_noaction_cost_index
+    variableNameInArticle: Common OD Cost
+    articleFullName: Cost on an identical surviving request cohort
+    variableAttribute: continuous
+    variableUnit: generalized minutes; no-action index 100
+    variableDescription: Original-demand-weighted cost among the same reachable core ODs across the declared comparison
+      arms and time scope. Baseline index 100; original-pilot cohorts intersect four arms, receiving-allowance cohorts
+      intersect three arms per time and stage, and cross-time comparisons use one cohort across all twenty-four
+      states. Disclose excluded requests; this is not actual queue delay. The figure uses one identical positive-weight
+      OD cohort across all 24 September states. Within-time cohorts are separate supporting comparisons. Cost reduction
+      is 100 minus this index; the table uses the opposite signed cost change.
+    variableSource: final_fixed_temporal_cohort
+    observationNumber: 24
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      common_cohort_mean_model_cost_min: float64
+      same_time_noaction_cost_index: float64
+    sourcePath: data/processed/three_ward_final_evidence_v1/fixed_temporal_cohort.parquet
+    role: Traffic outcome
+    isFinalVariable: true
+  resident_population:
+    variableNameInDataset: Resident Population
+    variableNameInArticle: Resident Population
+    articleFullName: Official nighttime resident stock
+    variableAttribute: count
+    variableUnit: residents
+    variableDescription: Official 2020 counts conserved by reporting unit, total 496,345. Do not add uncertain building-allocation
+      point estimates to official totals. 4,746 original official units; total 496,345. Do not use intersecting
+      mesh totals as ward totals.
+    variableSource: pilot_official_resident_baseline
+    observationNumber: 4746
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Resident Population: float64
+    sourcePath: data/processed/three_ward_analysis_contract_v1/official_resident_baseline_preprocessed.parquet
+    role: Exposure denominator
+    isFinalVariable: true
+  population_access_candidates:
+    variableNameInDataset:
+    - block_ids
+    - offsets_10m
+    - node_indices_10m
+    variableNameInArticle: Population Access Candidates
+    articleFullName: Feasible network attachments per statistical unit
+    variableAttribute: other
+    variableUnit: candidate-node sets per official unit
+    variableDescription: Frozen sets under the existing 0, 10 and 25 m searches. Require complete normal-access
+      support; otherwise population remains unresolved. Primary 10 m branch; 60,261 stored candidate-node memberships
+      across 4,746 units, with 0 and 25 m variants separate.
+    variableSource: native_population_candidates
+    observationNumber: 4746
+    observationBasis: Official statistical units with stored candidate-set offsets; counts do not imply every unit
+      has complete normal support.
+    sourceDtypes:
+      block_ids: <U14
+      offsets_10m: int64
+      node_indices_10m: int32
+    sourcePath: data/processed/three_ward_night_population_transport_v1/block_access_support.npz
+    role: Uncertainty input
+    isFinalVariable: true
+  resident_access_loss:
+    variableNameInDataset:
+    - Resident Access Loss Lower
+    - Resident Access Loss Upper
+    variableNameInArticle: Resident Access Loss
+    articleFullName: Conditional population-stock access-loss interval
+    variableAttribute: continuous
+    variableUnit: resident h
+    variableDescription: All-candidate and any-candidate loss bounds using fixed official counts. Not statistical
+      confidence intervals, event-time occupants, stranded people or observed service failure. These primary writing
+      fields are nine-hour access-loss exposures; instantaneous resident stocks remain separately scoped variants.
+    variableSource: final_resident_loss
+    observationNumber: 18
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Resident Access Loss Lower: float64
+      Resident Access Loss Upper: float64
+    sourcePath: data/processed/three_ward_final_evidence_v1/resident_loss.parquet
+    role: Primary human-consequence outcome
+    isFinalVariable: true
+  paired_resident_benefit:
+    variableNameInDataset:
+    - Paired Resident Benefit Lower
+    - Paired Resident Benefit Upper
+    variableNameInArticle: Paired Resident Benefit
+    articleFullName: Net access-loss reduction interval
+    variableAttribute: continuous
+    variableUnit: resident h
+    variableDescription: Candidate-paired reference minus treatment access loss, as instantaneous resident stock
+      or its declared resident-hour integral. State the reference as no action, original static or allocation. Pair
+      candidates before aggregation and time integration; do not subtract marginal population interval endpoints.
+      Each record declares its reference. No-action-referenced main-table intervals differ from the direct Q5-relative-to-Q2.5
+      intervals plotted in the combined figure.
+    variableSource: final_paired_resident_effects
+    observationNumber: 18
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Paired Resident Benefit Lower: float64
+      Paired Resident Benefit Upper: float64
+    sourcePath: data/processed/three_ward_final_evidence_v1/paired_resident_effects.parquet
+    role: Intervention outcome
+    isFinalVariable: true
+  new_resident_access_loss:
+    variableNameInDataset:
+    - New Resident Access Loss Lower
+    - New Resident Access Loss Upper
+    variableNameInArticle: New Resident Access Loss
+    articleFullName: Additional access loss relative to a declared reference
+    variableAttribute: continuous
+    variableUnit: resident h
+    variableDescription: Paired candidates accessible in the declared reference but inaccessible under treatment,
+      as stock bounds or resident-hour integrals. Retain all/any bounds separately from restored access and net
+      effect. Loss relative to another protection portfolio does not imply loss relative to no action. Retain positive
+      new loss even when net benefit is positive; never clip small values to zero.
+    variableSource: final_paired_resident_effects
+    observationNumber: 18
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      New Resident Access Loss Lower: float64
+      New Resident Access Loss Upper: float64
+    sourcePath: data/processed/three_ward_final_evidence_v1/paired_resident_effects.parquet
+    role: Adverse outcome
+    isFinalVariable: true
+  unresolved_resident_stock:
+    variableNameInDataset: Unresolved Resident Stock
+    variableNameInArticle: Unresolved Resident Stock
+    articleFullName: Population with incomplete baseline attachment
+    variableAttribute: count
+    variableUnit: residents
+    variableDescription: Official stock that cannot support the complete-candidate comparison. Report separately
+      rather than declaring safe or affected. 41,308 on the main 10 m branch, repeated as coverage metadata; never
+      sum this constant across cases.
+    variableSource: final_resident_loss
+    observationNumber: 18
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Unresolved Resident Stock: int64
+    sourcePath: data/processed/three_ward_final_evidence_v1/resident_loss.parquet
+    role: Coverage outcome
+    isFinalVariable: true
+  measure_configuration:
+    variableNameInDataset: Measure Configuration
+    variableNameInArticle: Measure Configuration
+    articleFullName: Intervention portfolio, operator and receiving assumptions
+    variableAttribute: categorical
+    variableUnit: named portfolio
+    variableDescription: Original no-measure, barrier, drainage or combined pilot; separately, no action, original
+      static, allocation and placement shared-receiver settings. Preserve block identity, frozen locations, qualified
+      per-arm solver, receiving allowance, trigger, lift, storage limits and explicit source/sink accounting. Current
+      ledger Q2p5/Q5 denotes the same 319 locations and weighted allocator with assumed total receiving allowances
+      2.5/5.0 m3 s-1. It does not rename earlier Static/O1/S1 or the 19-unit pilot.
+    variableSource: final_road_effects
+    observationNumber: 12
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Measure Configuration: str
+    sourcePath: data/processed/three_ward_final_evidence_v1/road_effects.parquet
+    role: Experimental input
+    isFinalVariable: true
+  outside_corridor_depth_increase:
+    variableNameInDataset: Outside Corridor Depth Increase Area
+    variableNameInArticle: Outside Corridor Depth Increase
+    articleFullName: Original-pilot conservative adverse depth-change screen
+    variableAttribute: continuous
+    variableUnit: km2
+    variableDescription: Outside the original pilot corridor, depth increase of at least 0.10 m on admitted native
+      cells. Preserve its original corridor and cell support. Shared-receiver head-rise summaries are separately
+      scoped Surface Water State contrasts and must not inherit this variable label. This operational field is screened
+      instantaneous area, not an individual depth. The underlying conservative depth-change threshold is 0.10 m.
+      Later shared-receiver head-rise screens belong to Surface Water State, not this pilot corridor.
+    variableSource: pilot_instantaneous_transfer_screening
+    observationNumber: 1308
+    observationBasis: Rows with all declared component fields nonmissing; repeated scenarios and scopes are not
+      independent events.
+    sourceDtypes:
+      Outside Corridor Depth Increase Area: float64
+    sourcePath: data/processed/three_ward_analysis_contract_v1/instantaneous_transfer_screening_preprocessed.parquet
+    role: Adverse outcome
+    isFinalVariable: true
+figureDictionary:
+  fig_study_area_and_urban_flood_computation:
+    figureId: fig_study_area_and_urban_flood_computation
+    figurePath: data/results/figures/Figure_study_area_and_urban_flood_computation.png
+    figureCaption: Study area, urban geometry and surface-water computational representation
+    figureAim: Locate the three wards and explain how terrain, water, roads and buildings enter the two-dimensional
+      model.
+    figureExplanation: Panel a maps the three wards, b locates them in Tokyo, c shows the Hibiya-Marunouchi three-dimensional
+      city scene and d the same-area 10 m computational representation. Buildings, roads, terrain and water are
+      input context. City geometry constrains two-dimensional surface-water computation; water polygons are not
+      channel bathymetry. This figure does not measure superiority over a terrain-only model.
+    figureSuitableSection: 'Methods: Study Area and Model'
+    publicationRole: main_text
+    planTitle: Study Area and Urban Flood Computation
+    panelCount: 4
+    figurePanelCount: 4
+    figureNote: "Panel a maps the three wards, b locates them in Tokyo, c shows the Hibiya-Marunouchi three-dimensional city scene and d the same-area 10 m computational representation. Buildings, roads, terrain and water are input context. City geometry constrains two-dimensional surface-water computation; water polygons are not channel bathymetry. This figure does not measure superiority over a terrain-only model."
+    panelLayout: ab/ac/ad
+    acceptanceDecision: MILI-D-20261024-049
+    sha256: 65cceb5b722a293110589cf9af5baeddeb64e3ffeb4d96e8a2357d4efb2efad5
+    analysisScript: src/analyses/figure_study_area_and_urban_flood_computation.py
+    fullCaption: Study area, three-dimensional urban information and computational representation. (a) Chiyoda,
+      Chuo and Minato, with the frozen terrain, building footprints, ground-road candidates and PLATEAU water footprints;
+      adjoining context remains visible. The orange rectangle locates the common Hibiya–Marunouchi detail window.
+      (b) The study wards within Tokyo's 23 special wards, using the project's downloaded official N03 administrative
+      zones dated 1 January 2024. (c) An elevated depth-tested rendering of actual PLATEAU building surfaces, terrain,
+      ground-road candidates and explicit LOD1 water surfaces in the same projected rectangle used in d. Buildings
+      are white, roads gray, terrain beige and water pale blue; no facade textures or height exaggeration are used.
+      Fine terrain is reduced to five-meter display samples, with missing ground kept absent. Ground-road geometry
+      is draped on this terrain with an 0.08-meter drawing offset, not a surveyed carriageway or bridge elevation.
+      Original water-surface elevations are retained; these are not independently validated event stages or channel-bed
+      elevations. Display terrain intersecting water footprints is omitted solely to expose the water layer, without
+      modifying any hydraulic input. (d) The same area on the actual regular ten-meter hydraulic grid. Native bed
+      elevations, active support and fully closed building exchange faces are read from an existing frozen urban-constrained
+      case; red segments are the actual building-closure input, not guessed flow connections. Source footprints
+      remain visual context, not a claim that every subcell building is fully impermeable. Light gray gaps identify
+      unsupported or inactive native bed support. The figure explains the implemented framework and introduces no
+      new hydraulic run, transport fit, machine-learning training, empirical flood validation or superiority claim
+      for three-dimensional information.
+  fig_urban_geometry_and_road_disruption:
+    figureId: fig_urban_geometry_and_road_disruption
+    figurePath: data/results/figures/Figure_urban_geometry_and_road_disruption.png
+    figureCaption: Urban geometry sensitivity and five-event road disruption
+    figureAim: Describe representation sensitivity alongside whole-area road interruption while preserving distinct
+      forcing families.
+    figureExplanation: Panels a/b show low/raised-stage conservative urban-minus-terrain cellwise peak-depth contrasts
+      for the 2024-08-21 reference-rain geometry family. Panels c/d show 109 simultaneous five-minute road states
+      for five other historical radar parents. Panel e pairs nine-hour integrated closure by stage. Panel f is September
+      high-stage no-action frame 29, elapsed 2:25. Peak envelopes are not simultaneous inundation; geometry and
+      road blocks are not a matched five-event factorial. Closure and restriction are scenario rules at 0.30 and
+      0.10 m on fixed admitted road support.
+    figureSuitableSection: Results
+    publicationRole: main_text
+    planTitle: Urban Geometry and Road Disruption
+    panelCount: 6
+    figurePanelCount: 6
+    figureNote: "Panels a/b show low/raised-stage conservative urban-minus-terrain cellwise peak-depth contrasts for the 2024-08-21 reference-rain geometry family. Panels c/d show 109 simultaneous five-minute road states for five other historical radar parents. Panel e pairs nine-hour integrated closure by stage. Panel f is September high-stage no-action frame 29, elapsed 2:25. Peak envelopes are not simultaneous inundation; geometry and road blocks are not a matched five-event factorial. Closure and restriction are scenario rules at 0.30 and 0.10 m on fixed admitted road support."
+    panelLayout: ab/cff/dff/eff
+    acceptanceDecision: MILI-D-20261025-010
+    sha256: 7a00935646ed7aa85e6123a8053fc9515f7b35960dfa45e3129ded51ffce14dc
+    analysisScript: src/analyses/figure_urban_geometry_and_road_disruption.py
+    fullCaption: Urban geometry sensitivity and road disruption under prescribed rainfall and receiving-water scenarios.
+      Panels a and b retain low- and raised-stage conservative urban-minus-terrain differences between cellwise
+      peak-depth envelopes from the original 2024-08-21 reference-rain geometry family. Red denotes a strictly positive
+      interval contrast, blue a strictly negative contrast, and neutral color includes overlapping numerical bounds.
+      The scale saturates at ±0.30 m; these are not simultaneous flood maps. Panels c and d show lower-depth qualified
+      closed-road length at 109 simultaneous five-minute states for five historical radar parents, under low and
+      raised stages. The shared date legend applies to c and d. Panel e pairs the same nine-hour cumulative exposures
+      by stage in kilometer-hours; these are not unique road kilometers. Panel f is the frozen September raised-stage
+      no-action peak-closure anchor, frame 29, elapsed 2:25. Open by rule means mapped lower depth below 0.10 m,
+      restricted at least 0.10 m but below 0.30 m, and closed at least 0.30 m; structural or hazard unknowns remain
+      separately mapped. The 836.958 km qualified road denominator and 277.920 km unknown exposure are unchanged.
+      The geometry maps and five-parent road analysis are distinct experimental blocks, not a same-event geometry-to-road
+      factorial or evidence of observed accuracy superiority. All histories start dry and retain assumed receiving-water
+      stages. Closure persists at the nine-hour endpoint, so full recovery is unobserved. No new simulation, routing,
+      fitting, training or source adjustment is performed.
+  fig_physical_measure_deployment_and_road_effects:
+    figureId: fig_physical_measure_deployment_and_road_effects
+    figurePath: data/results/figures/Figure_physical_measure_deployment_and_road_effects.png
+    figureCaption: Hypothetical local measures and changes in road closure
+    figureAim: Connect the original local barrier, drainage and combined response to its frozen hypothetical deployment.
+    figureExplanation: Panels a-d show simultaneous no-action closed-road length minus each treatment, for June
+      and September under both stages; positive means less closure and negative means deterioration. Panel e maps
+      the original 19 hypothetical intakes, 696 overtoppable barrier faces, 4.74 km target corridor and prescribed
+      receivers. The 9.5 m3/s nominal ceiling is distinct from the later five-pool allowance experiments. Positions
+      and transfer links are hypothetical; receiving storage, sewer response, equipment and engineering feasibility
+      are unvalidated.
+    figureSuitableSection: Results
+    publicationRole: main_text
+    planTitle: Physical Measure Deployment and Road Effects
+    panelCount: 5
+    figurePanelCount: 5
+    figureNote: "Panels a-d show simultaneous no-action closed-road length minus each treatment, for June and September under both stages; positive means less closure and negative means deterioration. Panel e maps the original 19 hypothetical intakes, 696 overtoppable barrier faces, 4.74 km target corridor and prescribed receivers. The 9.5 m3/s nominal ceiling is distinct from the later five-pool allowance experiments. Positions and transfer links are hypothetical; receiving storage, sewer response, equipment and engineering feasibility are unvalidated."
+    panelLayout: aee/bee/cee/dee
+    acceptanceDecision: MILI-D-20261024-022
+    sha256: 51c3b75dfeda5fd4fa051610b1faebc9972e7a0d1b13c03854cea12ee4da6cad
+    analysisScript: src/analyses/figure_physical_measure_deployment_and_road_effects.py
+    fullCaption: 'Local hypothetical deployment and road-closure effects. Panels a-d show simultaneous no-measure
+      minus treatment closed-road length for 18 June 2024 at low and raised stage, then 11 September 2025 at low
+      and raised stage. Orange dashed, blue dotted and green dash-dot lines indicate barrier, drainage and combined
+      arms. Positive values indicate fewer closed kilometers; negative values indicate more. Same-time aggregate
+      net reduction is not individual restored-road length or a difference between separately timed peaks. All panels
+      use unchanged 0.30 m closure rules, the lower depth branch, native clocks, 109 sampled states and 836.958
+      km qualified road support, with 277.920 km unknown exposure separate. Panel e maps the shared frozen local
+      deployment: 118 target source roads totaling 4.743 ward-clipped km; 696 ten-meter barrier faces totaling 6.96
+      km; nineteen hypothetical intakes; saved prescribed-stage receiving cells; assumed direct transfer links;
+      and contextual PLATEAU water bodies. Road and structure lengths describe different objects. Map links are
+      not surveyed pipes or hose routes; symbol widths and point sizes are enlarged for visibility, not physical
+      dimensions. Each intake has capacity at most 0.5 cubic meters per second, totaling a nominal ceiling of 9.5,
+      with 0.05 m trigger, 5 m lift cutoff and prior-storage constraints. Barriers stand 0.5 m above sampled static
+      face ground, permit overtopping with coefficient 0.6 and retain existing road-crossing openings. Barrier arms
+      enable the mapped barriers; drainage arms enable the pumps; combined arms enable both using the same locations.
+      The map depicts treatment inputs, not the area benefiting from treatment. The original sixteen states comprise
+      four reused no-measure and twelve treatment histories. The September parent supplied prior corridor-selection
+      context; June is a limited transfer check. River storage, downstream capacity, actual construction feasibility
+      and event-time traffic congestion are unvalidated. Dry starts and nine-hour end-window censoring remain. All
+      values and locations are unchanged; no hydraulic simulation, routing or model fitting is added.'
+  fig_receiving_allowance_road_and_resident_effects:
+    figureId: fig_receiving_allowance_road_and_resident_effects
+    figurePath: data/results/figures/Figure_receiving_allowance_road_and_resident_effects.png
+    figureCaption: Receiving allowances, road interruption and resident access benefits
+    figureAim: Compare matched allowance road outcomes and directly paired additional resident-access effects.
+    figureExplanation: Panels a/b compare absolute nine-hour road closure exposure under no action, Q2.5 and Q5
+      across July/August 2024 and September 2025. Panel c shows the common 319-location deployment and named receiving
+      pools. Panel d maps additional candidate access restoration under Q5 relative to Q2.5 at the frozen August
+      frame 97; high/low classifications were checked before a common map was drawn. Panels e/f show directly paired
+      Q5-relative-to-Q2.5 benefit bounds, in thousands of resident-hours, not differences of marginal bounds or
+      unique people. The only changed measure input is assumed receiving allowance; the map is a diagnostic snapshot
+      and the intervals integrate nine hours.
+    figureSuitableSection: Results
+    publicationRole: main_text
+    planTitle: Receiving Allowance Road and Resident Effects
+    panelCount: 6
+    figurePanelCount: 6
+    figureNote: "Panels a/b compare absolute nine-hour road closure exposure under no action, Q2.5 and Q5 across July/August 2024 and September 2025. Panel c shows the common 319-location deployment and named receiving pools. Panel d maps additional candidate access restoration under Q5 relative to Q2.5 at the frozen August frame 97; high/low classifications were checked before a common map was drawn. Panels e/f show directly paired Q5-relative-to-Q2.5 benefit bounds, in thousands of resident-hours, not differences of marginal bounds or unique people. The only changed measure input is assumed receiving allowance; the map is a diagnostic snapshot and the intervals integrate nine hours."
+    panelLayout: acc/bcc/dde/ddf
+    acceptanceDecision: MILI-D-20261024-029
+    sha256: b19b6526ec8181ab0b99b105ab4fe9b9165a355a0d0547017f2ab0f6121fad68
+    analysisScript: src/analyses/figure_receiving_allowance_road_and_resident_effects.py
+    fullCaption: Receiving-allowance effects on roads and resident vehicle access. Panels a and b show absolute
+      nine-hour cumulative closed-road exposure for three historical radar rainfall parents under high and low prescribed
+      water stages. Black, blue and green road bars indicate no action, Q2.5 and Q5; smaller road totals are preferable.
+      Units are kilometer-hours, not unique closed kilometers. Unlike the earlier Static/O1/S1 plot, these road
+      values are the later matched receiving-allowance results used for the resident comparison. Panels e and f
+      now show the six original directly candidate-paired additional resident-access benefits of Q5 relative to
+      Q2.5, in thousand resident-hours. The road-only black/blue/green key is placed below a/b. The separate key
+      below e/f denotes purple candidate-paired benefit intervals and the gray dashed zero-benefit reference. Purple
+      intervals and their outward-rounded endpoint labels show net reduction in access-loss exposure; positive values
+      indicate added benefit and larger values more reduction. No midpoint or statistical confidence interpretation
+      is supplied. All six lower bounds are positive within the declared candidate model, supporting a positive
+      net direction for this comparison while retaining uncertain magnitudes and separate local new-loss outcomes.
+      These values are inherited direct pairs, never differences of marginal absolute interval endpoints. Original
+      absolute losses and benefits relative to no action remain in supporting data. Panel c maps the same 319 hypothetical
+      modeled intakes and fixed receiving endpoints under both allowances, colored by their five assigned pools.
+      Straight dashed links are assumed geometric connections, not surveyed pipes. Q2.5 and Q5 assume pool caps
+      0.5 and 1.0 cubic meters per second, totaling 2.5 and 5.0, with the same locations, weights, allocator, eligibility
+      and per-intake ceiling. Locations are not machine counts or validated downstream receiving capacity. Panel
+      d shows the original August frame-97 higher-relative-to-lower allowance access-restoration classification,
+      elapsed 8:05. High- and low-stage classifications are identical at this fixed anchor, permitting one display
+      without asserting equal full-window histories. Dark green denotes all-candidate restoration and light green
+      possible restoration. Unchanged access can remain disconnected; hatched attachment is unresolved and white
+      units have no recorded residents. Reporting-unit resident stocks are not confirmed restored people. Whole-area
+      official nighttime stock is 496,345 and unresolved stock is 41,308. The road denominator is 836.958 km qualified
+      with 277.920 km unknown; the lower mapped-depth branch, 0.30 m closure rule and 10 m population candidate
+      radius are unchanged. Full-window statistics and the snapshot map use different declared temporal summaries.
+      Direct paired benefits and local adverse outcomes remain separately retained. Historical forcing, dry starts
+      and assumed stages support conditional scenarios, not observed flood, stranded-person or traffic-congestion
+      reconstruction. River storage and downstream acceptance remain unmodeled. No solver, routing, fitting, new
+      population allocation or training is run for this assembly.
+  fig_transport_benefits_and_local_adverse_effects:
+    figureId: fig_transport_benefits_and_local_adverse_effects
+    figurePath: data/results/figures/Figure_transport_benefits_and_local_adverse_effects.png
+    figureCaption: Modeled transport benefits and local adverse effects
+    figureAim: Keep conditional transport cost, local hydraulic rise and new closures visible as distinct outcomes.
+    figureExplanation: 'Panels a/b cover three parents and two stages: conservative water-surface-rise peak/union
+      areas and peak simultaneous newly closed road length. They are not net benefit. Panel c shows September-only
+      fixed-all-state-cohort cost reduction at 2:25, 4:00, 6:00 and 9:00; all three configurations have identical
+      request reachability at every stage-time. Panel d maps August high-stage any-time adverse locations over no-action
+      roads closed at any saved time. Any-time unions are not simultaneous states. Enlarged square road locators
+      mark threshold-sensitive locations, not corridor widths. Prescribed receivers do not simulate downstream storage.'
+    figureSuitableSection: Results
+    publicationRole: main_text
+    planTitle: Transport Benefits and Local Adverse Effects
+    panelCount: 4
+    figurePanelCount: 4
+    figureNote: "Panels a/b cover three parents and two stages: conservative water-surface-rise peak/union areas and peak simultaneous newly closed road length. They are not net benefit. Panel c shows September-only fixed-all-state-cohort cost reduction at 2:25, 4:00, 6:00 and 9:00; all three configurations have identical request reachability at every stage-time. Panel d maps August high-stage any-time adverse locations over no-action roads closed at any saved time. Any-time unions are not simultaneous states. Enlarged square road locators mark threshold-sensitive locations, not corridor widths. Prescribed receivers do not simulate downstream storage."
+    panelLayout: add/bdd/cdd
+    acceptanceDecision: MILI-D-20261024-041
+    sha256: 17c48bbb7062b10b5e9619aab9b8e864dc8a5a9e933498428c46c136ebbf243f
+    analysisScript: src/analyses/figure_transport_benefits_and_local_adverse_effects.py
+    fullCaption: Transport benefits and local adverse effects under higher shared receiving allowance. Panels a
+      and b cover three historical rainfall parents (2024-07-31, 2024-08-30 and 2025-09-11), each under two prescribed
+      stages. Orange compares Q5 with no action and blue compares Q5 with Q2.5. Q2.5 and Q5 share 319 native intake/receiver
+      locations, weighted allocation, eligibility and unit ceilings; only their five hypothetical receiving-pool
+      caps differ, totaling 2.5 and 5.0 cubic meters per second. Panel a screens a conservative native water-surface
+      elevation increase of at least 0.10 m. Open circles show maximum simultaneous area; diamonds show the union
+      of any-time affected locations. These are distinct area summaries, not measured inundation extents or uncertainty
+      intervals. Panel b shows maximum simultaneous unique road length newly crossing the unchanged 0.30 m closure
+      rule on the primary lower-depth branch, not cumulative closure exposure or net road benefit. All twelve event-stage-reference
+      contrasts, including zeros, are retained. Panel b horizontal segments extend from zero to the respective peak,
+      with endpoint markers, matching the colored line legend; they do not connect different events or imply temporal
+      trajectories. No action, Q2.5 and Q5 have identical represented request reachability at every September stage-time;
+      this null result is retained in this caption and Vehicle Request and Common-Cohort Cost, with original denominator
+      37,113.1985; the standalone request-reachability curves are archived diagnostics. Panel c shows September-only
+      modeled generalized-cost reduction at elapsed times 2:25, 4:00, 6:00 and 9:00 relative to same-time no action
+      for one identical original-weighted OD cohort reachable in all twenty-four traffic states, with weight 26,825.4559.
+      Blue represents Q2.5 and green Q5; line style and marker distinguish stage. Positive values mean lower modeled
+      cost; negative values mean higher cost. Zero is the no-action reference. Benefits remain below 0.4 percent
+      and do not establish large observed congestion relief. Cost excludes unserved requests and is not the average
+      of the full original request population. Lines connect four snapshots without constructing intervening traffic
+      states, dynamic queues or a nine-hour cost integral. The doubled 17:00 small-vehicle driver-request proxy
+      and original capacity, reference-cost, restricted route-pool and mask assumptions are unchanged. Panel d maps
+      the original August high-stage any-time head-rise locations and newly closed roads for both references. Neutral
+      dark-gray lines show no-action roads closed at any of the same 109 output times under the unchanged lower-depth
+      0.30 m rule. This baseline location union gives total flood-closure context and is not a simultaneous closure
+      state. Its unique road length, peak simultaneous length and integrated closure burden have distinct units
+      and meanings. A road may be in this baseline union yet incur an additional same-time closure at a different
+      output time. Its legend directly pairs orange open circles and blue open diamonds with the respective water-level-rise
+      references, and the orange solid line with the newly closed road relative to no action; enlarged same-color
+      hollow squares locate each short newly closed segment at its road-length midpoint. Real road geometries and
+      lengths are preserved. Squares are position symbols, not affected footprints. The August high-stage diagnostic
+      contains one threshold-sensitive newly closed road location relative to no action, with an approximately 0.049
+      millimeter mapped-depth increase at a single output time; the same road is already closed in the no-action
+      scenario at other times. It has no newly closed road location relative to Q2.5; this zero result is retained
+      here and in supporting data, while its empty map-legend entry is omitted. Gray dashed lines denote unknown
+      road exposure. It is a spatial diagnostic from a different parent than c, not a simultaneous state or representative
+      event. Enlarged location markers and road widths do not represent affected areas or corridor widths. Unknown
+      road exposure remains gray dashed, not certified safe. Qualified road length is 836.958 km and unknown exposure
+      277.920 km. Original threshold-crossing records remain supporting material. No new hydraulic simulation, routing,
+      fitting, population conversion or observed impact validation is introduced. Added receiving-river storage,
+      downstream consequences, actual queues and independent observed road flooding remain unverified.
+  fig_cross_event_allocation_and_placement_effects:
+    figureId: fig_cross_event_allocation_and_placement_effects
+    figurePath: data/results/figures/Figure_cross_event_allocation_and_placement_effects.png
+    figureCaption: Road closure remaining under allocation and placement alternatives
+    figureAim: Compare earlier fixed allocation, reallocation and transport-priority placement without hiding remaining
+      closure.
+    figureExplanation: Panels a/b show no-action total closure and the closure remaining under Static, O1 and S1
+      in high/low stages. All 24 bars use the same zero-based scale, nine-hour window, lower road-depth branch and
+      qualified length. Static/O1 retain 62 locations; S1 uses 319 frozen locations. Each has an assumed total 2.5
+      m3/s receiving allowance, not equal equipment or cost. Newly closed exposure is already included in remaining
+      closure and is separately retained in the side-effect register; it must not be added twice.
+    figureSuitableSection: Supplementary Results
+    publicationRole: supplementary
+    planTitle: Cross-Event Allocation and Placement Effects
+    panelCount: 2
+    figurePanelCount: 2
+    figureNote: "Panels a/b show no-action total closure and the closure remaining under Static, O1 and S1 in high/low stages. All 24 bars use the same zero-based scale, nine-hour window, lower road-depth branch and qualified length. Static/O1 retain 62 locations; S1 uses 319 frozen locations. Each has an assumed total 2.5 m3/s receiving allowance, not equal equipment or cost. Newly closed exposure is already included in remaining closure and is separately retained in the side-effect register; it must not be added twice."
+    panelLayout: ab
+    acceptanceDecision: MILI-D-20261024-045
+    sha256: ca9e8ba09da09f4190b4c575d8e50d74011f9fb38724413bc348b1d8f1f47aed
+    analysisScript: src/analyses/figure_cross_event_allocation_and_placement_effects_totals.py
+    fullCaption: 'Cross-event cumulative road closure before and after hypothetical drainage measures. Panels a
+      and b show high and low prescribed receiving-water stages. Each rainfall group compares no action with remaining
+      closure under Static fixed allocation, O1 reallocation and S1 transport-priority placement. Bar labels are
+      absolute nine-hour length-time totals in kilometer-hours; lower is better. They are neither unique kilometers
+      of closed road nor instantaneous closure lengths. All 24 bars use identical zero-based axes, the common 836.958
+      km qualified three-ward support, the lower road-depth branch, the unchanged 0.30 m closure threshold and 109
+      synchronized output states. Unknown exposure of 277.920 km remains separate. Static and O1 use 62 native intake
+      locations; S1 uses 319. Location counts are not pump-machine counts. Each of five prescribed-stage receiving
+      pools has an assumed allowance of 0.5 cubic meters per second, totaling 2.5; equal allowance does not imply
+      equal equipment, cost or actual pumping. Across the six event-stage contexts, remaining closure includes any
+      new closures. Compared with same-event no action, positive new-closure exposure occurs only in three contexts
+      (2024-08-30 high-stage O1: 0.00236049 km h; 2024-08-30 high-stage S1: 0.00428058 km h; 2024-08-30 low-stage
+      S1: 0.00456491 km h). The other 15 contexts have zero newly closed exposure on this branch. Exact values and
+      zero cases are retained in the companion register. These small sampled threshold crossings do not independently
+      establish substantial flood transfer. The registry''s exact values take precedence over caption rounding.
+      July informed deployment selection; August and September are already-inspected transfer parents. Historical
+      radar rainfall with assumed stages, dry initial conditions and hypothetical interventions is not observed
+      road-closure reconstruction. Added receiving-river storage and downstream capacity remain unmodeled. Road-closure
+      reductions do not establish observed congestion relief or population-access superiority.'
+tableDictionary:
+  table_experimental_design:
+    tableId: table_experimental_design
+    tablePath: data/results/tables/Table_experimental_design.xlsx
+    tableCaption: Completed experiment blocks and comparison definitions
+    tableAim: Define the nonfactorial study design without repeating outcome figures.
+    tableExplanation: Six rows and five columns describe geometry, five-parent baseline, original local pilot, earlier
+      portfolios, receiving allowances and September mobility. Shared parent dates are not independent repeats;
+      geometry is a separate 2024-08-21 family. Main notes define stages, units and population limits. Detailed
+      gate and reuse records belong to the supplementary coverage register.
+    tableSuitableSection: 'Methods: Experimental Design'
+    publicationRole: main_text
+    planTitle: Experimental Design
+    displayTitle: Experimental Design
+    mainRows: 6
+    mainColumns: 5
+    acceptanceDecision: MILI-D-20261024-009
+    sha256: abf556ed6536c1374ce89d17c9d0025cb0e366b691af81eae4b30ebe3c2384f5
+    analysisScript: src/analyses/table_experimental_design.py
+    worksheets:
+    - Experimental Design
+    - Table Notes
+    - Design Sources
+    - Source Trace
+  table_deployment_assumptions_and_receiving_limits:
+    tableId: table_deployment_assumptions_and_receiving_limits
+    tablePath: data/results/tables/Table_deployment_assumptions_and_receiving_limits.xlsx
+    tableCaption: Receiving pools, intake support and modeled extraction ranges
+    tableAim: Document the hypothetical receiving constraint and actual extracted-volume range.
+    tableExplanation: Five rows and four columns show receiving pool, intake count and Q2.5/Q5 actual nine-hour
+      extraction ranges across six event-stage contexts. The 319 intake locations and weighted allocator are fixed.
+      Per-pool assumed caps 0.5/1.0 m3/s, totals 2.5/5.0, are in notes. Ranges are context extrema, not confidence
+      intervals or volumes to sum. Full Parameters, exact case/pool volumes, earlier layouts and the original 19-unit
+      pilot remain distinct supporting sheets.
+    tableSuitableSection: 'Methods: Experimental Design'
+    publicationRole: main_text
+    planTitle: Deployment Assumptions and Receiving Limits
+    displayTitle: Deployment Assumptions and Receiving Limits
+    mainRows: 5
+    mainColumns: 4
+    acceptanceDecision: MILI-D-20261025-003
+    sha256: 01407fb16c65a2a0c6b911dd346d92c1d453624260655272667c3b59fbca6414
+    analysisScript: src/analyses/table_deployment_assumptions_and_receiving_limits.py
+    worksheets:
+    - Deployment
+    - Full Parameters
+    - Table Notes
+    - Case Pool Volumes
+    - Case Totals
+    - Volume Ranges
+    - Fixed Intakes
+    - Earlier Portfolios
+    - Original Pilot
+    - Admission Checks
+    - Source Trace
+  table_physical_road_and_resident_comparison:
+    tableId: table_physical_road_and_resident_comparison
+    tablePath: data/results/tables/Table_physical_road_and_resident_comparison.xlsx
+    tableCaption: Nighttime resident access benefits relative to no action
+    tableAim: Provide exact no-action-referenced directly paired resident benefits.
+    tableExplanation: Six rows and four columns give event, stage and two directly paired no-action-referenced resident-access
+      benefit intervals in thousands of resident-hours. Bounds are rounded outward and represent attachment uncertainty;
+      road totals have moved to supporting sheets. The figure instead plots the additional Q5-relative-to-Q2.5 contrast,
+      so references must not be interchanged. Exact road outcomes, absolute loss, restoration, new loss, direct
+      allowance pairs and source variants remain in separate sheets. August positive new loss is retained; the official
+      stock and unresolved stock are not added to these interval exposures.
+    tableSuitableSection: Results
+    publicationRole: main_text
+    planTitle: Physical Road and Resident Comparison
+    displayTitle: Resident Access Benefits
+    mainRows: 6
+    mainColumns: 4
+    acceptanceDecision: MILI-D-20261025-005
+    sha256: 02c92a7b65590e713ca75db9c72fdad5663c3085cc36e797013967c5ccf8bc82
+    analysisScript: src/analyses/table_physical_road_and_resident_comparison.py
+    worksheets:
+    - Road Resident Comparison
+    - Table Notes
+    - Detailed Comparison
+    - Road Outcomes
+    - Absolute Resident Loss
+    - Paired Resident Outcomes
+    - Direct Allowance Contrast
+    - Numeric Main Values
+    - Scope and Units
+    - Road Variants
+    - Resident Variants
+    - Direct Pair Variants
+    - Original Pilot Road
+    - Original Pilot Stock
+    - Source Trace
+  table_adverse_transfer_and_coverage:
+    tableId: table_adverse_transfer_and_coverage
+    tablePath: data/results/tables/Table_adverse_transfer_and_coverage.xlsx
+    tableCaption: Adverse water-level and road changes with retained coverage
+    tableAim: Retain reference-specific adverse effects, exclusions and coverage.
+    tableExplanation: Twelve rows and six columns cover Q5 relative to no action and Q2.5 for three parents and
+      two stages. Peak simultaneous conservative head-rise area differs from any-time union. Cumulative new closure
+      in meter-hours differs from peak newly closed meters. Supporting records retain both road-depth branches,
+      nine primary crossings, threshold margins, head samples/time series, population losses, unknown exposure and
+      the legacy pilot. A zero newly wet subset does not establish no new inundation.
+    tableSuitableSection: Supplementary Methods and Results
+    publicationRole: supplementary
+    planTitle: Adverse Transfer and Coverage
+    displayTitle: Adverse Transfer and Coverage
+    mainRows: 12
+    mainColumns: 6
+    acceptanceDecision: MILI-D-20261024-014
+    sha256: 8b5750a366884d1698b2244b2012dd545bc109f1d5ea181c0a75f0e853fde9f3
+    analysisScript: src/analyses/table_adverse_transfer_and_coverage.py
+    worksheets:
+    - Adverse Transfer
+    - Table Notes
+    - Detailed Comparison
+    - Native Head Screens
+    - Road Both Branches
+    - Paired Resident Outcomes
+    - Threshold Crossings
+    - Primary Crossings
+    - Head Samples
+    - Head Time Series
+    - Coverage
+    - Legacy Pilot Screen
+    - Source Trace
+  table_vehicle_request_and_common_cohort_cost:
+    tableId: table_vehicle_request_and_common_cohort_cost
+    tablePath: data/results/tables/Table_vehicle_request_and_common_cohort_cost.xlsx
+    tableCaption: September request accounting and common-cohort modeled cost
+    tableAim: Separate original requests, unreachable requests and survivor-cost cohorts.
+    tableExplanation: 'Eight rows and seven columns show four September times and two stages. Request counts are
+      shared across portfolios only after equality checks. Fixed all-state-cohort cost changes are signed relative
+      to same-time no action: positive is more costly, opposite the figure cost-reduction sign. All 24 exact states,
+      within-time pairs, 13,545 cohort memberships, exclusions, original pilot and source traces remain available.
+      A request proxy is not a person, actual journey or observed traffic jam.'
+    tableSuitableSection: Supplementary Methods and Results
+    publicationRole: supplementary
+    planTitle: Vehicle Request and Common-Cohort Cost
+    displayTitle: Vehicle Request and Common-Cohort Cost
+    mainRows: 8
+    mainColumns: 7
+    acceptanceDecision: MILI-D-20261024-015
+    sha256: 6b59394a527192c38706568cdc6f7b5c52ec36211cea3d610d44ada9c6e03421
+    analysisScript: src/analyses/table_vehicle_request_and_common_cohort_cost.py
+    worksheets:
+    - Vehicle Request and Cost
+    - Table Notes
+    - Detailed Comparison
+    - Original Traffic States
+    - Fixed Temporal Cohort
+    - Within-time Pair Effects
+    - Admission Checks
+    - Fixed Cohort Members
+    - Demand Ledger
+    - Original Pilot
+    - Cohort Definitions
+    - Source Trace
+  table_scenario_coverage_and_evidence_limits:
+    tableId: table_scenario_coverage_and_evidence_limits
+    tablePath: data/results/tables/Table_scenario_coverage_and_evidence_limits.xlsx
+    tableCaption: Scenario coverage, reused states and interpretation limits
+    tableAim: Document lineage, computational qualification and empirical evidence gaps.
+    tableExplanation: 'The complete supplementary workbook has nine rows and eight columns; the accepted 450 dpi
+      PNG is a six-column preview that omits qualification/evidence-limit columns without deleting them. Count Definitions
+      and 104 State Lineage records prevent double counting reused baselines, fits and rain descendants as new storms.
+      Numerical qualification is separate from empirical accuracy: there are zero admitted core time/place-matched
+      flooded and not-flooded validation samples. Unknown observations do not mean dry roads.'
+    tableSuitableSection: Supplementary Methods and Results
+    publicationRole: supplementary
+    planTitle: Scenario Coverage and Evidence Limits
+    displayTitle: Scenario Coverage and Evidence Limits
+    mainRows: 9
+    mainColumns: 8
+    acceptanceDecision: MILI-D-20261025-008
+    sha256: 6d2b8b91d4021bac3de995c3186187fde01b261a866f5bf1ab834feab91d4345
+    analysisScript: src/analyses/table_scenario_coverage_and_evidence_limits.py
+    worksheets:
+    - Coverage and Limits
+    - Count Definitions
+    - State Lineage
+    - Source Trace
+analysisStructureBrief:
+  overview: A conditional whole-area study of extreme-rain road disruption, vehicle accessibility and nighttime
+    resident-stock access in Chiyoda, Chuo and Minato. Existing numerically qualified scenarios compare terrain/urban
+    representation, a local physical-measure pilot, earlier allocation/placement and a later receiving-allowance
+    contrast. Road and resident evidence spans three inspected allowance parents; fitted follow-on traffic spans
+    September only. No observed historical-impact reconstruction or new predictive training is claimed.
+  levels:
+  - levelName: Geographic and urban representation
+    levelAim: Establish the physical setting and explain the role of three-dimensional city information.
+    inputs:
+    - Terrain
+    - Urban Geometry
+    modelOrMethod: Existing geographic transformations and aligned context maps; preserve native terrain, water
+      geometry, building faces and road constraints. Compare a local PLATEAU scene with the same-area 10 m two-dimensional
+      computational grid.
+    outputs:
+    - Study Area and Urban Flood Computation
+    - Experimental Design
+    interpretation: Context only. Source water geometry does not supply bathymetry and detailed urban geometry is
+      not inherently proven more accurate.
+  - levelName: Qualified surface-water and geometry comparison
+    levelAim: Describe conditional surface-water responses under matched representations and stated receiving stages.
+    inputs:
+    - Rainfall Forcing
+    - Receiving Water Stage
+    - Terrain
+    - Urban Geometry
+    - Surface Water State
+    modelOrMethod: Existing version-bound SFINCS 2D surface flow with exact rain-step integration, roof redistribution,
+      closed-face enforcement, conservative positivity and independent water budgets. For representation g, H_{k,g}=max_t
+      h_{k,g}(t); delta H_k=H_{k,urban}-H_{k,terrain}. Use admitted lower/upper depth bounds and original common
+      area weights. Numerical gates include no negative storage, rainfall relative residual <=1e-6, endpoint <=1e-3,
+      prefix <=1e-2 with the existing 1 m3 floor, and clock mismatch <=0.001 s.
+    outputs:
+    - Urban Geometry and Road Disruption
+    - Scenario Coverage and Evidence Limits
+    interpretation: RQ1 is supported as conditional representation sensitivity on the 2024-08-21 geometry family.
+      Peak envelopes are not simultaneous water maps, and the five historical road parents do not make this a crossed
+      geometry factorial. Computational checks do not establish observed flood accuracy.
+  - levelName: Synchronized road disruption
+    levelAim: Translate admitted simultaneous depth into whole-area road interruption and sampled recovery.
+    inputs:
+    - Road Depth
+    - Vehicle Network
+    - Closed Road Length
+    - Slow Road Length
+    - Closed Road Duration
+    modelOrMethod: L_m(t)=sum_{e in Q} l_e I[d_{e,m}(t)>=0.30]; S_m(t)=sum_{e in Q} l_e I[0.10<=d_{e,m}(t)<0.30];
+      K_m=integral_0^32400 L_m(t)dt/3600 using original trapezoidal sample intervals. Q is the common qualified
+      set and l_e is unique three-ward-clipped length in km. Preserve lower/upper branches and the 109 actual-time
+      states; display uses checked zero/32400 endpoints.
+    outputs:
+    - Urban Geometry and Road Disruption
+    - Receiving Allowance Road and Resident Effects
+    - Cross-Event Allocation and Placement Effects
+    interpretation: RQ1 identifies modeled closure and persistence on 836.958 km of qualified roads; 277.920 km
+      remains unknown. A 0.30 m closure is a scenario road rule, not an observed closure. End-window recovery is
+      censored. Do not substitute peak envelopes or any-time unions for network states.
+  - levelName: Matched measures and receiving allowances
+    levelAim: Compare local measures and separate allocation, placement and receiving constraints.
+    inputs:
+    - Measure Configuration
+    - Receiving Water Stage
+    - Closed Road Length
+    - Closed Road Duration
+    - Surface Water State
+    modelOrMethod: 'At identical parent, stage, time and support compare reference r with treatment m. Restored
+      road exposure G is closed under r and open under m; new closure D is open under r and closed under m. K_r-K_m=integral(G-D)dt/3600.
+      Keep peak-to-peak, same-time and integrated changes separate. Original pilot: 19 hypothetical 0.5 m3/s units
+      and 696 overtoppable faces. Earlier Static/O1/S1: same assumed total 2.5 m3/s, separate 62/319 layouts and
+      qualified operators. Later Q2.5/Q5: same 319 locations and allocator; five pool caps 0.5/1.0 m3/s, with unit
+      ceiling, trigger, lift and prior-storage limits fixed.'
+    outputs:
+    - Physical Measure Deployment and Road Effects
+    - Receiving Allowance Road and Resident Effects
+    - Cross-Event Allocation and Placement Effects
+    - Deployment Assumptions and Receiving Limits
+    interpretation: RQ4 supports bounded deployment-dependent improvements and adverse/null cases. Equal allowance
+      does not mean equal equipment, extraction, cost or energy. Intake locations and receivers are assumptions,
+      not official pump actions or validated outlet capacity. Distinct blocks must not be pooled as identical measures.
+  - levelName: Candidate-paired resident accessibility
+    levelAim: Relate conditional vehicle access to official nighttime stock without imposing building occupancy.
+    inputs:
+    - Vehicle Network
+    - Vehicle Access
+    - Resident Population
+    - Population Access Candidates
+    - Resident Access Loss
+    - Paired Resident Benefit
+    - New Resident Access Loss
+    - Unresolved Resident Stock
+    modelOrMethod: For candidate v, loss ell_{v,m}=chi_v(normal)[1-chi_{v,m}], where chi denotes bidirectional portal
+      access. Over complete normal-support units i with stock P_i and candidate set S_i, sum P_i min/max_{v in S_i}
+      ell for lower/upper loss. Direct benefit uses min/max of ell_{v,r}-ell_{v,m} on the SAME candidates before
+      unit aggregation and nine-hour trapezoidal integration. Apply restoration and new-loss binary indicators separately.
+      Preserve 0/10/25 m branches; 10 m is primary.
+    outputs:
+    - Receiving Allowance Road and Resident Effects
+    - Resident Access Benefits
+    - Adverse Transfer and Coverage
+    interpretation: RQ3 and RQ4 support conditional stock-access bounds and directly paired benefits. The official
+      496,345 stock and 41,308 unresolved residents stay separate. Resident-hours are not unique affected persons
+      or people present. Candidate bounds are not statistical confidence intervals; never subtract marginal loss
+      endpoints or rank by their midpoints.
+  - levelName: Restricted static vehicle performance
+    levelAim: Separate path availability, original requests and cost among the same surviving requests.
+    inputs:
+    - Vehicle Demand
+    - Road Capacity
+    - Reference Travel Cost
+    - Unreachable Vehicle Requests
+    - Common OD Cost
+    - Road Depth
+    - Measure Configuration
+    modelOrMethod: Existing two-path restricted static assignment minimizes sum_a integral_0^{f_a} c_a(u)du, c_a(f)=tau_a[1+0.15(f/C_a)^4],
+      over the admitted route pool. Closed arcs are excluded; slow-road tau doubles and C halves. Freeze 2 times
+      the original 17:00 driver-request proxy. At 2:25, 4, 6 and 9 hours, preserve all 24 September stage/portfolio
+      states and original request conservation. Compute demand-weighted model cost on the identical all-state surviving
+      OD cohort; index=100*cost_treatment/cost_same_time_noaction and reduction=100-index. Keep within-time cohorts
+      distinct.
+    outputs:
+    - Transport Benefits and Local Adverse Effects
+    - Vehicle Request and Common-Cohort Cost
+    interpretation: RQ2/RQ4 show identical represented-request reachability across treatments and cost changes below
+      0.4 percent in this scope, with early adverse values retained. Fixed-cohort weight is 26,825.4559 and original
+      request proxy 37,113.1985; excluded requests are explicit. This is not dynamic queues, actual delay, calibrated
+      event-hour demand or July/August fitted traffic evidence.
+  - levelName: Adverse transfer and evidence boundaries
+    levelAim: Check deterioration separately from regional net benefits and qualify what can be written.
+    inputs:
+    - Surface Water State
+    - Road Depth
+    - Closed Road Length
+    - New Resident Access Loss
+    - Outside Corridor Depth Increase
+    modelOrMethod: At the same admitted cell/time use conservative treatment lower water level minus reference upper
+      water level; screen rise >=0.10 m. Compute maximum simultaneous area and any-time union separately on declared
+      support, retaining the 0.01 m shallow censor interval only where permitted. Road new-closure screens use original
+      0.30 m rules and both depth branches. Pilot outside-corridor depth screens and later head-rise scopes remain
+      distinct; maps show explicitly labeled frozen-time or any-time states.
+    outputs:
+    - Transport Benefits and Local Adverse Effects
+    - Adverse Transfer and Coverage
+    - Scenario Coverage and Evidence Limits
+    interpretation: RQ4 supports explicit modeled side effects without claiming an isolated causal road mechanism
+      or receiving-river safety. Head rise, newly wet subsets, new closure and population loss have different definitions.
+      Numerical qualification is not observed road inundation or congestion accuracy. Daytime presence, function
+      operation, downstream storage and actual stranded-person counts remain unconstructed or unverified.
+publicationAssembly:
+  mainFigures: 5
+  supplementaryFigures: 1
+  mainTables: 3
+  supplementaryTables: 3
+  allActiveOutputsAccepted: true
+  latestAcceptanceDecision: MILI-D-20261025-010
+  figureOrder:
+  - fig_study_area_and_urban_flood_computation
+  - fig_urban_geometry_and_road_disruption
+  - fig_physical_measure_deployment_and_road_effects
+  - fig_receiving_allowance_road_and_resident_effects
+  - fig_transport_benefits_and_local_adverse_effects
+  - fig_cross_event_allocation_and_placement_effects
+  tableOrder:
+  - table_experimental_design
+  - table_deployment_assumptions_and_receiving_limits
+  - table_physical_road_and_resident_comparison
+  - table_adverse_transfer_and_coverage
+  - table_vehicle_request_and_common_cohort_cost
+  - table_scenario_coverage_and_evidence_limits
+  residentTitleAlias:
+    stableIdentifier: Physical Road and Resident Comparison
+    displayTitle: Resident Access Benefits
+  historicalMastersExcludedFromManuscript:
+  - data/results/figures/Figure_geometry_and_water_level_sensitivity.png
+  - data/results/figures/Figure_road_interruption_and_recovery.png
+  - data/results/figures/Figure_physical_measure_road_effects.png
+  - data/results/figures/Figure_resident_access_loss_and_restoration.png
+  - data/results/figures/Figure_neighboring_flood_transfer.png
+  - data/results/figures/Figure_vehicle_access_and_traffic_cost.png
+  excludedDiagnostics:
+  - Geometry Wet-Area Sensitivity
+  - Road Closure Threshold Sensitivity
+  - September Vehicle Request Reachability
+evidenceStatements:
+  qualifiedRoadKm: 836.9583262602582
+  unknownRoadKm: 277.92009224063895
+  residentStock2020: 496345
+  unresolvedResidentStock10m: 41308
+  fiveParentNoActionClosureKmHours:
+  - event: E20240618
+    stage: L
+    frames: 109
+    closure_exposure_km_h: 603.316588404525
+    peak_closed_km: 110.54472711104094
+  - event: E20240618
+    stage: H
+    frames: 109
+    closure_exposure_km_h: 631.361166629663
+    peak_closed_km: 113.85365399162716
+  - event: E20240731
+    stage: L
+    frames: 109
+    closure_exposure_km_h: 116.51345595016076
+    peak_closed_km: 63.23583328495751
+  - event: E20240731
+    stage: H
+    frames: 109
+    closure_exposure_km_h: 144.102283854762
+    peak_closed_km: 66.8251734502374
+  - event: E20240830
+    stage: L
+    frames: 109
+    closure_exposure_km_h: 497.0018596343691
+    peak_closed_km: 105.6662569968299
+  - event: E20240830
+    stage: H
+    frames: 109
+    closure_exposure_km_h: 524.832450946434
+    peak_closed_km: 110.14564040036296
+  - event: E20250710
+    stage: L
+    frames: 109
+    closure_exposure_km_h: 249.42700529365172
+    peak_closed_km: 78.59783411489313
+  - event: E20250710
+    stage: H
+    frames: 109
+    closure_exposure_km_h: 277.7253591531817
+    peak_closed_km: 82.53281839700038
+  - event: E20250911
+    stage: L
+    frames: 109
+    closure_exposure_km_h: 828.1531172201945
+    peak_closed_km: 178.62261435178348
+  - event: E20250911
+    stage: H
+    frames: 109
+    closure_exposure_km_h: 853.4309132216777
+    peak_closed_km: 178.62261435178348
+  allowanceClosureReductionPercentRelativeToNoAction:
+    Q2p5:
+      minimum: 1.9762330224659972
+      maximum: 6.018840782454122
+      contexts: 6
+    Q5:
+      minimum: 4.479136559132689
+      maximum: 9.474591164499715
+      contexts: 6
+  directQ5RelativeToQ2p5ResidentHourBenefits:
+  - Rainfall Parent: E20240731
+    Receiving Water Stage: H
+    Reference Portfolio: Q2p5
+    Measure Configuration: Q5
+    Paired Resident Benefit Lower: 343.41666963642876
+    Paired Resident Benefit Upper: 15458.498840015553
+    Restored Resident Access Lower: 343.41666963642876
+    Restored Resident Access Upper: 15458.498840015553
+    New Resident Access Loss Lower: 0.0
+    New Resident Access Loss Upper: 0.0
+    Unit: resident-hours; candidate-paired
+  - Rainfall Parent: E20240731
+    Receiving Water Stage: L
+    Reference Portfolio: Q2p5
+    Measure Configuration: Q5
+    Paired Resident Benefit Lower: 389.5000036564573
+    Paired Resident Benefit Upper: 13801.415483130637
+    Restored Resident Access Lower: 389.5000036564573
+    Restored Resident Access Upper: 13801.415483130637
+    New Resident Access Loss Lower: 0.0
+    New Resident Access Loss Upper: 0.0
+    Unit: resident-hours; candidate-paired
+  - Rainfall Parent: E20250911
+    Receiving Water Stage: H
+    Reference Portfolio: Q2p5
+    Measure Configuration: Q5
+    Paired Resident Benefit Lower: 2458.3332019199593
+    Paired Resident Benefit Upper: 54840.12415887415
+    Restored Resident Access Lower: 2458.3332019199593
+    Restored Resident Access Upper: 54840.12415887415
+    New Resident Access Loss Lower: 0.0
+    New Resident Access Loss Upper: 0.0
+    Unit: resident-hours; candidate-paired
+  - Rainfall Parent: E20250911
+    Receiving Water Stage: L
+    Reference Portfolio: Q2p5
+    Measure Configuration: Q5
+    Paired Resident Benefit Lower: 2458.3332019199593
+    Paired Resident Benefit Upper: 56196.74917922366
+    Restored Resident Access Lower: 2458.3332019199593
+    Restored Resident Access Upper: 56196.74917922366
+    New Resident Access Loss Lower: 0.0
+    New Resident Access Loss Upper: 0.0
+    Unit: resident-hours; candidate-paired
+  - Rainfall Parent: E20240830
+    Receiving Water Stage: H
+    Reference Portfolio: Q2p5
+    Measure Configuration: Q5
+    Paired Resident Benefit Lower: 3166.5414999026452
+    Paired Resident Benefit Upper: 53727.41550233101
+    Restored Resident Access Lower: 3166.5414999026452
+    Restored Resident Access Upper: 53727.41550233101
+    New Resident Access Loss Lower: 0.0
+    New Resident Access Loss Upper: 0.0
+    Unit: resident-hours; candidate-paired
+  - Rainfall Parent: E20240830
+    Receiving Water Stage: L
+    Reference Portfolio: Q2p5
+    Measure Configuration: Q5
+    Paired Resident Benefit Lower: 3148.9581663073
+    Paired Resident Benefit Upper: 53346.415496653666
+    Restored Resident Access Lower: 3148.9581663073
+    Restored Resident Access Upper: 53346.415496653666
+    New Resident Access Loss Lower: 0.0
+    New Resident Access Loss Upper: 0.0
+    Unit: resident-hours; candidate-paired
+  noActionReferencedPositiveNewResidentLossMaximumUpperResidentHours: 0.2500000037252903
+  fixedAllStateCohortCostReductionPercent:
+    Q2p5:
+      minimum: -0.0377165820376177
+      maximum: 0.1983324636446894
+      states: 8
+    Q5:
+      minimum: -0.0373169703516111
+      maximum: 0.3911094413275435
+      states: 8
+    none:
+      minimum: 0.0
+      maximum: 0.0
+      states: 8
+  requestReachabilityTreatmentDifferences: Zero at every sampled September stage-time; no restored or newly unreachable
+    represented requests.
+  earlierPortfolioPositiveNewClosureContexts: 3
+  headScreenMaximumByReference:
+  - reference: No action
+    peak_simultaneous_certain_head_rise_m2: 700
+    any_time_certain_head_rise_union_m2: 1800
+  - reference: S1R-Q2.5
+    peak_simultaneous_certain_head_rise_m2: 400
+    any_time_certain_head_rise_union_m2: 1700
+  statisticalInference: Descriptive conditional contrasts, not independent-event confidence intervals, causal policy
+    effects or field validation.
+scopeAndUnitSafeguards:
+- Observed radar intensity is forcing, not observed inundation.
+- Assumed receiving stages and capacities are distinct from measured river hydrographs or installed pumps.
+- Five historical parents were development-inspected; they are not untouched independent test events.
+- Native cell states, clipped road km, km h, resident stocks, resident h, vehicle proxies and generalized cost must
+  not be pooled into one affected-person number.
+- A repeated stage, frame, interval endpoint or reused baseline does not increase the number of independent rain
+  parents.
+- No new hydraulic simulation, routing, traffic fit, training or sealed-test access was performed for this dictionary.
+deferredConstructs:
+- name: Numerical Admission
+  role: Quality control only; not a final physical predictor.
+- name: Daytime Population
+  role: Not constructed; nighttime stock is not a substitute.
+- name: Urban Function Access
+  role: Not constructed; destination/operating-state evidence remains missing.
+dictionaryProvenance:
+  AnaSOP: docs/AnaSOP.md
+  preprocessingDecisionSources:
+  - data/exp/data-preprocessing/decisions.json
+  - data/exp/data-preprocessing/three_ward_final_evidence_v1/decisions.json
+  nativeContract: data/processed/three_ward_analysis_contract_v1/native_input_contract.json
+  tablePreviews: data/exp/build-content-dictionary/table_previews.json
+  recordCountRule: observationNumber is a nonmissing component-row count for tables or an explicitly stated native
+    resource unit; it is never advertised as independent sample size.
+  metadataCorrectionDecision: MILI-D-20261025-011
+  builderPath: data/exp/build-content-dictionary/build_actionbrief.py
+  builderSHA256: 9fda501fb21c5c1bd441415467e0316416b980cfcd69a74b47def2d4020a7680
+nativeSourceChains:
+  spatial_rainfall:
+    resources:
+    - native_spatial_rain
+    - historical_case_inventory
+    - geometry_case_manifest
+    preparationScripts:
+    - src/preprocessing/acquire_tokyo_historical_radar_v1.py
+    - src/preprocessing/prepare_historical_radar_solver_v2.py
+    - src/preprocessing/prepare_cross_event_protection_v1.py
+    chain: JMA representative intensity and recorded source-recipient mapping -> retained spatial forcing file named
+      by each run configuration -> original actual-step integration and conservative roof/source redistribution
+      -> saved hydraulic states; area-mean rainfall is a reporting summary.
+  urban_geometry:
+    resources:
+    - source_citygml_archive_lineage
+    - source_urban_vectors
+    - source_water_polygons
+    - source_terrain_mosaic
+    - native_urban_constraints
+    - native_terrain
+    preparationScripts:
+    - src/preprocessing/prepare_three_ward_urban_constraints.py
+    - src/preprocessing/prepare_three_ward_sfincs_scenarios.py
+    displayScript: src/analyses/figure_study_area_and_urban_flood_computation.py
+    chain: Retained terrain and PLATEAU layer sources -> existing clipped building/road/water vectors and terrain
+      mosaic -> original native bed/subgrid/closed-face constraints. The local 3D context scene additionally retains
+      explicit CityGML archive members. Display height and water polygons are not hydraulic bathymetry or observed
+      event stages.

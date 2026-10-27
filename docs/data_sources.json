@@ -1,0 +1,133 @@
+{
+  "checked_date": "2026-10-27",
+  "scope": "Data sources used by the manuscript; native source records remain authoritative. URLs are provider catalog/resource locations retained in acquisition code and manifests. Catalog presence does not certify historical archive permanence.",
+  "sources": [
+    {
+      "id": "plateau",
+      "name": "PLATEAU CityGML",
+      "version": "2025 releases; Chiyoda, Chuo and Minato",
+      "role": "Buildings, terrain gap filling, surface roads and water polygons",
+      "urls": [
+        "https://www.geospatial.jp/ckan/dataset/plateau-13101-chiyoda-ku-2025",
+        "https://www.geospatial.jp/ckan/dataset/plateau-13102-chuo-ku-2025",
+        "https://www.geospatial.jp/ckan/dataset/plateau-13103-minato-ku-2025"
+      ],
+      "script": "src/preprocessing/download_plateau_models.py",
+      "access": "Provider download and source-specific terms"
+    },
+    {
+      "id": "tokyo_dem",
+      "name": "Tokyo wards airborne laser survey",
+      "version": "2024 catalog; native 0.50 m ground DEM",
+      "role": "Primary bare-earth terrain; point-cloud and orthophoto context checks",
+      "urls": [
+        "https://www.geospatial.jp/ckan/dataset/tokyopc-23ku-2024",
+        "https://www.geospatial.jp/ckan/dataset/tokyopc-23ku-2024/resource/ff8305fd-a993-4535-80b4-fd6dcb339775",
+        "https://www.geospatial.jp/ckan/dataset/tokyopc-23ku-2024/resource/7807d6d1-29f3-4b36-b0c8-f7aa0ea2cff3",
+        "https://www.geospatial.jp/ckan/dataset/tokyopc-23ku-2024/resource/5f96771a-9929-499f-89de-1efa0b2be034",
+        "https://catalog.data.metro.tokyo.lg.jp/dataset/t000029d0000000024"
+      ],
+      "script": "src/preprocessing/acquire_three_ward_dem.py",
+      "access": "Provider download; catalog release year is not a certification of every survey epoch"
+    },
+    {
+      "id": "jma_radar",
+      "name": "JMA composite radar archived by Kyoto University RISH",
+      "version": "Parameter 203; original GRIB2; 2024 and 2025 event windows",
+      "role": "Historical rainfall forcing, including the separate geometry-reference parent",
+      "urls": [
+        "http://database.rish.kyoto-u.ac.jp/arch/jmadata/",
+        "http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/",
+        "https://www.data.jma.go.jp/suishin/jyouhou/pdf/568.pdf"
+      ],
+      "script": "src/preprocessing/acquire_tokyo_historical_radar_v1.py; src/preprocessing/acquire_population_additional_radar_v1.py",
+      "access": "RISH archive use conditions; JMA producer attribution"
+    },
+    {
+      "id": "census",
+      "name": "2020 Population Census, e-Stat",
+      "version": "2020-10-01 population; JGD2011 boundaries",
+      "role": "Official basic-unit nighttime population baseline; 125/250 m mesh allocation checks",
+      "urls": [
+        "https://www.e-stat.go.jp/gis/statmap-search?page=1&type=1&toukeiCode=00200521",
+        "https://www.stat.go.jp/data/mesh/pdf/gaiyo2.pdf",
+        "https://www.stat.go.jp/data/mesh/pdf/ryuijikou.pdf"
+      ],
+      "script": "src/preprocessing/download_estat_three_ward_population_v1.py; src/preprocessing/build_three_ward_population_block_stability_v1.py",
+      "access": "Public statistical aggregates; population stocks are not observed event-time travelers"
+    },
+    {
+      "id": "osm",
+      "name": "OpenStreetMap via Geofabrik",
+      "version": "Kanto extract, 2026-10-15",
+      "role": "Directed surface road network and tagged structures/access restrictions",
+      "urls": [
+        "https://download.geofabrik.de/asia/japan/kanto.html",
+        "https://download.geofabrik.de/asia/japan/kanto-261015.osm.pbf",
+        "https://www.openstreetmap.org/copyright"
+      ],
+      "script": "src/preprocessing/build_normal_surface_network_v1.py",
+      "access": "ODbL; retain OpenStreetMap contributor attribution; dated extracts may expire"
+    },
+    {
+      "id": "ksj",
+      "name": "MLIT National Land Numerical Information",
+      "version": "N03 2024 administrative boundaries; W05 2008 Tokyo river lines",
+      "role": "Regional context and river/waterbody matching; not surveyed river bathymetry",
+      "urls": [
+        "https://nlftp.mlit.go.jp/ksj/",
+        "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2024.html",
+        "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-W05.html",
+        "https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-20240101/N03-20240101_13_GML.zip",
+        "https://nlftp.mlit.go.jp/ksj/gml/data/W05/W05-08/W05-08_13_GML.zip"
+      ],
+      "script": "src/exp/audit_ksj_tokyo.py",
+      "access": "Individual product conditions apply"
+    },
+    {
+      "id": "road_census",
+      "name": "MLIT National Road and Street Traffic Conditions Survey",
+      "version": "2021, Tokyo section and hourly tables",
+      "role": "Normal-road traffic observations and section/geometry constraints",
+      "urls": [
+        "https://www.mlit.go.jp/road/census/r3/index.html",
+        "https://www.mlit.go.jp/road/census/r3/data/csv/kasyo13.csv",
+        "https://www.mlit.go.jp/road/census/r3/data/csv/zkntrf13.csv",
+        "https://www.mlit.go.jp/road/ir/ir-data/census_visualizationR3/webmap.html",
+        "https://www.kensetsu.metro.tokyo.lg.jp/documents/d/kensetsu/000028577"
+      ],
+      "script": "src/preprocessing/inspect_tokyo_traffic_data_sources_v1.py; src/preprocessing/acquire_census_geometries_v1.py",
+      "access": "Public survey tables; observation/estimation flags retained"
+    },
+    {
+      "id": "tokyo_pt",
+      "name": "Tokyo Metropolitan Area Person Trip Survey",
+      "version": "2018 (H30), tables b3/b4/c1/c2/c3/d1/e2 and 5_3",
+      "role": "OD and temporal constraints for scenario vehicle demand",
+      "urls": [
+        "https://www.tokyo-pt.jp/data/H30",
+        "https://www.tokyo-pt.jp/data/01download",
+        "https://www.tokyo-pt.jp/data/01download/other",
+        "https://www.tokyo-pt.jp/terms",
+        "https://www.tokyo-pt.jp/static/hp/file/data/H30_zonecode.xlsx",
+        "https://www.tokyo-pt.jp/static/hp/file/data/H30_gis.zip",
+        "https://www.tokyo-pt.jp/info_provision/traffic"
+      ],
+      "script": "src/preprocessing/download_personal_pt_tables_v1.cjs; src/preprocessing/decode_full_pt_tables_v1.py",
+      "access": "Download/application and provider conditions apply; personal sessions are not distributed"
+    },
+    {
+      "id": "gsi_screen",
+      "name": "Geospatial Information Authority of Japan tiles",
+      "version": "Retained tiles at acquisition; not a replacement for the native Tokyo DEM",
+      "role": "Regional contributing-domain screening and context",
+      "urls": [
+        "https://maps.gsi.go.jp/development/ichiran.html",
+        "https://cyberjapandata.gsi.go.jp/xyz/dem5a_png/{z}/{x}/{y}.png",
+        "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png"
+      ],
+      "script": "src/preprocessing/acquire_three_ward_dem.py",
+      "access": "GSI source conditions; templates use slippy-map tile indices"
+    }
+  ]
+}
