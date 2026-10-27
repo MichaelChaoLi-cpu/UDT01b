@@ -1,10 +1,35 @@
 [project]
 name = "UDT01b"
 version = "0.0.1"
+description = "Urban flood scenarios, road disruption and resident accessibility in central Tokyo"
+readme = "README.md"
+requires-python = ">=3.12"
 dependencies = [
     "dvc>=3.67.1",
+    "geopandas>=1.2.0",
+    "matplotlib>=3.11.2",
+    "netcdf4>=1.7.5.1.post1",
+    "numba>=0.68.0",
+    "numpy>=2.5.4",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.6",
+    "pillow>=12.3.0",
+    "pyarrow>=26.0.0",
+    "pypdf>=6.21.2",
+    "pyproj>=3.8.0",
+    "rasterio>=1.5.2",
+    "reportlab>=5.1.0",
+    "requests>=2.34.2",
+    "scipy>=1.18.1",
+    "seaborn>=0.13.2",
+    "shapely>=2.2.0",
+    "torch>=2.14.1",
+    "xarray>=2026.9.0",
 ]
 
 authors = [
   { name = "Mike C. Li"}
 ]
+
+[project.urls]
+Repository = "https://github.com/MichaelChaoLi-cpu/UDT01b"

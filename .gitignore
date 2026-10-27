@@ -9,3 +9,25 @@ docs/stage-control.md
 CLAUDE.md
 AGENTS.md
 /article
+
+# Local environments, generated outputs and operating-system metadata
+.DS_Store
+._*
+__pycache__/
+*.py[cod]
+*.nbc
+*.nbi
+.venv/
+node_modules/
+.pytest_cache/
+/output/
+/micre/
+/docs/archive/
+/docs/issues.md
+/docs/AnaSOP.transport-isolation-proposal.md
+
+# Cancelled local disk-maintenance helpers are not research release code
+/src/preprocessing/archive_large_diagnostics.py
+/src/preprocessing/verify_diagnostic_archive_cleanup.py
+/src/preprocessing/rollback_nas_diagnostic_archive.py
+/solver/build-context/
