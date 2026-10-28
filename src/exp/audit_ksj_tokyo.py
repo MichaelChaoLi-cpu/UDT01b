@@ -1,4 +1,10 @@
 """Audit official KSJ layers against the existing study boundaries, without changing heights."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for key in ('PROJ_LIB', 'PROJ_DATA', 'GDAL_DATA'):
     os.environ.pop(key, None)
@@ -17,7 +23,7 @@ from shapely import make_valid
 from pyproj import Transformer
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW = ROOT / 'data/raw/ksj'
+RAW = moga_raw(ROOT, 'ksj')
 OUT = ROOT / 'data/exp/data-briefing/ksj_tokyo'
 PROC = ROOT / 'data/processed/ksj_tokyo'
 for d in (RAW, OUT, PROC): d.mkdir(parents=True, exist_ok=True)
@@ -49,7 +55,7 @@ def snapshot(s):
     url = 'https://nlftp.mlit.go.jp/ksj/gml/datalist/'+page
     b = urlopen(url, timeout=45).read()
     p=RAW/page; p.write_bytes(b)
-    return code, {'metadata_url':url,'snapshot':str(p.relative_to(ROOT)),'sha256':sha256(b).hexdigest()}
+    return code, {'metadata_url':url,'snapshot':moga_source(p, ROOT),'sha256':sha256(b).hexdigest()}
 meta = dict(ThreadPoolExecutor(5).map(snapshot, sources))
 
 def xml_features(path, tag):
@@ -104,7 +110,7 @@ for code,page,filename,epoch,role,crs,license_name in sources:
         p=RAW/filename; b=p.read_bytes()
         entry['archive_url']=archive_urls[code]
         with ZipFile(p) as z:
-            entry.update({'archive':str(p.relative_to(ROOT)), 'bytes':len(b), 'sha256':sha256(b).hexdigest(), 'crc_passed':z.testzip() is None, 'members':z.namelist()})
+            entry.update({'archive':moga_source(p, ROOT), 'bytes':len(b), 'sha256':sha256(b).hexdigest(), 'crc_passed':z.testzip() is None, 'members':z.namelist()})
         if code=='A51':
             with ZipFile(p) as z:
                 j=json.loads(z.read(next(n for n in z.namelist() if n.endswith('.geojson'))))

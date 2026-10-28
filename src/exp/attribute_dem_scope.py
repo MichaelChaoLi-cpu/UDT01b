@@ -1,4 +1,10 @@
 """Assign provisional surface candidates to official2024 administrative areas."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import csv,html,json,zipfile
 from collections import defaultdict
@@ -11,7 +17,7 @@ PROC=ROOT/'data/processed/three_ward_dem_domain'
 OUT=ROOT/'data/exp/data-briefing/three_ward_dem_domain'
 def main():
  t=Transformer.from_crs(6668,6677,always_xy=True);ll=Transformer.from_crs(6677,6668,always_xy=True)
- with zipfile.ZipFile(ROOT/'data/raw/ksj/N03-20240101_13_GML.zip') as z:source=json.loads(z.read('N03-20240101_13.geojson'))
+ with zipfile.ZipFile(moga_raw(ROOT, 'ksj/N03-20240101_13_GML.zip')) as z:source=json.loads(z.read('N03-20240101_13.geojson'))
  external=unary_union([transform(t.transform,shape(x['geometry'])) for x in json.loads((PROC/'surface_contributing_candidates.geojson').read_text())['features']]);pieces=defaultdict(list)
  for f in source['features']:
   g=transform(t.transform,shape(f['geometry']))

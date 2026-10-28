@@ -6,6 +6,12 @@ AnaSOP 7-8: four panels ab / ac / ad; no new simulation or fitting.
 Read-only source data; all render caches live in data/exp/figure-table-generation.
 """
 from __future__ import annotations
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os,sys
 sys.dont_write_bytecode=True
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-context-mpl')
@@ -49,8 +55,8 @@ WTR=ROOT/'data/processed/plateau_water/central_three_wards_wtr.geojson'
 WARDS=ROOT/'data/processed/plateau_water/central_three_ward_boundaries.geojson'
 RUN=ROOT/'data/processed/three_ward_s1r_cross_event_validation_v1/batches/E20240830_Q5/runs/E20240830__H__U__s1r_q5'
 MAN=RUN.parent.parent/'run_manifest.json'
-ARCH=ROOT/'data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip'
-N03=ROOT/'data/raw/ksj/N03-20240101_13_GML.zip'
+ARCH=moga_raw(ROOT, 'plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip')
+N03=moga_raw(ROOT, 'ksj/N03-20240101_13_GML.zip')
 SOURCE={};STATS={}
 def sha(p):
  h=hashlib.sha256()
@@ -58,7 +64,7 @@ def sha(p):
   for b in iter(lambda:f.read(2**20),b''):h.update(b)
  return h.hexdigest()
 def bind(p):
- p=Path(p);SOURCE[str(p.relative_to(ROOT))]=sha(p);return p
+ p=Path(p);SOURCE[moga_source(p, ROOT)]=sha(p);return p
 def read(p):return json.loads(bind(p).read_text())
 def write(p,x):p.write_text(json.dumps(x,indent=2,allow_nan=False)+'\n')
 def pieces(g):
@@ -104,7 +110,7 @@ def prepare():
  assert np.isfinite(terrain).sum()>terrain.size*.6
  STATS['detail_terrain_missing_fraction']=float((~np.isfinite(terrain)).mean())
  # Small file bindings; the large terrain file is checked by stat, not rehashed repeatedly.
- STATS.update(terrain_source={'path':str(DEM.relative_to(ROOT)),**dsstat},native_cells=len(dep),native_case=native['case_id'],native_geometry_sha256=native['identity']['geometry_sha256'],native_solver_digest=native['identity']['solver_digest'])
+ STATS.update(terrain_source={'path':moga_source(DEM, ROOT),**dsstat},native_cells=len(dep),native_case=native['case_id'],native_geometry_sha256=native['identity']['geometry_sha256'],native_solver_digest=native['identity']['solver_digest'])
  watergs=[g for f,g in waters]
  wm=geometry_mask([(g,1) for g in watergs],transform=tx,out_shape=terrain.shape,invert=True)
  # Same projected rectangle in c and d, not a favorable flood-result selection.
@@ -139,7 +145,7 @@ def prepare():
 
 def build_scene(z):
  cache=A/'scene_geometry.json';receipt=A/'scene_sources.json'
- recipe={'bounds':list(ROI.bounds),'recipe':1,'terrain_stat':z['demstat'],'vectors_sha256':SOURCE[str(V.relative_to(ROOT))],'water_sha256':SOURCE[str(WTR.relative_to(ROOT))],'archive_stat':{'size':ARCH.stat().st_size,'mtime_ns':ARCH.stat().st_mtime_ns}}
+ recipe={'bounds':list(ROI.bounds),'recipe':1,'terrain_stat':z['demstat'],'vectors_sha256':SOURCE[moga_source(V, ROOT)],'water_sha256':SOURCE[moga_source(WTR, ROOT)],'archive_stat':{'size':ARCH.stat().st_size,'mtime_ns':ARCH.stat().st_mtime_ns}}
  if cache.exists() and receipt.exists() and json.loads(receipt.read_text()).get('recipe')==recipe:
   print('Reuse frozen local scene cache',flush=True);q=json.loads(receipt.read_text());STATS['scene']=q;return cache
  sys.path.insert(0,str(ROOT/'src/visualization'))
@@ -188,7 +194,7 @@ def build_scene(z):
       seen.add(ident);n+=emit(rings,kind)
      if n:objects[kind]+=1
      root.clear()
-    memberbindings.append({'archive':str(ARCH.relative_to(ROOT)),'member':member,'sha256_uncompressed':f.h.hexdigest(),'crc32':f'{info.CRC:08x}','bytes':info.file_size})
+    memberbindings.append({'archive':moga_source(ARCH, ROOT),'member':member,'sha256_uncompressed':f.h.hexdigest(),'crc32':f'{info.CRC:08x}','bytes':info.file_size})
  # Ground surface from frozen bare-earth / PLATEAU fill; no flat floor.
  ter=z['terrain'];tr=z['terrain_transform'];x=tr.c+(np.arange(ter.shape[1])+.5)*tr.a;y=tr.f+(np.arange(ter.shape[0])+.5)*tr.e
  interp=RegularGridInterpolator((y[::-1],x),ter[::-1],bounds_error=False,fill_value=None)
@@ -360,15 +366,15 @@ def render(z,scene):
  return STATS
 
 def main():
- existing={str(p.relative_to(ROOT)):sha(p) for folder in ['data/results/figures','data/results/tables'] for p in (ROOT/folder).glob('*') if p.is_file() and p!=OUT}
+ existing={moga_source(p, ROOT):sha(p) for folder in ['data/results/figures','data/results/tables'] for p in (moga_project_path(ROOT, folder)).glob('*') if p.is_file() and p!=OUT}
  z=prepare();mesh=build_scene(z);scene=render_scene(mesh);checks=render(z,scene)
  assert {'size':DEM.stat().st_size,'mtime_ns':DEM.stat().st_mtime_ns}==z['demstat']
- assert all(sha(ROOT/p)==h for p,h in SOURCE.items())
- assert all(sha(ROOT/p)==h for p,h in existing.items())
+ assert all(sha(moga_project_path(ROOT, p))==h for p,h in SOURCE.items())
+ assert all(sha(moga_project_path(ROOT, p))==h for p,h in existing.items())
  write(A/'source_bindings.json',SOURCE)
  caption='''Study area, three-dimensional urban information and computational representation. (a) Chiyoda, Chuo and Minato, with the frozen terrain, building footprints, ground-road candidates and PLATEAU water footprints; adjoining context remains visible. The orange rectangle locates the common Hibiya–Marunouchi detail window. (b) The study wards within Tokyo's 23 special wards, using the project's downloaded official N03 administrative zones dated 1 January 2024. (c) An elevated depth-tested rendering of actual PLATEAU building surfaces, terrain, ground-road candidates and explicit LOD1 water surfaces in the same projected rectangle used in d. Buildings are white, roads gray, terrain beige and water pale blue; no facade textures or height exaggeration are used. Fine terrain is reduced to five-meter display samples, with missing ground kept absent. Ground-road geometry is draped on this terrain with an 0.08-meter drawing offset, not a surveyed carriageway or bridge elevation. Original water-surface elevations are retained; these are not independently validated event stages or channel-bed elevations. Display terrain intersecting water footprints is omitted solely to expose the water layer, without modifying any hydraulic input. (d) The same area on the actual regular ten-meter hydraulic grid. Native bed elevations, active support and fully closed building exchange faces are read from an existing frozen urban-constrained case; red segments are the actual building-closure input, not guessed flow connections. Source footprints remain visual context, not a claim that every subcell building is fully impermeable. Light gray gaps identify unsupported or inactive native bed support. The figure explains the implemented framework and introduces no new hydraulic run, transport fit, machine-learning training, empirical flood validation or superiority claim for three-dimensional information.'''
  (A/'caption.md').write_text(caption+'\n')
- write(A/'validation.json',{'passed':True,'status':'generated_awaiting_human_review','title':TITLE,'panels':4,'checks':checks,'source_sha256':SOURCE,'output':str(OUT.relative_to(ROOT)),'output_sha256':sha(OUT),'script_sha256':sha(Path(__file__)),'other_publication_outputs_unchanged':True,'new_hydraulic_runs':0,'new_transport_fits':0,'training':False,'sealed_test_access':False})
+ write(A/'validation.json',{'passed':True,'status':'generated_awaiting_human_review','title':TITLE,'panels':4,'checks':checks,'source_sha256':SOURCE,'output':moga_source(OUT, ROOT),'output_sha256':sha(OUT),'script_sha256':sha(Path(__file__)),'other_publication_outputs_unchanged':True,'new_hydraulic_runs':0,'new_transport_fits':0,'training':False,'sealed_test_access':False})
  (A/'review.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>'+TITLE+'</title><style>body{font:16px Arial;margin:28px auto;max-width:1400px;padding:0 22px;color:#24333c}img{width:100%;height:auto}p{line-height:1.6}a{color:#2b6887}</style><h1>'+TITLE+'</h1><p>Four-panel draft · English · 450 dpi · Existing model inputs only</p><a href="../../../../results/figures/Figure_'+SLUG+'.png"><img src="preview.png" alt="Study location, 3D urban model and computational grid"></a><p>'+caption+'</p></html>')
  print(json.dumps({'passed':True,'output':str(OUT),'preview':str(A/'preview.png'),'dimensions':checks['dimensions_px'],'native_faces':checks['local_closed_faces'],'scene_triangles':checks['scene']['counts']},indent=2))
 if __name__ == '__main__':

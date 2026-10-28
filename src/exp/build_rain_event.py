@@ -1,6 +1,12 @@
 """Archive and assess official rainfall for 2024-08-21; no rainfall-field interpolation.
 Source pages are cached without overwriting. Run from the project environment.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 from html.parser import HTMLParser
 from datetime import datetime,timedelta,timezone
@@ -9,10 +15,10 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2] if Path(__file__).parent.name=='exp' else Path('/Volumes/Extension/Research/UDT01b')
-RAW=ROOT/'data/raw/tokyo_rain_events/2024-08-21'
+RAW=moga_raw(ROOT, 'tokyo_rain_events/2024-08-21')
 PRO=ROOT/'data/processed/tokyo_rain_events/2024-08-21'
 OUT=ROOT/'data/exp/data-briefing/tokyo_rain_event_20240821'
-OLD=ROOT/'data/raw/tokyo_inundation_reference/2026-10-13'
+OLD=moga_raw(ROOT, 'tokyo_inundation_reference/2026-10-13')
 JMA='https://www.data.jma.go.jp/'
 STATIONS=[('tokyo','東京（北の丸公園）','s','47662'),('setagaya','世田谷（気象庁）','a','0368'),('edogawa','江戸川臨海','a','0370'),('nerima','練馬（気象庁）','a','1002')]
 class Table(HTMLParser):

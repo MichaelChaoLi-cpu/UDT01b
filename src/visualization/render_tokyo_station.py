@@ -1,4 +1,10 @@
 """Actual PLATEAU LOD2 geometry, illustrative materials, portable WebGL viewer."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 from pathlib import Path
@@ -42,7 +48,7 @@ def triangulate(rings):
  return out
 
 def extract():
- a=ROOT/'data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip';member='udx/bldg/53394611_bldg_6697_op.gml';records=[];inventory=[];seen=set()
+ a=moga_raw(ROOT, 'plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip');member='udx/bldg/53394611_bldg_6697_op.gml';records=[];inventory=[];seen=set()
  with zipfile.ZipFile(a) as z,z.open(member) as f:
   ctx=E.iterparse(f,events=['start','end']);_,root=next(ctx)
   for event,ob in ctx:
@@ -74,7 +80,7 @@ def extract():
    if cnt:
     bb=np.asarray(bounds);inventory.append({'id':ident,'name':next((q.text for q in o.iter() if tag(q)=='name' and q.text),''),'lod':lod,'triangles':cnt,'is_station_marunouchi':ident==STATION,'bounds_local':np.array([bb.min(0),bb.max(0)]).tolist()})
    root.clear()
- source={'archive':str(a.relative_to(ROOT)),'member':member,'member_crc32':f'{zipfile.ZipFile(a).getinfo(member).CRC:08x}','package_year':2025,'horizontal_crs':6677,'local_origin_easting_northing':[CX,CY],'local_vertical_origin_m':BASE,'station_id':STATION,'materials':'Illustrative brick/red walls and gray roofs; not photographic textures or measured facade colors.','no_height_exaggeration':True,'station_geometry':'Original LOD2 semantic surfaces and LOD2 installations; no flood-model +10m obstacles used.','ground':'Flat presentation plane; road plan geometry drawn at display-plane height, not surveyed 3D ground.'}
+ source={'archive':moga_source(a, ROOT),'member':member,'member_crc32':f'{zipfile.ZipFile(a).getinfo(member).CRC:08x}','package_year':2025,'horizontal_crs':6677,'local_origin_easting_northing':[CX,CY],'local_vertical_origin_m':BASE,'station_id':STATION,'materials':'Illustrative brick/red walls and gray roofs; not photographic textures or measured facade colors.','no_height_exaggeration':True,'station_geometry':'Original LOD2 semantic surfaces and LOD2 installations; no flood-model +10m obstacles used.','ground':'Flat presentation plane; road plan geometry drawn at display-plane height, not surveyed 3D ground.'}
  assert any(q['is_station_marunouchi'] and q['lod']==2 for q in inventory)
  # Roads are planimetric context only; source LOD1 Z=0 is not used as elevation.
  fs=json.loads((ROOT/'data/processed/three_ward_urban_constraints/constraint_vectors_6677.geojson').read_text())['features'];roi=box(CX-450,CY-450,CX+450,CY+450);roads=[]

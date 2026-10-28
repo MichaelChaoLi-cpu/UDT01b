@@ -2,6 +2,12 @@
 Reproduce locally: .venv/bin/python src/exp/analyze_inundation_reference.py
 No flood simulation, synthetic observations, geocoded town centroids, or datum correction.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ('PROJ_LIB','PROJ_DATA','GDAL_DATA'):os.environ.pop(k,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -20,7 +26,7 @@ from matplotlib.font_manager import FontProperties
 from matplotlib.patches import PathPatch,Patch
 from matplotlib.path import Path as MPath
 from html.parser import HTMLParser
-ROOT=Path(__file__).resolve().parents[2];RAW=ROOT/'data/raw/tokyo_inundation_reference/2026-10-13';OUT=ROOT/'data/exp/data-briefing/tokyo_inundation_reference';PROC=ROOT/'data/processed/tokyo_inundation_reference'
+ROOT=Path(__file__).resolve().parents[2];RAW=moga_raw(ROOT, 'tokyo_inundation_reference/2026-10-13');OUT=ROOT/'data/exp/data-briefing/tokyo_inundation_reference';PROC=ROOT/'data/processed/tokyo_inundation_reference'
 XY=Transformer.from_crs(6668,6677,always_xy=True);LL=Transformer.from_crs(6677,6668,always_xy=True)
 WARD={'13101-chiyoda-ku':'千代田区','13102-chuo-ku':'中央区','13103-minato-ku':'港区'}
 SOURCES=[('kanda','shinsui_kandagawa.csv','神田川流域','fld_8_2','2018-03-30'),('sumida','shinsui_sumidagawa.csv','隅田川・新河岸川流域','fld_10_2','网页说明2020-03；PLATEAU目录2021-03-30，版本待协调'),('jonan','shinsui_jyounantiku.csv','城南地区河川流域','fld_14_2','2018-12-20／2019-06-27修正'),('koto','shinsui_koutounaibu.csv','江東内部河川流域','fld_16_2','2020-03-26')]

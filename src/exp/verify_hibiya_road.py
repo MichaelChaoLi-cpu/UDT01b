@@ -4,6 +4,12 @@ Run: .venv/bin/python src/exp/verify_hibiya_road.py
 The selected road corridor and screening thresholds are exploratory choices,
 not a final study area, engineering tolerance or independent accuracy test.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for key in ['PROJ_LIB', 'PROJ_DATA', 'GDAL_DATA']:
     os.environ.pop(key, None)
@@ -22,7 +28,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW = ROOT / 'data/raw/tokyo_lidar_dem/2024/pilot_hibiya'
+RAW = moga_raw(ROOT, 'tokyo_lidar_dem/2024/pilot_hibiya')
 PILOT = ROOT / 'data/exp/data-briefing/plateau_terrain_pilot'
 OUT = ROOT / 'data/exp/data-briefing/hibiya_road_verification'
 START = np.array([-6956., -36465.])
@@ -254,7 +260,7 @@ def main():
     provenance=[]
     for path in [RAW/'09LD2812.las',RAW/'09LD2812.tif',RAW/'orthophoto/09LD2812.tif',PILOT/'plateau_tin_on_0_50m_grid.tif']:
         with path.open('rb') as f: sha=hashlib.file_digest(f,'sha256').hexdigest()
-        provenance.append({'path':str(path.relative_to(ROOT)),'bytes':path.stat().st_size,'sha256':sha})
+        provenance.append({'path':moga_source(path, ROOT),'bytes':path.stat().st_size,'sha256':sha})
     (OUT/'input_provenance.json').write_text(json.dumps({'inputs':provenance,'official_sources_record':'data/exp/data-briefing/hibiya_lowpoint_verification/source_provenance.json','plateau_interpolation_script':'src/exp/compare_hibiya_terrain.py'},indent=2)+'\n')
     report=f'''Hibiya ordinary-road terrain check — exploratory evidence
 

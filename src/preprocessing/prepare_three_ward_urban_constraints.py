@@ -1,4 +1,10 @@
 """Extract building bases and classified roads; preserve original terrain, nested domain and rain area."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 from pathlib import Path
@@ -36,7 +42,7 @@ def polys(node):
 
 def extract():
  records=[];audit=[];seen=set();counts=collections.Counter()
- for archive in sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')):
+ for archive in sorted((moga_raw(ROOT, 'plateau/2025')).rglob('*citygml*.zip')):
   with zipfile.ZipFile(archive) as z:
    for theme in ['bldg','tran','brid']:
     members=[i for i in z.infolist() if i.filename.startswith('udx/'+theme+'/') and i.filename.endswith('.gml')]
@@ -71,11 +77,11 @@ def extract():
        if parts:
         g=make_valid(unary_union([v[0] for v in parts]));a=np.concatenate([v[1] for v in parts])
         if not g.is_empty and g.area>.1:
-         rec={'type':'Feature','geometry':mapping(g),'properties':{'gml_id':ident,'class':cls,'method':method,'z_min':float(a.min()),'z_max':float(a.max()),'source':str(archive.relative_to(ROOT)),'member':i.filename,'section_codes':sections if theme=='tran' else []}}
+         rec={'type':'Feature','geometry':mapping(g),'properties':{'gml_id':ident,'class':cls,'method':method,'z_min':float(a.min()),'z_max':float(a.max()),'source':moga_source(archive, ROOT),'member':i.filename,'section_codes':sections if theme=='tran' else []}}
          records.append(rec);filecounts['usable_'+cls]+=1;filecounts[method]+=1
        else:filecounts['missing_usable_base_or_geometry']+=1
        root.clear()
-     counts.update(filecounts);audit.append({'archive':str(archive.relative_to(ROOT)),'member':i.filename,'crc32':f'{i.CRC:08x}',**dict(filecounts)})
+     counts.update(filecounts);audit.append({'archive':moga_source(archive, ROOT),'member':i.filename,'crc32':f'{i.CRC:08x}',**dict(filecounts)})
      if j%5==0 or j==len(members)-1:print(archive.parent.name,theme,j+1,'/',len(members),'total geometries',len(records),flush=True)
  dump(P/'constraint_vectors_6677.geojson',{'type':'FeatureCollection','crs':{'type':'name','properties':{'name':'EPSG:6677'}},'features':records})
  dump(P/'geometry_audit.json',{'counts':dict(counts),'files':audit,'building_roof_edges_used':False,'road_zero_Z_is_not_elevation':True,'road_ground_codes':['1','4'],'excluded_structure_codes':['2','3','5','6','7','unknown'],'lod1_base_is_geometric_inference':True})

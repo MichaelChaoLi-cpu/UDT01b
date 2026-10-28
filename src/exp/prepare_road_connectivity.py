@@ -1,6 +1,12 @@
 """Retain original TIN terrain along5m road corridors and build component portals.
 No global depression filling, building removal, bridge invention or new bank outlets.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -45,13 +51,13 @@ def main():
       cc=c0[ids]+dc;rr=r0[ids]+dr;k=(cc<=c1[ids])&(rr<=r1[ids])&(cc>=0)&(cc<fnc)&(rr>=0)&(rr<fnr);ii=ids[k];cc=cc[k];rr=rr[k];k=dm[rr,cc];ii=ii[k];cc=cc[k];rr=rr[k]
       if not len(ii):continue
       xx=left+(cc+.5)*dx;yy=top-(rr+.5)*dx;x0,x1,x2=x[ii].T;y0,y1,y2=y[ii].T;den=(y1-y2)*(x0-x2)+(x2-x1)*(y0-y2);valid=abs(den)>1e-9;den=np.where(valid,den,1);b0=((y1-y2)*(xx-x2)+(x2-x1)*(yy-y2))/den;b1=((y2-y0)*(xx-x2)+(x0-x2)*(yy-y2))/den;b2=1-b0-b1;valid&=(b0>=-1e-7)&(b1>=-1e-7)&(b2>=-1e-7);ii=ii[valid];cc=cc[valid];rr=rr[valid];zz=b0[valid]*h[ii,0]+b1[valid]*h[ii,1]+b2[valid]*h[ii,2];self.hits+=len(zz);prefer=~np.isfinite(z[rr,cc])|((ward[rr,cc]==self.wi)&(owner[rr,cc]!=self.wi));z[rr[prefer],cc[prefer]]=zz[prefer];owner[rr[prefer],cc[prefer]]=self.wi
-  for wi,p in enumerate(sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')),1):
+  for wi,p in enumerate(sorted((moga_raw(ROOT, 'plateau/2025')).rglob('*citygml*.zip')),1):
    with zipfile.ZipFile(p) as archive:
     for f in [i for i in archive.infolist() if i.filename.startswith('udx/dem/') and i.filename.endswith('.gml')]:
      target=Terrain(wi);parser=ET.XMLParser(target=target)
      with archive.open(f) as stream:
       while b:=stream.read(1024*1024):parser.feed(b)
-     parser.close();records.append({'archive':str(p.relative_to(ROOT)),'member':f.filename,'crc32':f'{f.CRC:08x}','triangles':target.total,'road_ground_sample_hits':target.hits});print('Road TIN',p.parent.name,f.filename,target.hits,flush=True)
+     parser.close();records.append({'archive':moga_source(p, ROOT),'member':f.filename,'crc32':f'{f.CRC:08x}','triangles':target.total,'road_ground_sample_hits':target.hits});print('Road TIN',p.parent.name,f.filename,target.hits,flush=True)
   write(cache,z.astype('float32'),ftf,np.nan)
   (OUT/'road_terrain_sources.json').write_text(json.dumps(records,ensure_ascii=False,indent=2)+'\n')
  eligible=allowed&np.isfinite(z);road_count=eligible.reshape(nr,4,nc,4).sum((1,3));host_area=(1-a['building_fraction'])*400-road_count*25;host_mask=a['land']&(host_area>1);host=np.full((nr,nc),-1,dtype=np.int32);host[host_mask]=np.arange(host_mask.sum());Nhost=int(host_mask.sum());nz=a['z'][host_mask].tolist();area=host_area[host_mask].tolist();parent=np.flatnonzero(host_mask).tolist();ntype=[0]*Nhost;fine_node=np.full(road.shape,-1,dtype=np.int32);gate=np.full(road.shape,np.nan);components=[];bed_bias=[]

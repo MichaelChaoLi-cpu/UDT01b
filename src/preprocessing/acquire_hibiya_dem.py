@@ -5,6 +5,12 @@ download and cannot receive a full ZIP CRC check. Existing raw files are kept.
 """
 from __future__ import annotations
 
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
+
 import hashlib
 import json
 import struct
@@ -16,7 +22,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[2]
 BASE="https://gic-tokyo.s3.ap-northeast-1.amazonaws.com/2024/dig/"
-RAW=ROOT/"data/raw/tokyo_lidar_dem/2024"
+RAW=moga_raw(ROOT, 'tokyo_lidar_dem/2024')
 OUT=ROOT/"data/exp/data-briefing/plateau_terrain_pilot"
 
 
@@ -29,7 +35,7 @@ def main():
         path=RAW/name; url=BASE+relative
         if not path.exists():
             with urllib.request.urlopen(url,timeout=60) as response: path.write_bytes(response.read())
-        resources.append({"source_url":url,"local_path":str(path.relative_to(ROOT)),"bytes":path.stat().st_size,"sha256":hashlib.sha256(path.read_bytes()).hexdigest()})
+        resources.append({"source_url":url,"local_path":moga_source(path, ROOT),"bytes":path.stat().st_size,"sha256":hashlib.sha256(path.read_bytes()).hexdigest()})
     with zipfile.ZipFile(RAW/"pilot_hibiya/09LD2812.zip") as archive:
         if archive.testzip() is not None: raise ValueError("DEM ZIP CRC check failed")
         target=RAW/"pilot_hibiya/09LD2812.tif"
@@ -70,7 +76,7 @@ def main():
     year=struct.unpack_from("<H",decoded,92)[0];day=struct.unpack_from("<H",decoded,90)[0]
     header={"header_version":list(decoded[24:26]),"global_encoding":struct.unpack_from("<H",decoded,6)[0],"file_creation_date":str(date(year,1,1)+timedelta(days=day-1)),"point_format":decoded[104],"point_record_length":record_size,"vlrs":vlrs,"sampled_gps_time_min":min(gps),"sampled_gps_time_max":max(gps),"sampled_point_count":count,"note":"Partial LAS prefix only. File creation date is not survey date. GPS week time without a week number cannot establish a calendar acquisition date."}
     (OUT/"las_header_metadata.json").write_text(json.dumps(header,ensure_ascii=False,indent=2)+"\n")
-    resources.append({"source_url":url,"range":"bytes=0-1048575","local_path":str(path.relative_to(ROOT)),"bytes":len(data),"sha256":hashlib.sha256(data).hexdigest(),"partial_only":True})
+    resources.append({"source_url":url,"range":"bytes=0-1048575","local_path":moga_source(path, ROOT),"bytes":len(data),"sha256":hashlib.sha256(data).hexdigest(),"partial_only":True})
     (OUT/"download_provenance.json").write_text(json.dumps({"recorded_at":datetime.now(timezone.utc).isoformat(timespec="seconds"),"catalog_url":"https://www.geospatial.jp/ckan/dataset/tokyopc-23ku-2024","dem_zip_crc_verified":True,"resources":resources},indent=2)+"\n")
     print("Original DEM verified; bounded LAS header inspected; provenance saved.")
 

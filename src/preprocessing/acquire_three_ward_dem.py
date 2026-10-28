@@ -3,6 +3,12 @@
 Regional GSI display elevations are only a domain-screening aid; native Tokyo
 DEM source sheets remain unmodified. Filled heights are never a model DEM.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for key in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(key,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -26,7 +32,7 @@ from scipy.sparse import csr_matrix
 from xml.etree import ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[2]
-RAW=ROOT/'data/raw/tokyo_lidar_dem/2024/three_ward_batch'
+RAW=moga_raw(ROOT, 'tokyo_lidar_dem/2024/three_ward_batch')
 PROC=ROOT/'data/processed/three_ward_dem_domain'
 OUT=ROOT/'data/exp/data-briefing/three_ward_dem_domain'
 BASE='https://gic-tokyo.s3.ap-northeast-1.amazonaws.com/2024/dig/'
@@ -83,7 +89,7 @@ def region_dem(bounds):
             p=fetch(url,p,missing_ok=True)
             if p:
                 b=decode_png(p);use=~np.isfinite(a)&np.isfinite(b);a[use]=b[use];src[use]=sid
-                entries.append({'url':url,'path':str(p.relative_to(ROOT)),'sha256':digest(p),'bytes':p.stat().st_size})
+                entries.append({'url':url,'path':moga_source(p, ROOT),'sha256':digest(p),'bytes':p.stat().st_size})
             if np.isfinite(a).all():break
         return x,y,a,src,entries
     jobs=[(x,y) for y in range(y0,y1+1) for x in range(x0,x1+1)]
@@ -102,7 +108,7 @@ def region_dem(bounds):
 
 def river_masks(dims,tf):
     G='{http://www.opengis.net/gml/3.2}';K='{http://nlftp.mlit.go.jp/ksj/schemas/ksj-app}';X='{http://www.w3.org/1999/xlink}'
-    with zipfile.ZipFile(ROOT/'data/raw/ksj/W05-08_13_GML.zip') as z:root=ET.fromstring(z.read('W05-08_13-g.xml'))
+    with zipfile.ZipFile(moga_raw(ROOT, 'ksj/W05-08_13_GML.zip')) as z:root=ET.fromstring(z.read('W05-08_13-g.xml'))
     ids={e.get(G+'id'):e for e in root if e.get(G+'id')};old=Transformer.from_crs(4612,6677,always_xy=True);lines=[]
     from shapely.geometry import LineString
     for e in root.findall(K+'Stream'):
@@ -238,7 +244,7 @@ def select():
         for f in as_completed([pool.submit(job,*j) for j in jobs]):
             x,y,p,u=f.result()
             if not p:continue
-            features=index_features(p.read_bytes(),z,x,y);entries.append({'url':u,'path':str(p.relative_to(ROOT)),'sha256':digest(p),'feature_count':len(features)})
+            features=index_features(p.read_bytes(),z,x,y);entries.append({'url':u,'path':moga_source(p, ROOT),'sha256':digest(p),'feature_count':len(features)})
             for g,url in features:
                 # z14 geometry quantization: pad20m for selection, verify actual TIFF bounds later.
                 if g.intersects(domain.buffer(20)):
@@ -252,7 +258,7 @@ def select():
 
 def download():
     selection=json.loads((OUT/'index_selection.json').read_text())['selected'];records=[];failures=[]
-    existing={p.stem:p for sub in ['pilot_hibiya','hibiya_water_corridor/grd50'] for p in (ROOT/'data/raw/tokyo_lidar_dem/2024'/sub).glob('*.zip')}
+    existing={p.stem:p for sub in ['pilot_hibiya','hibiya_water_corridor/grd50'] for p in (moga_raw(ROOT, 'tokyo_lidar_dem/2024')/sub).glob('*.zip')}
     def job(row):
         name=row['sheet'];p=existing.get(name,RAW/'grd50'/f'{name}.zip');reuse=p.exists();fetch(row['url'],p)
         with zipfile.ZipFile(p) as archive:
@@ -270,7 +276,7 @@ def download():
         with rasterio.open(dest) as d:
             if d.res!=(.5,.5) or d.width>800 or d.height>600:raise ValueError('Unexpected native grid resolution or oversized sheet')
             a=d.read(1,masked=True);valid=int((~np.ma.getmaskarray(a)&np.isfinite(a.data)).sum());bound=list(d.bounds);tf=list(d.transform)[:6];crs=d.crs.to_wkt();dims=list(d.shape);nodata=d.nodata;minv=float(a.min()) if valid else None;maxv=float(a.max()) if valid else None
-        return {**row,'zip_path':str(p.relative_to(ROOT)),'tif_path':str(dest.relative_to(ROOT)),'reused_existing':name in existing,'resumed_batch_cache':reuse and name not in existing,'zip_bytes':p.stat().st_size,'zip_sha256':digest(p),'tif_sha256':h,'zip_crc_verified':True,'bounds':bound,'transform':tf,'source_crs_wkt':crs,'resolution_m':.5,'shape':dims,'source_nodata':nodata,'valid_pixels':valid,'nodata_pixels':dims[0]*dims[1]-valid,'min_elevation':minv,'max_elevation':maxv,'ZIP_timestamp_is_survey_date':False}
+        return {**row,'zip_path':moga_source(p, ROOT),'tif_path':moga_source(dest, ROOT),'reused_existing':name in existing,'resumed_batch_cache':reuse and name not in existing,'zip_bytes':p.stat().st_size,'zip_sha256':digest(p),'tif_sha256':h,'zip_crc_verified':True,'bounds':bound,'transform':tf,'source_crs_wkt':crs,'resolution_m':.5,'shape':dims,'source_nodata':nodata,'valid_pixels':valid,'nodata_pixels':dims[0]*dims[1]-valid,'min_elevation':minv,'max_elevation':maxv,'ZIP_timestamp_is_survey_date':False}
     with ThreadPoolExecutor(max_workers=4) as pool:
         futures={pool.submit(job,r):r for r in selection}
         for count,f in enumerate(as_completed(futures),1):
@@ -283,7 +289,7 @@ def download():
     l=min(r['bounds'][0] for r in records);b=min(r['bounds'][1] for r in records);right=max(r['bounds'][2] for r in records);t=max(r['bounds'][3] for r in records)
     vrt=ET.Element('VRTDataset',rasterXSize=str(round((right-l)/.5)),rasterYSize=str(round((t-b)/.5)));ET.SubElement(vrt,'SRS').text='EPSG:6677';ET.SubElement(vrt,'GeoTransform').text=f'{l},0.5,0,{t},0,-0.5';band=ET.SubElement(vrt,'VRTRasterBand',dataType='Float32',band='1');ET.SubElement(band,'NoDataValue').text='-32767'
     for row in records:
-        src=ET.SubElement(band,'ComplexSource');ET.SubElement(src,'SourceFilename',relativeToVRT='1').text=os.path.relpath(ROOT/row['tif_path'],PROC);ET.SubElement(src,'SourceBand').text='1';ET.SubElement(src,'SrcRect',xOff='0',yOff='0',xSize=str(row['shape'][1]),ySize=str(row['shape'][0]));ET.SubElement(src,'DstRect',xOff=str(round((row['bounds'][0]-l)/.5)),yOff=str(round((t-row['bounds'][3])/.5)),xSize=str(row['shape'][1]),ySize=str(row['shape'][0]));ET.SubElement(src,'NODATA').text=str(row['source_nodata'])
+        src=ET.SubElement(band,'ComplexSource');ET.SubElement(src,'SourceFilename',relativeToVRT='1').text=os.path.relpath(moga_project_path(ROOT, row['tif_path']),PROC);ET.SubElement(src,'SourceBand').text='1';ET.SubElement(src,'SrcRect',xOff='0',yOff='0',xSize=str(row['shape'][1]),ySize=str(row['shape'][0]));ET.SubElement(src,'DstRect',xOff=str(round((row['bounds'][0]-l)/.5)),yOff=str(round((t-row['bounds'][3])/.5)),xSize=str(row['shape'][1]),ySize=str(row['shape'][0]));ET.SubElement(src,'NODATA').text=str(row['source_nodata'])
     ET.ElementTree(vrt).write(PROC/'native_dem_0_50m.vrt',encoding='utf-8',xml_declaration=True)
     with rasterio.open(PROC/'native_dem_0_50m.vrt') as d:assert d.res==(.5,.5);print('VRT',d.shape,d.bounds,flush=True)
     dump(OUT/'acquisition_manifest.json',{'complete':not failures,'expected_sheets':len(selection),'verified_sheets':len(records),'downloaded_new_sheets':sum(not r['reused_existing'] for r in records),'reused_sheets':sum(r['reused_existing'] for r in records),'total_archive_bytes':sum(r['zip_bytes'] for r in records),'failures':failures,'resources':records,'source_product':'Tokyo2024 0.50m grd50, native sources preserved','vertical_and_survey_epoch':'not yet certified across all sources; do not mix GSI heights into model DEM'})

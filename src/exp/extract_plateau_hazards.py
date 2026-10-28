@@ -2,6 +2,12 @@
 Run .venv/bin/python src/exp/extract_plateau_hazards.py; --render-only uses saved GeoJSON.
 Source 3D water-surface Z is audited, never interpreted as depth or subtracted from new DEM.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ('PROJ_LIB','PROJ_DATA','GDAL_DATA'): os.environ.pop(k,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -24,7 +30,7 @@ from matplotlib.font_manager import FontProperties
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'data/exp/data-briefing/plateau_hazard_overview'
 PROC=ROOT/'data/processed/plateau_hazards'
-RAW=ROOT/'data/raw/plateau/2025'
+RAW=moga_raw(ROOT, 'plateau/2025')
 G='{http://www.opengis.net/gml}';W='{http://www.opengis.net/citygml/waterbody/2.0}';C='{http://www.opengis.net/citygml/2.0}'
 XY=Transformer.from_crs(6668,6677,always_xy=True);LL=Transformer.from_crs(6677,6668,always_xy=True)
 WARD={'13101-chiyoda-ku':'千代田区','13102-chuo-ku':'中央区','13103-minato-ku':'港区'}

@@ -3,6 +3,12 @@
 Run .venv/bin/python src/exp/match_tokyo_water.py from the project root.
 No source geometries, names or elevations are overwritten.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ('PROJ_LIB','PROJ_DATA','GDAL_DATA'): os.environ.pop(k, None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -53,7 +59,7 @@ def link_geometry(a,b):
     p,q=nearest_points(a,b)
     return p if p.distance(q)<1e-6 else LineString([p,q])
 def source_topology():
-    with ZipFile(ROOT/'data/raw/ksj/W05-08_13_GML.zip') as z:r=ET.fromstring(z.read('W05-08_13-g.xml'))
+    with ZipFile(moga_raw(ROOT, 'ksj/W05-08_13_GML.zip')) as z:r=ET.fromstring(z.read('W05-08_13-g.xml'))
     byid={e.get(G+'id'):e for e in r if e.get(G+'id')}
     nodes={}
     for e in r.findall(K+'RiverNode'):
@@ -265,7 +271,7 @@ def main():
     dump(OUT/'connection_candidates.json',[r for g,r in edge_records]);dump(OUT/'official_system_relations.json',system_relations)
     dump(OUT/'verification_list.json',[{'longitude':LL.transform(g.x,g.y)[0],'latitude':LL.transform(g.x,g.y)[1],**r} for g,r in checks])
     dump(OUT/'summary.json',summary)
-    manifest={'parameters':PARAM,'source_sha256':{str(p.relative_to(ROOT)):sha256(p.read_bytes()).hexdigest() for p in (water_path,line_path,boundary_path,ROOT/'data/raw/ksj/W05-08_13_GML.zip')},
+    manifest={'parameters':PARAM,'source_sha256':{moga_source(p, ROOT):sha256(p.read_bytes()).hexdigest() for p in (water_path,line_path,boundary_path,moga_raw(ROOT, 'ksj/W05-08_13_GML.zip'))},
         'metric_crs':'EPSG:6677','output_horizontal_crs':'EPSG:6668','height_transformation':'none',
         'W05_source_epoch':'2008 FY','plateau_product':'2025 package; creationDate not measurement date',
         'topology_fields':'startStreamNode/endStreamNode on original un-clipped XML; shared nodes outside domain not lifted',

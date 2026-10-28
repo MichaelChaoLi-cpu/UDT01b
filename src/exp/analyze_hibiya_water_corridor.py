@@ -3,6 +3,12 @@
 Minimax terrain paths are screening hypotheses, not simulated runoff or outlets.
 Sources and raw heights are preserved. Water-interior DEM values are excluded.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -58,7 +64,7 @@ def surface(e):
     return unary_union(polys)
 
 def local_vectors(domain):
-    p=next((ROOT/'data/raw/plateau/2025/13101-chiyoda-ku').glob('*citygml*.zip'))
+    p=next((moga_raw(ROOT, 'plateau/2025/13101-chiyoda-ku')).glob('*citygml*.zip'))
     buildings=[];roads=[];sources=[]
     with zipfile.ZipFile(p) as z:
         for kind,tag in [('bldg',f'{{{B}}}Building'),('tran',f'{{{T}}}Road')]:
@@ -69,7 +75,7 @@ def local_vectors(domain):
                 if len(corners)!=2:raise ValueError('Source envelope missing')
                 ll=[list(map(float,v.split())) for v in corners]
                 if not projected(box(ll[0][1],ll[0][0],ll[1][1],ll[1][0])).intersects(domain):continue
-                sources.append({'archive':str(p.relative_to(ROOT)),'member':i.filename,'bytes':i.file_size,'crc32':f'{i.CRC:08x}'})
+                sources.append({'archive':moga_source(p, ROOT),'member':i.filename,'bytes':i.file_size,'crc32':f'{i.CRC:08x}'})
                 n=0
                 with z.open(i) as f:
                     for event,e in ET.iterparse(f,events=['end']):
@@ -98,7 +104,7 @@ def las_points(path):
     dtype=np.dtype({'names':['x','y','z','class','flags'],'formats':['<i4','<i4','<i4','u1','u1'],'offsets':[0,4,8,15,14],'itemsize':size})
     a=np.memmap(path,dtype=dtype,mode='r',offset=offset,shape=(count,))
     year=struct.unpack_from('<H',h,92)[0];day=struct.unpack_from('<H',h,90)[0]
-    meta={'path':str(path.relative_to(ROOT)),'point_count':count,'version':list(h[24:26]),'point_format':fmt,'scales':list(scales),'offsets':list(origin),'file_creation_date':str(date(year,1,1)+timedelta(days=day-1)),'global_encoding':struct.unpack_from('<H',h,6)[0]}
+    meta={'path':moga_source(path, ROOT),'point_count':count,'version':list(h[24:26]),'point_format':fmt,'scales':list(scales),'offsets':list(origin),'file_creation_date':str(date(year,1,1)+timedelta(days=day-1)),'global_encoding':struct.unpack_from('<H',h,6)[0]}
     return a,scales,origin,meta
 
 def minimax_paths(dem,blocked,start_mask,targets,tf):
@@ -139,11 +145,11 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True);PROCESSED.mkdir(parents=True,exist_ok=True)
     manifest=json.loads((OUT/'acquisition_manifest.json').read_text())
     if not manifest['acquisition_complete']:raise ValueError('Acquisition incomplete')
-    ds=[rasterio.open(ROOT/s['dem_path']) for s in manifest['sheets']]
+    ds=[rasterio.open(moga_project_path(ROOT, s['dem_path'])) for s in manifest['sheets']]
     dem,tf=merge(ds,nodata=-32767);dem=dem[0]
     for d in ds:d.close()
     write_raster(PROCESSED/'official_dem_0_50m_mosaic.tif',dem,tf,-32767)
-    ortho_paths=[ROOT/next(p for p in e['extracted'] if p.endswith('.tif')) for e in manifest['resources'] if e.get('kind')=='ortho']
+    ortho_paths=[moga_project_path(ROOT, next(p for p in e['extracted'] if p.endswith('.tif'))) for e in manifest['resources'] if e.get('kind')=='ortho']
     ds=[rasterio.open(p) for p in ortho_paths];ortho,otf=merge(ds)
     for d in ds:d.close()
     write_raster(PROCESSED/'official_orthophoto_0_20m_mosaic.tif',ortho,otf)
@@ -158,7 +164,7 @@ def main():
     savegeo(PROCESSED/'local_plateau_roads.geojson',[feature(g,{'source_id':i,'interpretation':'LOD1 road footprint only'}) for g,i in roads])
     bmask=rasterize([(g.buffer(.5),1) for g,i in buildings],out_shape=dem.shape,transform=tf,all_touched=True,dtype='uint8').astype(bool)
     count=np.zeros(dem.size,np.uint32);sums=np.zeros(dem.size,np.float64);low=np.full(dem.size,np.inf,np.float32);high=np.full(dem.size,-np.inf,np.float32)
-    las_metadata=[];las_paths=[ROOT/next(p for p in e['extracted'] if p.endswith('.las')) for e in manifest['resources'] if e.get('kind')=='lp']
+    las_metadata=[];las_paths=[moga_project_path(ROOT, next(p for p in e['extracted'] if p.endswith('.las'))) for e in manifest['resources'] if e.get('kind')=='lp']
     for path in las_paths:
         a,scale,offset,meta=las_points(path);las_metadata.append(meta)
         for begin in range(0,len(a),1000000):

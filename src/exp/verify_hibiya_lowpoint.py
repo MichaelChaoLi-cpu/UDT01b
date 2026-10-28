@@ -3,6 +3,12 @@
 Run .venv/bin/python src/exp/verify_hibiya_lowpoint.py. Requires the already
 approved numpy, rasterio, matplotlib, scipy. Does not change source values.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for key in ['PROJ_LIB', 'PROJ_DATA', 'GDAL_DATA']:
     os.environ.pop(key, None)
@@ -19,7 +25,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW = ROOT / 'data/raw/tokyo_lidar_dem/2024/pilot_hibiya'
+RAW = moga_raw(ROOT, 'tokyo_lidar_dem/2024/pilot_hibiya')
 PILOT = ROOT / 'data/exp/data-briefing/plateau_terrain_pilot'
 OUT = ROOT / 'data/exp/data-briefing/hibiya_lowpoint_verification'
 BOTTOM = np.array([-6918.25, -36324.25])

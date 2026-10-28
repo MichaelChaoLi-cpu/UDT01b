@@ -1,4 +1,10 @@
 """Inventory PLATEAU underground-access objects without inferring station thresholds."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import zipfile,xml.etree.ElementTree as E,collections,hashlib,json,csv
 import numpy as np
@@ -7,12 +13,12 @@ from shapely.ops import transform
 from pyproj import Transformer
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'data/processed/three_ward_transport_framework_v1';R=ROOT/'data/exp/feasibility-check/three_ward_transport_framework_v1';G='{http://www.opengis.net/gml}';F='{http://www.opengis.net/citygml/cityfurniture/2.0}';xy=Transformer.from_crs(6668,6677,always_xy=True).transform
 records=[];byid={};railclass=[]
-for p in sorted((ROOT/'data/raw/plateau/2025').glob('*/*citygml*.zip')):
+for p in sorted((moga_raw(ROOT, 'plateau/2025')).glob('*/*citygml*.zip')):
  z=zipfile.ZipFile(p);names=z.namelist();railn=0
  for n in names:
   if '/tran/' in n and n.endswith('.gml'):
    s=z.read(n);railn+=s.count(b'<tran:Railway')
- railclass.append({'archive':str(p.relative_to(ROOT)),'Railway_class_occurrences_in_tran':railn})
+ railclass.append({'archive':moga_source(p, ROOT),'Railway_class_occurrences_in_tran':railn})
  for n in names:
   if '/frn/' not in n or not n.endswith('.gml'):continue
   root=E.fromstring(z.read(n))
@@ -31,7 +37,7 @@ for p in sorted((ROOT/'data/raw/plateau/2025').glob('*/*citygml*.zip')):
      value=v.text.strip()
      if value and len(value)<150:leaves.setdefault(tag,set()).add(value)
    meta={k:sorted(v) for k,v in leaves.items()};srs=next((v.attrib['srsName'] for v in e.iter() if 'srsName' in v.attrib),'inherited from document')
-   r={'gml_id':id,'source_archive':str(p.relative_to(ROOT)),'source_member':n,'function_code':'4020','function_description':'underground access','coordinate_points':len(a),'source_geometry_sha256':digest,'declared_srs':srs,'source_leaf_metadata':json.dumps(meta,ensure_ascii=False),'z_min_model_geometry_m':float(a[:,2].min()) if len(a) else None,'z_max_model_geometry_m':float(a[:,2].max()) if len(a) else None,'creation_dates':'|'.join(meta.get('creationDate',[])),'survey_year_values':'|'.join(meta.get('surveyYear',[])),'station_identity_verified':False,'minimum_z_is_an_entrance_threshold':False,'complete_station_entrance_coverage':False}
+   r={'gml_id':id,'source_archive':moga_source(p, ROOT),'source_member':n,'function_code':'4020','function_description':'underground access','coordinate_points':len(a),'source_geometry_sha256':digest,'declared_srs':srs,'source_leaf_metadata':json.dumps(meta,ensure_ascii=False),'z_min_model_geometry_m':float(a[:,2].min()) if len(a) else None,'z_max_model_geometry_m':float(a[:,2].max()) if len(a) else None,'creation_dates':'|'.join(meta.get('creationDate',[])),'survey_year_values':'|'.join(meta.get('surveyYear',[])),'station_identity_verified':False,'minimum_z_is_an_entrance_threshold':False,'complete_station_entrance_coverage':False}
    records.append(r)
    if key not in byid:
     centre=a[:,:2].mean(axis=0);x,y=xy(centre[1],centre[0]);byid[key]={'record':r,'geometry':Point(x,y),'occurrences':0}

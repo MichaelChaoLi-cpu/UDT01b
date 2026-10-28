@@ -1,6 +1,12 @@
 """Read-only evidence pack for obtaining2024Tokyo rainfall and river stages.
 No messages, accounts, applications or purchases are submitted.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime,timezone
@@ -12,7 +18,7 @@ from shapely.geometry import shape,Point,mapping
 from shapely.ops import transform,unary_union
 
 ROOT=Path(__file__).resolve().parents[2]
-RAW=ROOT/'data/raw/forcing_access_review/2026-10-14'
+RAW=moga_raw(ROOT, 'forcing_access_review/2026-10-14')
 PROC=ROOT/'data/processed/three_ward_dem_domain'
 OUT=ROOT/'data/exp/data-briefing/three_ward_dem_domain'
 SOURCES=[
@@ -39,7 +45,7 @@ def main():
   name,url=entry;p=RAW/(name+('.csv' if name=='tokyo_coordinates' else '.json' if name=='tokyo_dem_catalog' else '.html'))
   if p.exists():return json.loads((RAW/(name+'_access.json')).read_text())
   r=requests.get(url,timeout=(15,40));p.write_bytes(r.content)
-  meta={'name':name,'url':url,'resolved_url':r.url,'status':r.status_code,'path':str(p.relative_to(ROOT)),'bytes':len(r.content),'sha256':hashlib.sha256(r.content).hexdigest(),'accessed_at_utc':datetime.now(timezone.utc).isoformat()}
+  meta={'name':name,'url':url,'resolved_url':r.url,'status':r.status_code,'path':moga_source(p, ROOT),'bytes':len(r.content),'sha256':hashlib.sha256(r.content).hexdigest(),'accessed_at_utc':datetime.now(timezone.utc).isoformat()}
   (RAW/(name+'_access.json')).write_text(json.dumps(meta,indent=2)+'\n');return meta
  with ThreadPoolExecutor(max_workers=4) as pool:manifest=list(pool.map(job,SOURCES))
  (OUT/'forcing_access_sources.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')

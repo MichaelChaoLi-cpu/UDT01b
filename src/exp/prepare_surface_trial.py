@@ -1,6 +1,12 @@
 """Build exploratory 20m surface inputs from original PLATEAU triangles and LOD0.
 No source ZIP edits, no depression filling, no waterbody-Z boundary stages.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -79,7 +85,7 @@ def main():
   def flush(self):
    if self.batch:
     a=rasterize([(g,1) for g in self.batch],out_shape=fshape,transform=ftf,dtype='uint8');target=building if self.kind=='bldg' else road;np.maximum(target,a,out=target);self.batch=[]
- for wi,p in enumerate(sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')),1):
+ for wi,p in enumerate(sorted((moga_raw(ROOT, 'plateau/2025')).rglob('*citygml*.zip')),1):
   with zipfile.ZipFile(p) as archive:
    for kind in ['dem','bldg','tran']:
     entries=[i for i in archive.infolist() if i.filename.startswith('udx/'+kind+'/') and i.filename.endswith('.gml')]
@@ -87,7 +93,7 @@ def main():
      target=Terrain(wi) if kind=='dem' else Vectors(kind);parser=ET.XMLParser(target=target)
      with archive.open(i) as f:
       while b:=f.read(1024*1024):parser.feed(b)
-     parser.close();rec={'archive':str(p.relative_to(ROOT)),'member':i.filename,'bytes':i.file_size,'crc32':f'{i.CRC:08x}','kind':kind,'ward_id':wi}
+     parser.close();rec={'archive':moga_source(p, ROOT),'member':i.filename,'bytes':i.file_size,'crc32':f'{i.CRC:08x}','kind':kind,'ward_id':wi}
      rec.update({'triangles':target.total,'grid_center_hits':target.hits,'large_triangle_candidates':target.large} if kind=='dem' else {'members':target.members,'used':target.used,'footprint':target.foot,'roof_edge_proxy':target.roof,'unresolved_xlinks':target.unresolved});audit.append(rec)
      if kind=='dem' or num%5==0 or num==len(entries):print(p.parent.name,kind,num,'/',len(entries),rec.get('grid_center_hits',rec.get('used')),flush=True)
   # Cache each finished ward to retain progress if interrupted.

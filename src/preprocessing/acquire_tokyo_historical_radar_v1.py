@@ -3,6 +3,12 @@
 A five-minute representative-intensity hold is an explicit reconstruction rule,
 not a claim that radar level values are observed accumulated precipitation.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import os
 for _key in ["PROJ_LIB", "PROJ_DATA", "GDAL_DATA"]: os.environ.pop(_key, None)
@@ -15,7 +21,7 @@ from rasterio.transform import from_origin
 
 ROOT = Path(__file__).resolve().parents[2]
 TAG = 'tokyo_historical_radar_20240821_v1'
-RAW = ROOT / 'data/raw' / TAG
+RAW = moga_raw(ROOT, '') / TAG
 OUT = ROOT / 'data/processed' / TAG
 REPORT = ROOT / 'data/exp/data-preprocessing' / TAG
 JST = dt.timezone(dt.timedelta(hours=9))
@@ -108,7 +114,7 @@ def fetch_file(stamp):
         with path.open('xb') as f: f.write(data)
     level, rate, meta = decode(data)
     assert meta['utc']==stamp.isoformat()
-    return level, rate, dict(meta, url=url, local_path=str(path.relative_to(ROOT)), sha256=sha(data), bytes=len(data),
+    return level, rate, dict(meta, url=url, local_path=moga_source(path, ROOT), sha256=sha(data), bytes=len(data),
         retrieved_or_verified_utc=dt.datetime.now(UTC).isoformat(), reused=existing)
 
 
@@ -149,7 +155,7 @@ def main():
         if not p.exists():
             response=requests.get(url,timeout=90);response.raise_for_status()
             with p.open('xb') as f:f.write(response.content)
-        sources.append(dict(url=url,path=str(p.relative_to(ROOT)),sha256=sha(p.read_bytes())))
+        sources.append(dict(url=url,path=moga_source(p, ROOT),sha256=sha(p.read_bytes())))
     stamps=[(START+dt.timedelta(minutes=5*(i+1))).astimezone(UTC) for i in range(108)]
     with cf.ThreadPoolExecutor(max_workers=4) as pool:
         results=list(pool.map(fetch_file,stamps))

@@ -2,6 +2,12 @@
 Uses existing local numpy, shapely, pyproj and matplotlib; no training or simulation.
 Full mesh population is retained. Clipped geometry is a display footprint only.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import os
 os.environ.setdefault('MPLCONFIGDIR','/tmp/udt_population_mpl')
@@ -12,7 +18,7 @@ from shapely.ops import transform,unary_union
 from shapely import STRtree
 from pyproj import Transformer
 ROOT=Path('/Volumes/Extension/Research/UDT01b')
-RAW=ROOT/'data/raw/estat_population/2020_jgd2011'
+RAW=moga_raw(ROOT, 'estat_population/2020_jgd2011')
 OUT=ROOT/'data/processed/three_ward_population_mesh_audit_v1'
 REPORT=ROOT/'data/exp/data-briefing/three_ward_population_mesh_audit_v1'
 OUT.mkdir(parents=True,exist_ok=True);REPORT.mkdir(parents=True,exist_ok=True)
@@ -166,8 +172,8 @@ body+='<h2>Allocation readiness</h2>'+table([{'resolution':r,**readysummary[r]} 
 body+='<p>Building candidates include ordinary and mixed residential uses. Candidate coverage is not a measure of population allocation accuracy. Source years, institution populations and incomplete outer-boundary building coverage remain limitations.</p><h2>How an eventual allocation can work</h2><p>'+html.escape(summary['proposed_allocation'])+'</p><ul>'+''.join('<li>'+html.escape(s)+'</li>' for s in summary['remaining_gaps'])+'</ul><p>Use 125 m as one sensitivity representation and retain 250 m as the paired comparator; do not declare either validated building truth.</p><h2>Official sources</h2><ul>'+''.join('<li><a href="'+html.escape(s)+'">'+html.escape(s)+'</a></li>' for s in summary['sources'])+'</ul><p><a href="summary.json">Machine-readable summary</a> | <a href="building_ward_summary.csv">Building summary</a></p>'
 (REPORT/'review.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Population mesh audit</title><style>body{font:16px system-ui;max-width:1350px;margin:35px auto;padding:0 20px;color:#203044;line-height:1.6}img{width:100%}table{border-collapse:collapse;font-size:13px;display:block;overflow:auto}td,th{padding:8px;border:1px solid #ccd5de;text-align:left}th{background:#eef3f7}pre{background:#f4f6f8;padding:15px}</style>'+body+'</html>')
 checks={'original_AnaSOP_unchanged':sha(ROOT/'docs/AnaSOP.md')==ana,'no_missing_geometry_attribute_join':not missing,'mesh_codes_unique':all(len(d)==len(set(d)) for d in selected.values()),'125_to_250_parent_coverage':set(selected[250])=={c[:10] for c in selected[125]},'all_meshes_primary_5339':all(c.startswith('5339') for d in selected.values() for c in d),'both_tables_have_54_fields':len(fieldrows)==108,'sex_totals_match':all(int(r[t+'001'])==int(r[t+'002'])+int(r[t+'003']) for t,res in [('T001231',125),('T001142',250)] for r in allrows[res].values()),'all_clipped_meshes_intersect_wards':all(g.intersection(u).area>.01 for d in geoms.values() for g in d.values()),'clipping_partitions_ward_area':all(abs(unary_union([g.intersection(u) for g in geoms[r].values()]).area-u.area)<.1 for r in [125,250]),'no_population_allocation_performed':True}
-for r in json.loads((RAW/'download_manifest.json').read_text()):checks['raw_sha_'+Path(r['file']).name]=sha(ROOT/r['file'])==r['sha256']
+for r in json.loads((RAW/'download_manifest.json').read_text()):checks['raw_sha_'+Path(r['file']).name]=sha(moga_project_path(ROOT, r['file']))==r['sha256']
 dump(REPORT/'validation.json',{'passed':all(checks.values()),'checks':checks});assert all(checks.values()),checks
 files=[p for base in [OUT,REPORT] for p in sorted(base.rglob('*')) if p.is_file() and p.name!='freeze.json']
-dump(REPORT/'freeze.json',{'products':[{'file':str(p.relative_to(ROOT)),'sha256':sha(p),'bytes':p.stat().st_size} for p in files],'source_bindings':{str(p.relative_to(ROOT)):sha(p) for p in [boundary,vector,Path(__file__),ROOT/'src/analyses/audit_three_ward_population_attributes_v1.py']},'raw_manifest':str((RAW/'download_manifest.json').relative_to(ROOT))})
+dump(REPORT/'freeze.json',{'products':[{'file':moga_source(p, ROOT),'sha256':sha(p),'bytes':p.stat().st_size} for p in files],'source_bindings':{moga_source(p, ROOT):sha(p) for p in [boundary,vector,Path(__file__),ROOT/'src/analyses/audit_three_ward_population_attributes_v1.py']},'raw_manifest':moga_source(RAW/'download_manifest.json', ROOT)})
 print('COMPLETE',json.dumps({'counts':counts,'comparison':summary['parent_comparison'],'buildings':wardstats,'readiness':readysummary,'checks':checks},ensure_ascii=False),flush=True)

@@ -1,4 +1,10 @@
 """Record the user's no-inquiry, numerical/remote-sensing fallback data route."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 from datetime import datetime,timezone
 from concurrent.futures import ThreadPoolExecutor
@@ -16,7 +22,7 @@ from matplotlib.patches import Patch
 ROOT=Path(__file__).resolve().parents[2]
 PRO=ROOT/'data/processed/three_ward_terrain_fallback'
 OUT=ROOT/'data/exp/data-briefing/remote_sensing_fallback'
-RAW=ROOT/'data/raw/remote_sensing_reference/2026-10-14'
+RAW=moga_raw(ROOT, 'remote_sensing_reference/2026-10-14')
 SOURCES=[
  ('imerg_overview','https://gpm.nasa.gov/data/imerg'),
  ('imerg_v07','https://gpm.nasa.gov/resources/documents/imerg-v07-technical-documentation'),
@@ -37,7 +43,7 @@ def main():
   if not p.exists():
    r=requests.get(url,timeout=(15,40));p.write_bytes(r.content);status=r.status_code
   else:status=200
-  return {'name':name,'url':url,'path':str(p.relative_to(ROOT)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'status':status}
+  return {'name':name,'url':url,'path':moga_source(p, ROOT),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'status':status}
  with ThreadPoolExecutor(max_workers=4) as pool:sources=list(pool.map(snapshot,SOURCES))
  for name in ['tokyo_sentinel1_catalog.json','tokyo_sentinel1_august.json','imerg_event_granules.json','gsmap_event_graph.html','gsmap_portal.js']:
   p=Path('/private/tmp')/name

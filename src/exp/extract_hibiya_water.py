@@ -4,6 +4,12 @@ Local reproduction: .venv/bin/python src/exp/extract_hibiya_water.py
 Output geometry is 2D; original LOD1 heights are retained as source-vertex
 statistics, never treated as riverbed or event water level. fld is not read.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -24,7 +30,7 @@ from matplotlib.patches import Polygon as PatchPolygon
 ROOT=Path(__file__).resolve().parents[2]
 OUT=ROOT/'data/exp/data-briefing/hibiya_water_overlay'
 PROCESSED=ROOT/'data/processed/plateau_water'
-RAW=ROOT/'data/raw/plateau/2025'
+RAW=moga_raw(ROOT, 'plateau/2025')
 PILOT=ROOT/'data/exp/data-briefing/plateau_terrain_pilot'
 G='http://www.opengis.net/gml';W='http://www.opengis.net/citygml/waterbody/2.0';C='http://www.opengis.net/citygml/2.0'
 NS={'g':G,'w':W,'c':C}
@@ -109,7 +115,7 @@ def main():
             name=next(n for n in archive.namelist() if n.endswith('_border.geojson'))
             original=archive.read(name);document=json.loads(original)
             boundaries[ward]=unary_union([projected_boundary(f['geometry']) for f in document['features']])
-            boundary_sources.append({'archive':str(related.relative_to(ROOT)),'member':name,'sha256':hashlib.sha256(original).hexdigest(),'area_m2':boundaries[ward].area})
+            boundary_sources.append({'archive':moga_source(related, ROOT),'member':name,'sha256':hashlib.sha256(original).hexdigest(),'area_m2':boundaries[ward].area})
     domain=unary_union(list(boundaries.values()))
     save_geojson(PROCESSED/'central_three_ward_boundaries.geojson',[{'type':'Feature','properties':{'ward':w},'geometry':mapping(transform(TO_LL.transform,g))} for w,g in boundaries.items()])
     files_by_sha={};all_files=[];object_occurrences=0
@@ -118,7 +124,7 @@ def main():
         with zipfile.ZipFile(archive_path) as archive:
             for name in sorted(n for n in archive.namelist() if n.startswith('udx/wtr/') and n.endswith('.gml')):
                 data=archive.read(name);sha=hashlib.sha256(data).hexdigest()
-                ref={'archive':str(archive_path.relative_to(ROOT)),'member':name,'sha256':sha,'bytes':len(data)}
+                ref={'archive':moga_source(archive_path, ROOT),'member':name,'sha256':sha,'bytes':len(data)}
                 all_files.append(ref)
                 if sha not in files_by_sha:
                     dictionaries={}

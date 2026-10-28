@@ -7,6 +7,12 @@ facilities. Dynamic map observations were made through the official UI with
 explicit human consent; they are dated evidence, not a reproducible live API.
 No network geometry, elevations, DEM repair, Git or DVC changes are invented.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import argparse
 import csv
 import hashlib
@@ -38,7 +44,7 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path);parser.add_argument('--fetch-sources',action='store_true');args=parser.parse_args()
     root=(args.root or Path(__file__).resolve().parents[2]).resolve()
     if not (root/'AGENTS.md').exists():raise ValueError('Explicit research project root required')
-    raw=root/'data/raw/drainage_official/2026-10-13';out=root/'data/exp/data-briefing/hibiya_drainage_audit'
+    raw=moga_raw(root, 'drainage_official/2026-10-13');out=root/'data/exp/data-briefing/hibiya_drainage_audit'
     raw.mkdir(parents=True,exist_ok=True);out.mkdir(parents=True,exist_ok=True)
     def fetch(entry):
         ident,url,name=entry;path=raw/name
@@ -51,7 +57,7 @@ def main():
                     path.write_bytes(payload)
                 status='downloaded'
             except Exception as e:status='fetch_failed: '+str(e)
-        result={'id':ident,'url':url,'local_path':str(path.relative_to(root)),'status':status}
+        result={'id':ident,'url':url,'local_path':moga_source(path, root),'status':status}
         if path.exists():
             with path.open('rb') as f:sha=hashlib.file_digest(f,'sha256').hexdigest()
             result.update(bytes=path.stat().st_size,sha256=sha)

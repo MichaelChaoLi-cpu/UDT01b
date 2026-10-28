@@ -1,4 +1,10 @@
 """Inspect gate profiles and source-supported mixed-level masks; no raw data edits."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ('PROJ_LIB','PROJ_DATA','GDAL_DATA'):os.environ.pop(k,None)
 os.environ.setdefault('MPLCONFIGDIR','/private/tmp/udt01b-mpl')
@@ -28,7 +34,7 @@ SITES=[('U1',[-6937.25,-36378.75],V,25),('T1',[-6942.75,-36390.75],V,25),('A10',
        ('P1',[-6911.25,-36328.75],V,16)]
 
 def extract_new_sites():
-    path=ROOT/'data/raw/tokyo_lidar_dem/2024/pilot_hibiya/09LD2812.las'
+    path=moga_raw(ROOT, 'tokyo_lidar_dem/2024/pilot_hibiya/09LD2812.las')
     with path.open('rb') as f:h=f.read(227)
     fmt=h[104];size=struct.unpack_from('<H',h,105)[0];count=struct.unpack_from('<I',h,107)[0];offset=struct.unpack_from('<I',h,96)[0]
     assert fmt==3 and size==34
@@ -133,7 +139,7 @@ def main():
             elif sid=='P1':
                 a=np.load(ROOT/'data/exp/data-briefing/hibiya_lowpoint_verification/local_points.npz');points=np.c_[a['x'],a['y'],a['z']];classes=a['raw_class']
             else:
-                a=np.load(ROOT/f'data/exp/data-briefing/hibiya_water_corridor/{sid}_local_points.npz');points=a['xyz'];classes=a['classification'].astype('uint8')
+                a=np.load(moga_project_path(ROOT, f'data/exp/data-briefing/hibiya_water_corridor/{sid}_local_points.npz'));points=a['xyz'];classes=a['classification'].astype('uint8')
             site_rows.append(draw_profile(sid,np.array(center),u,half,points,classes,dem,tf,ortho,allwater,profiles))
     trial.dump(OUT/'profile_locations.json',site_rows)
     masks,lowgeom,mixedgeom=point_based_masks(dem,tf)
@@ -162,7 +168,7 @@ def main():
     trial.dump(OUT/'mask_sensitivity_thresholds.json',results);trial.save_fc(PROC/'mask_sensitivity_routes.geojson',routes)
     trial.save_fc(PROC/'review_cross_sections.geojson',[trial.feature(LineString([np.array(q)-half*u,np.array(q)+half*u]),{'site_id':sid,'role':'source profile strip, not measured bank/kerb breakline'}) for sid,q,u,half in SITES])
     trial.dump(OUT/'provenance.json',{'source_epoch_first':True,'no_original_elevations_modified':True,
-        'source_hashes':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [BASE/'official_dem_0_50m_mosaic.tif',ROOT/'data/exp/data-briefing/hibiya_lowpoint_verification/local_points.npz']},
+        'source_hashes':{moga_source(p, ROOT):hashlib.sha256(p.read_bytes()).hexdigest() for p in [BASE/'official_dem_0_50m_mosaic.tif',ROOT/'data/exp/data-briefing/hibiya_lowpoint_verification/local_points.npz']},
         'U1_T1_source_LAS':'data/raw/tokyo_lidar_dem/2024/pilot_hibiya/09LD2812.las','A10_A2_A3':'cached all-class source-point excerpts; withheld points excluded in original cache',
         'interpretation_status':'Profiles/masks are evidence screening. No actual gate, crest or inlet has been surveyed or assigned a validated hydraulic capacity.'})
     draw_mask_map(masks,lowgeom,mixedgeom,routes)
@@ -204,7 +210,7 @@ def render_saved():
             elif sid=='P1':
                 b=np.load(ROOT/'data/exp/data-briefing/hibiya_lowpoint_verification/local_points.npz');p,c=np.c_[b['x'],b['y'],b['z']],b['raw_class']
             else:
-                b=np.load(ROOT/f'data/exp/data-briefing/hibiya_water_corridor/{sid}_local_points.npz');p,c=b['xyz'],b['classification'].astype('uint8')
+                b=np.load(moga_project_path(ROOT, f'data/exp/data-briefing/hibiya_water_corridor/{sid}_local_points.npz'));p,c=b['xyz'],b['classification'].astype('uint8')
             draw_profile(sid,np.array(center),u,half,p,c,dem,tf,ortho,waters,paths)
     f=json.loads((PROC/'parking_layer_isolation_candidates.geojson').read_text())['features'];geos={x['properties']['mask_id']:trial.project(shape(x['geometry'])) for x in f}
     masks=[('no_isolation',None)]+[(name,g) for name,g in geos.items() if name.startswith('source_') or name=='previous_context_rectangle']

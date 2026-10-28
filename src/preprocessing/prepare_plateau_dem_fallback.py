@@ -3,6 +3,12 @@
 No roof elevations, depression fill, extrapolation or datum offset is applied.
 The 5m preview is not the native0.50m DEM or a hydraulic simulation grid.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 from pathlib import Path
@@ -51,13 +57,13 @@ def main():
      cc=c0[ids]+dc;rr=r0[ids]+dr;ok=(cc<=c1[ids])&(rr<=r1[ids])&(cc>=0)&(cc<dims[1])&(rr>=0)&(rr<dims[0]);ii=ids[ok];cc=cc[ok];rr=rr[ok];ok=eligible[rr,cc];ii=ii[ok];cc=cc[ok];rr=rr[ok]
      if not len(ii):continue
      xx=l+(cc+.5)*DX;yy=t-(rr+.5)*DX;x0,x1,x2=x[ii].T;y0,y1,y2=y[ii].T;den=(y1-y2)*(x0-x2)+(x2-x1)*(y0-y2);ok=abs(den)>1e-9;den=np.where(ok,den,1);b0=((y1-y2)*(xx-x2)+(x2-x1)*(yy-y2))/den;b1=((y2-y0)*(xx-x2)+(x0-x2)*(yy-y2))/den;b2=1-b0-b1;ok&=(b0>=-1e-7)&(b1>=-1e-7)&(b2>=-1e-7);ii=ii[ok];cc=cc[ok];rr=rr[ok];height=b0[ok]*h[ii,0]+b1[ok]*h[ii,1]+b2[ok]*h[ii,2];self.hits+=len(height);prefer=~np.isfinite(z[rr,cc])|((ward[rr,cc]==self.wi)&(owner[rr,cc]!=self.wi));z[rr[prefer],cc[prefer]]=height[prefer];owner[rr[prefer],cc[prefer]]=self.wi
- for wi,p in enumerate(sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')),1):
+ for wi,p in enumerate(sorted((moga_raw(ROOT, 'plateau/2025')).rglob('*citygml*.zip')),1):
   with zipfile.ZipFile(p) as archive:
    for info in [v for v in archive.infolist() if v.filename.startswith('udx/dem/') and v.filename.endswith('.gml')]:
     target=Terrain(wi);parser=ET.XMLParser(target=target);hh=hashlib.sha256()
     with archive.open(info) as f:
      while chunk:=f.read(1024*1024):hh.update(chunk);parser.feed(chunk)
-    parser.close();records.append({'archive':str(p.relative_to(ROOT)),'member':info.filename,'crc32':f'{info.CRC:08x}','sha256':hh.hexdigest(),'triangles':target.triangles,'grid_hits':target.hits,'ward_id':wi});print('PLATEAU ground TIN',p.parent.name,info.filename,target.triangles,flush=True)
+    parser.close();records.append({'archive':moga_source(p, ROOT),'member':info.filename,'crc32':f'{info.CRC:08x}','sha256':hh.hexdigest(),'triangles':target.triangles,'grid_hits':target.hits,'ward_id':wi});print('PLATEAU ground TIN',p.parent.name,info.filename,target.triangles,flush=True)
  write('plateau_ground_tin_5m.tif',z,tf,np.nan);write('plateau_ground_owner_5m.tif',owner,tf,0)
  primary=np.full(dims,np.nan,dtype='float32')
  with rasterio.open(ROOT/'data/processed/three_ward_dem_domain/native_dem_0_50m.vrt') as d:reproject(rasterio.band(d,1),primary,src_transform=d.transform,src_crs='EPSG:6677',src_nodata=-32767,dst_transform=tf,dst_crs='EPSG:6677',dst_nodata=np.nan,resampling=Resampling.nearest,warp_mem_limit=128)

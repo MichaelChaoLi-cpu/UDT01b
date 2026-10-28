@@ -1,16 +1,22 @@
 """Acquire explicitly selected public Tokyo scenario point data, preserving original bytes."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import requests,json,hashlib,csv,io
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime,timezone
 ROOT=Path(__file__).resolve().parents[2]
-RAW=ROOT/'data/raw/tokyo_inundation_reference/2026-10-13'
+RAW=moga_raw(ROOT, 'tokyo_inundation_reference/2026-10-13')
 OUT=ROOT/'data/exp/data-briefing/tokyo_inundation_reference'
 BASE='https://www.opendata.metro.tokyo.lg.jp/gesui/R3/'
 FILES=['kanda_jiban_shinsui_1.csv','kanda_jiban_shinsui_2.csv','jounan_jiban_shinsui_1.csv','jounan_jiban_shinsui_2.csv','koutou_jiban_shinsui_1.csv','sumida_shingashi_jiban_shinsui_1.csv','kanda_shinsui_zukaku.pdf','jounan_shinsui_zukaku.pdf','koutou_shinsui_zukaku.pdf','sumida_shingashi_shinsui_zukaku.pdf']
 EXTRA=[('gesui_catalog.json','https://catalog.data.metro.tokyo.lg.jp/api/3/action/package_show?id=t000020d0000000043'),('kensetsu_catalog.json','https://catalog.data.metro.tokyo.lg.jp/api/3/action/package_show?id=t000014d0000000029'),('history_overview.html','https://www.kensetsu.metro.tokyo.lg.jp/river/chusho_seibi/panhulink/kako'),('town_history.json','https://www.suigai-risk.metro.tokyo.lg.jp/shiryoshu/shinsui-kensaku/js/data.json'),('town_history_city_codes.json','https://www.suigai-risk.metro.tokyo.lg.jp/shiryoshu/shinsui-kensaku/js/city.json'),('town_history_cause_codes.json','https://www.suigai-risk.metro.tokyo.lg.jp/shiryoshu/shinsui-kensaku/js/genin.json'),('town_history_interface.js','https://www.suigai-risk.metro.tokyo.lg.jp/shiryoshu/shinsui-kensaku/index.js'),('public_books_catalog.json','https://www.suigai-risk.metro.tokyo.lg.jp/api/tokyoflood/file/searchFloodRecordBook.py'),('history_map_layer.js','https://www.suigai-risk.metro.tokyo.lg.jp/shinsui/modules/map/layers/jisseki-layer.js'),('chiyoda_history_page.html','https://www.city.chiyoda.lg.jp/koho/kurashi/bosai/bosai-taisaku/fusui-dosha-saigai/rirekizu.html'),('chuo_history_page.html','https://d3ri4jk2y3zd2r.cloudfront.net/a0011/bousaianzen/bousai/bousaitaisaku/suigaisonae/kouzuihazardmap/kozui02.html'),('chuo_history_r8.pdf','https://d3ri4jk2y3zd2r.cloudfront.net/documents/2916/r8-sinsuijisseki.pdf'),('sumida_data_note.html','https://www.kensetsu.metro.tokyo.lg.jp/river/chusho_seibi/panhulink/menu/menu02-02-01'),('scenario_method_qa.pdf','https://www.kensetsu.metro.tokyo.lg.jp/documents/d/kensetsu/shinsuiyosoukuikizuQ_A_R803')]
 def fetch(entry):
- name,url=entry;p=RAW/name;rec={'name':name,'url':url,'local_path':str(p.relative_to(ROOT)),'retrieved_utc':datetime.now(timezone.utc).isoformat()}
+ name,url=entry;p=RAW/name;rec={'name':name,'url':url,'local_path':moga_source(p, ROOT),'retrieved_utc':datetime.now(timezone.utc).isoformat()}
  try:
   if p.exists():rec['status']='existing_preserved'
   else:

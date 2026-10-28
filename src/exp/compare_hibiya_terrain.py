@@ -7,6 +7,12 @@ Inputs are preserved; outputs are exploratory, not a flood simulation.
 
 from __future__ import annotations
 
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
+
 import os
 # Use the project's bundled PROJ/GDAL data rather than inherited Anaconda paths.
 for variable in ("PROJ_LIB", "PROJ_DATA", "GDAL_DATA"):
@@ -36,8 +42,8 @@ from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "data/exp/data-briefing/plateau_terrain_pilot"
-RAW = ROOT / "data/raw/tokyo_lidar_dem/2024/pilot_hibiya/09LD2812.tif"
-ARCHIVE = ROOT / "data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip"
+RAW = moga_raw(ROOT, 'tokyo_lidar_dem/2024/pilot_hibiya/09LD2812.tif')
+ARCHIVE = moga_raw(ROOT, 'plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip')
 GML = "http://www.opengis.net/gml"
 CORE = "http://www.opengis.net/citygml/2.0"
 TO_XY = pyproj.Transformer.from_crs(6668, 6677, always_xy=True)
@@ -270,7 +276,7 @@ def main():
         "tokyo_zip_member_timestamp_unverified":list(zip_date),"tokyo_exact_survey_date":"Not recorded in TIFF or one-file ZIP; official campaign FY2022-FY2023, publication 2024-10-31.",
         "corresponding_las_header_metadata":las_metadata,
         "tokyo_vertical_datum":"Not explicitly encoded: only vertical unit metre, no VerticalCSType/VerticalDatum GeoKey. Catalog confirms horizontal JGD2011 IX only.",
-        "plateau_source_archive":str(ARCHIVE.relative_to(ROOT)),"plateau_terrain_member":"udx/dem/533946_dem_6697_op.gml",
+        "plateau_source_archive":moga_source(ARCHIVE, ROOT),"plateau_terrain_member":"udx/dem/533946_dem_6697_op.gml",
         "plateau_terrain_creation_date":"2024-03-15; not acquisition date","plateau_declared_vertical_reference":"EPSG:6697 / JGD2011 + TP from GML and metadata; no confirmed 2025 height revision.",
         "comparison_sign":"Tokyo 0.50m elevation minus PLATEAU TIN elevation, metres",
         "terrain_sampling":"Piecewise-linear interpolation of original TIN triangles onto native DEM pixel centers; no new Delaunay surface, height correction, pit filling or smoothing applied to source comparison.",

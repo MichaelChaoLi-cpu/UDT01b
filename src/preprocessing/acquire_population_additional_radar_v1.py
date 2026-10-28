@@ -1,6 +1,12 @@
 """Acquire three predeclared historical radar days; no hydraulic simulation.
 Keep native 5-minute representative intensity; select nine-hour rain-only windows.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import os,sys,json,datetime as dt,time,concurrent.futures as cf
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
@@ -9,7 +15,7 @@ import numpy as np, requests, pandas as pd
 from scipy.sparse import load_npz
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'src/preprocessing'))
 from acquire_tokyo_historical_radar_v1 import decode,sha,self_test
-TAG='three_ward_population_additional_radar_v1';P=ROOT/'data/processed'/TAG;RAW=ROOT/'data/raw'/TAG;R=ROOT/'data/exp/data-preprocessing'/TAG
+TAG='three_ward_population_additional_radar_v1';P=ROOT/'data/processed'/TAG;RAW=moga_raw(ROOT, '')/TAG;R=ROOT/'data/exp/data-preprocessing'/TAG
 BASE='http://database.rish.kyoto-u.ac.jp/arch/jmadata/data/jma-radar/synthetic/original/'
 DATES=['2024-06-18','2024-07-31','2025-07-10'];UTC=dt.timezone.utc;JST=dt.timezone(dt.timedelta(hours=9))
 def dump(p,v):p.write_text(json.dumps(v,ensure_ascii=False,indent=2,default=lambda z:z.item()if isinstance(z,np.generic)else str(z),allow_nan=False)+'\n')
@@ -25,7 +31,7 @@ def get(stamp):
     time.sleep(attempt+1)
   with p.open('xb')as f:f.write(data)
  level,rate,meta=decode(data);assert meta['utc']==stamp.isoformat()
- return level,rate,dict(**meta,url=url,path=str(p.relative_to(ROOT)),bytes=len(data),sha256=sha(data))
+ return level,rate,dict(**meta,url=url,path=moga_source(p, ROOT),bytes=len(data),sha256=sha(data))
 def main():
  for p in [P,RAW/'grib2',R]:p.mkdir(parents=True,exist_ok=True)
  script=sha(Path(__file__).read_bytes());decoder=ROOT/'src/preprocessing/acquire_tokyo_historical_radar_v1.py';self_test()
@@ -40,10 +46,10 @@ def main():
   for d in sorted({s.date()for s in stamps}):
    u=BASE+d.strftime('%Y/%m/%d/');f=RAW/(d.strftime('%Y%m%d')+'_index.html')
    if not f.exists():r=requests.get(u,timeout=35);r.raise_for_status();f.write_bytes(r.content)
-   docs.append(dict(url=u,path=str(f.relative_to(ROOT)),sha256=sha(f.read_bytes())))
+   docs.append(dict(url=u,path=moga_source(f, ROOT),sha256=sha(f.read_bytes())))
   gauge=f'https://www.data.jma.go.jp/stats/etrn/view/hourly_s1.php?prec_no=44&block_no=47662&year={day[:4]}&month={int(day[5:7])}&day={int(day[8:10])}&view=p1';f=RAW/(day+'_jma_hourly.html')
   if not f.exists():r=requests.get(gauge,timeout=35);r.raise_for_status();f.write_bytes(r.content)
-  docs.append(dict(url=gauge,path=str(f.relative_to(ROOT)),sha256=sha(f.read_bytes()),role='numeric gauge context only; no calibration or independent flood validation'))
+  docs.append(dict(url=gauge,path=moga_source(f, ROOT),sha256=sha(f.read_bytes()),role='numeric gauge context only; no calibration or independent flood validation'))
   results=[]
   with cf.ThreadPoolExecutor(max_workers=4)as pool:
    for i,z in enumerate(pool.map(get,stamps),1):

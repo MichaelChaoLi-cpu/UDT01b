@@ -1,4 +1,10 @@
 """Publish native-source scope refinement from already checked diagnostic masks."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import importlib.util,json,re,zipfile,csv
 import numpy as np
@@ -18,7 +24,7 @@ def main():
  with rasterio.open(acq.PROC/'native_dem_20m_center_audit.tif') as d:native=d.read(1)
  with rasterio.open(acq.PROC/'potential_contribution_mask.tif') as d:initial=d.read(1)>0
  ws=acq.wards();core=unary_union([g for g,p in ws]);g=acq.geometry(potential&(ward==0),tf).difference(core)
- with zipfile.ZipFile(ROOT/'data/raw/ksj/N03-20240101_13_GML.zip') as z:admin=json.loads(z.read('N03-20240101_13.geojson'))
+ with zipfile.ZipFile(moga_raw(ROOT, 'ksj/N03-20240101_13_GML.zip')) as z:admin=json.loads(z.read('N03-20240101_13.geojson'))
  koto=unary_union([acq.transform(acq.TOXY.transform,acq.shape(f['geometry'])) for f in admin['features'] if f['properties']['N03_007']=='13108'])
  across_water=g.intersection(koto);g=g.difference(koto);candidate=unary_union([core,g])
  acq.fc(acq.PROC/'native_unverified_across_water_candidates.geojson',[(across_water,{'role':'across-water candidate excluded from baseline until physical surface connection confirmed','ward':'江東区'})])

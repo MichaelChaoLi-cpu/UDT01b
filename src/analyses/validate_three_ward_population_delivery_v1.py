@@ -1,4 +1,10 @@
 """Validate frozen population audit and add explicit epoch and allocation caveats."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import json,csv,hashlib,collections,html
 from shapely.geometry import shape,Point
@@ -9,8 +15,8 @@ def dump(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2,allow_nan=Fa
 def readcsv(p):
  with p.open() as f:return list(csv.DictReader(f))
 s=json.loads((R/'summary.json').read_text());base=json.loads((R/'freeze.json').read_text());checks={}
-for x in base['products']:checks['unchanged_'+x['file']]=sha(ROOT/x['file'])==x['sha256']
-for p,h in base['source_bindings'].items():checks['source_'+p]=sha(ROOT/p)==h
+for x in base['products']:checks['unchanged_'+x['file']]=sha(moga_project_path(ROOT, x['file']))==x['sha256']
+for p,h in base['source_bindings'].items():checks['source_'+p]=sha(moga_project_path(ROOT, p))==h
 attrs=readcsv(OUT/'plateau_building_attributes.csv');ids=[r['buildingID'] for r in attrs if r['buildingID']]
 checks['stable_building_ids_unique']=len(ids)==len(set(ids))==len(attrs)
 br=readcsv(OUT/'building_allocation_readiness.csv');target=[r for r in br if r['intersects_three_wards']=='True']
@@ -34,12 +40,12 @@ body=(R/'review.html').read_text()
 insert='<section style="background:#fff4d8;border-left:5px solid #c78416;padding:16px"><h2>Final audit qualifications</h2><p><b>125 m is a reference distribution, not independently observed building occupancy.</b> Its four-cell totals equal 250 m for all 757 compared parents.</p><p>Source lists cite 2022 for building use and floors, while all known-use objects in the three-ward inventory carry surveyYear 2021. Unknown-use objects carry 0001; this is not treated as a usable survey date. The discrepancy remains unresolved.</p><p>Among '+str(len(res))+' residential candidates, '+str(sum(r['floors_valid']=='True' for r in res))+' have valid above-ground floors (99.73%). However, '+str(len(unknown))+' of '+str(len(target))+' intersecting building bases have unknown use (13.16%), and 8,709 residential candidates have mixed uses without observed residential floor share.</p><p>Positive-population meshes without a residential candidate: 125 m '+str(readiness['125']['no_residential_candidate_meshes'])+'/'+str(readiness['125']['populated_meshes'])+' (7.01%); 250 m 25/605 (4.13%). Counts and rates alone do not establish which distribution is more accurate. Missing residential candidates can reflect apportionment, attributes, institutional residents or year differences.</p><p><b>Conclusion:</b> Building-level estimates are feasible with explicit assumptions and unallocated-population accounting. Exact building occupancy and current affected-person counts are not established. Compare both mesh resolutions using the same future allocation rules.</p><p><a href="audit_details.json">Detailed qualifications</a> | <a href="delivery_validation.json">Delivery validation</a> | <a href="download_manifest_copy.json">Official downloads and checksums</a></p></section>'
 body=body.replace('<h2>The important qualification</h2>',insert+'<h2>The important qualification</h2>')
 (R/'review_final.html').write_text(body)
-(R/'download_manifest_copy.json').write_bytes((ROOT/'data/raw/estat_population/2020_jgd2011/download_manifest.json').read_bytes())
+(R/'download_manifest_copy.json').write_bytes((moga_raw(ROOT, 'estat_population/2020_jgd2011/download_manifest.json')).read_bytes())
 # Exact known metadata, not inferred floor dates, is the authoritative audit result.
 checks['no_building_population_allocation_claimed']=a['building_feasibility']['building_person_counts_not_created']
 checks['final_report_local_image_exists']=(R/'population_mesh_comparison.png').exists()
 dump(R/'delivery_validation.json',{'passed':all(checks.values()),'check_count':len(checks),'checks':checks});assert all(checks.values()),checks
 files=[p for b in [OUT,R] for p in sorted(b.rglob('*')) if p.is_file() and p.name!='delivery_manifest.json']
 sources=[ROOT/'src/analyses/audit_three_ward_population_mesh_v1.py',ROOT/'src/analyses/audit_three_ward_population_attributes_v1.py',ROOT/'src/preprocessing/download_estat_three_ward_population_v1.py',Path(__file__)]
-dump(R/'delivery_manifest.json',{'products':[{'file':str(p.relative_to(ROOT)),'sha256':sha(p)} for p in files],'scripts':[{'file':str(p.relative_to(ROOT)),'sha256':sha(p)} for p in sources],'base_freeze_preserved':sha(R/'freeze.json')})
+dump(R/'delivery_manifest.json',{'products':[{'file':moga_source(p, ROOT),'sha256':sha(p)} for p in files],'scripts':[{'file':moga_source(p, ROOT),'sha256':sha(p)} for p in sources],'base_freeze_preserved':sha(R/'freeze.json')})
 print(json.dumps({'validation_checks':len(checks),'passed':all(checks.values()),'details':a},ensure_ascii=False,indent=2))

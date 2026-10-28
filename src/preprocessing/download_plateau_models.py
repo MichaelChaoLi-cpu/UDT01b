@@ -6,6 +6,12 @@ Run from the project root with Python's standard library and curl:
 
 from __future__ import annotations
 
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
+
 import hashlib
 import json
 import shutil
@@ -58,7 +64,7 @@ def main() -> None:
     for ward in WARDS:
         package = f"plateau-{ward}-{YEAR}"
         api_url = f"https://www.geospatial.jp/ckan/api/3/action/package_show?id={package}"
-        destination = ROOT / "data/raw/plateau" / str(YEAR) / ward
+        destination = moga_raw(ROOT, 'plateau') / str(YEAR) / ward
         destination.mkdir(parents=True, exist_ok=True)
         catalog_path = destination / "catalog.json"
         if not catalog_path.exists():
@@ -101,7 +107,7 @@ def main() -> None:
                 if expected_bytes and partial.stat().st_size != expected_bytes:
                     raise ValueError(f"Download size mismatch for {filename}")
                 partial.replace(path)
-            existing = next((r for r in records if r["local_path"] == str(path.relative_to(ROOT))), None)
+            existing = next((r for r in records if r["local_path"] == moga_source(path, ROOT)), None)
             if existing and existing.get("zip_crc_verified") and existing.get("bytes") == path.stat().st_size:
                 print(f"Previously downloaded and verified: {filename}", flush=True)
                 continue
@@ -117,7 +123,7 @@ def main() -> None:
                 "resource_name": resource["name"],
                 "source_url": url,
                 "downloaded_at": utc_now(),
-                "local_path": str(path.relative_to(ROOT)),
+                "local_path": moga_source(path, ROOT),
                 **verify(path),
             }
             records = [r for r in records if r["local_path"] != record["local_path"]] + [record]

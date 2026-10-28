@@ -2,6 +2,12 @@
 Original geometric layers remain separate; no textures, material files or flood
 obstacles. Road plan Z=0 is draped on the packaged TIN for visualization only.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 from pathlib import Path
@@ -16,7 +22,7 @@ x,y=shared.XY.transform([LON0,LON1,LON1,LON0],[LAT0,LAT0,LAT1,LAT1]);CX=float(np
 a=RING[1]-RING[0];b=RING[2]-RING[1]
 if a[0]*b[1]-a[1]*b[0]<0:RING=RING[::-1]
 ROI=Polygon(RING);BOUNDS=ROI.bounds
-A=ROOT/'data/raw/plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip'
+A=moga_raw(ROOT, 'plateau/2025/13101-chiyoda-ku/13101_chiyoda-ku_pref_2025_citygml_1_op.zip')
 
 def clip(tri):
  poly=list(np.asarray(tri,dtype=float));xz=np.asarray(tri)[:,[0,2]]
@@ -112,7 +118,7 @@ def build():
  records=[];source=[];inventory=[];counts=collections.Counter();outlines=[]
  with zipfile.ZipFile(A) as z:
   for theme in ['bldg','tran','wtr','dem','brid']:
-   member=f'udx/{theme}/'+('533946' if theme in ['dem','wtr'] else '53394611')+f'_{theme}_6697_op.gml';info=z.getinfo(member);source.append({'archive':str(A.relative_to(ROOT)),'member':member,'crc32':f'{info.CRC:08x}','bytes':info.file_size})
+   member=f'udx/{theme}/'+('533946' if theme in ['dem','wtr'] else '53394611')+f'_{theme}_6697_op.gml';info=z.getinfo(member);source.append({'archive':moga_source(A, ROOT),'member':member,'crc32':f'{info.CRC:08x}','bytes':info.file_size})
   print('Load original full-mesh terrain TIN',flush=True);tin,scanned=terrain(z,'udx/dem/533946_dem_6697_op.gml');print('TIN',len(tin),'triangles / scanned',scanned,flush=True)
   # Check coverage before any draping; do not invent terrain in missing cells.
   aa=tin[:,1][:,[0,2]]-tin[:,0][:,[0,2]];bb=tin[:,2][:,[0,2]]-tin[:,0][:,[0,2]];area=float(np.sum(abs(aa[:,0]*bb[:,1]-aa[:,1]*bb[:,0]))*.5);assert abs(area/ROI.area-1)<.002,f'Incomplete or overlapping TIN: {area/ROI.area}'

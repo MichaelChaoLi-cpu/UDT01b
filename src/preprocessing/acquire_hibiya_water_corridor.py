@@ -2,6 +2,12 @@
 
 Run with the project Python. No guessed archive names or height correction.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
 import hashlib,json,math,re,shutil,urllib.request,zipfile,time
@@ -11,7 +17,7 @@ from pathlib import Path
 import pyproj,rasterio
 
 ROOT=Path(__file__).resolve().parents[2]
-RAW=ROOT/'data/raw/tokyo_lidar_dem/2024'
+RAW=moga_raw(ROOT, 'tokyo_lidar_dem/2024')
 DEST=RAW/'hibiya_water_corridor'
 OUT=ROOT/'data/exp/data-briefing/hibiya_water_corridor'
 BASE='https://gic-tokyo.s3.ap-northeast-1.amazonaws.com/2024/dig/'
@@ -34,7 +40,7 @@ def fetch(url,path):
             except Exception:
                 if attempt==2:raise
                 time.sleep(2)
-    return {'source_url':url,'local_path':str(path.relative_to(ROOT)),'bytes':path.stat().st_size,'sha256':digest(path)}
+    return {'source_url':url,'local_path':moga_source(path, ROOT),'bytes':path.stat().st_size,'sha256':digest(path)}
 
 def index_urls(kind,x,y):
     lon,lat=TOLL.transform(x,y);n=2**18
@@ -70,7 +76,7 @@ def acquire_zip(url,kind,tile):
                         while chunk:=src.read(1024*1024):h.update(chunk);dst.write(chunk)
                     part.replace(target)
             members.append({'name':info.filename,'bytes':info.file_size,'zip_timestamp':list(info.date_time),'crc32':f'{info.CRC:08x}','sha256':h.hexdigest()})
-            extracted.append(str(target.relative_to(ROOT)))
+            extracted.append(moga_source(target, ROOT))
     entry.update(zip_crc_verified=True,members=members,extracted=extracted)
     print('Verified',kind,tile,entry['bytes'],flush=True)
     return entry
@@ -85,12 +91,12 @@ def main():
     dem_entries=[];sheets=[]
     for url in sorted(candidate_urls):
         tile=Path(url).stem;e=acquire_zip(url,'grd50',tile);dem_entries.append(e)
-        target=ROOT/next(p for p in e['extracted'] if p.endswith('.tif'))
+        target=moga_project_path(ROOT, next(p for p in e['extracted'] if p.endswith('.tif')))
         with rasterio.open(target) as d:
             if d.res!=(.5,.5) or d.shape!=(600,800):raise ValueError('Unexpected native DEM grid')
             b=d.bounds
             if not (b.left<-6400 and b.right>-7200 and b.bottom<-35400 and b.top>-36600):continue
-            sheets.append({'tile':tile,'bounds':list(b),'dem_path':str(target.relative_to(ROOT)),'dem_crs_wkt':d.crs.to_wkt(),'dem_nodata':d.nodata})
+            sheets.append({'tile':tile,'bounds':list(b),'dem_path':moga_source(target, ROOT),'dem_crs_wkt':d.crs.to_wkt(),'dem_nodata':d.nodata})
     entries.extend(dem_entries)
     (OUT/'acquisition_manifest.json').write_text(json.dumps({'recorded_at_utc':datetime.now(timezone.utc).isoformat(),'catalog':'https://www.geospatial.jp/ckan/dataset/tokyopc-23ku-2024','resources':entries,'sheets':sheets,'acquisition_complete':False},ensure_ascii=False,indent=2)+'\n')
     jobs=[]

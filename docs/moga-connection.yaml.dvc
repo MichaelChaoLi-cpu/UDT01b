@@ -1,0 +1,5 @@
+outs:
+- md5: 1f284417637fa9c97d25f3ae685b0bfb
+  size: 268
+  hash: md5
+  path: moga-connection.yaml

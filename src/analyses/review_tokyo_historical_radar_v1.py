@@ -1,4 +1,10 @@
 """Reproducible whole-domain numerical-radar readiness review; no solver calls."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import os
 for k in ['PROJ_LIB','PROJ_DATA','GDAL_DATA']:os.environ.pop(k,None)
@@ -19,7 +25,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'preprocessing'))
 from acquire_tokyo_historical_radar_v1 import decode, self_test
 ROOT=Path(__file__).resolve().parents[2]
-TAG='tokyo_historical_radar_20240821_v1';P=ROOT/'data/processed'/TAG;RAW=ROOT/'data/raw'/TAG;R=ROOT/'data/exp/data-preprocessing'/TAG
+TAG='tokyo_historical_radar_20240821_v1';P=ROOT/'data/processed'/TAG;RAW=moga_raw(ROOT, '')/TAG;R=ROOT/'data/exp/data-preprocessing'/TAG
 JST=dt.timezone(dt.timedelta(hours=9))
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -40,15 +46,15 @@ def main():
     check('108_unique_raw_frames',len(manifest['files'])==108==len({x['url'] for x in manifest['files']}))
     check('continuous_exact_300s_windows',np.all(ends-start==300) and np.array_equal(ends[:-1],start[1:]))
     for i,entry in enumerate(manifest['files']):
-        p=ROOT/entry['local_path'];check('raw_sha256_'+str(i),sha(p)==entry['sha256'])
+        p=moga_project_path(ROOT, entry['local_path']);check('raw_sha256_'+str(i),sha(p)==entry['sha256'])
         level,r,meta=decode(p.read_bytes())
         check('raw_decode_roundtrip_'+str(i),np.array_equal(level,a['level'][i]) and np.array_equal(r,rate[i],equal_nan=True))
-    for entry in manifest['source_documents']:check('document_sha_'+Path(entry['path']).name,sha(ROOT/entry['path'])==entry['sha256'])
+    for entry in manifest['source_documents']:check('document_sha_'+Path(entry['path']).name,sha(moga_project_path(ROOT, entry['path']))==entry['sha256'])
     check('original_script_sha_bound',manifest['script_sha256']==sha(ROOT/'src/preprocessing/acquire_tokyo_historical_radar_v1.py'))
     check('netcdf_sha_bound',sha(P/'forcing_intervals_10m.nc')==q['output_sha256'])
     matrices={k:load_npz(P/k) for k in ['terrain_source_area_matrix.npz','urban_source_area_matrix.npz','roof_source_area_matrix.npz']}
     for name,expected in mapping['matrix_sha256'].items():check('map_sha_'+name,sha(P/name)==expected)
-    for name,expected in mapping['source_sha256'].items():check('unchanged_source_'+Path(name).name,sha(ROOT/name)==expected)
+    for name,expected in mapping['source_sha256'].items():check('unchanged_source_'+Path(name).name,sha(moga_project_path(ROOT, name))==expected)
     t=matrices['terrain_source_area_matrix.npz'];u=matrices['urban_source_area_matrix.npz'];roof=matrices['roof_source_area_matrix.npz']
     source_area=np.asarray(t.sum(0)).ravel();check('source_area_marginals_identical',np.array_equal(source_area,np.asarray(u.sum(0)).ravel()))
     with rasterio.open(ROOT/'data/processed/three_ward_fixed_runoff/contributing_area_10m.tif') as ds:

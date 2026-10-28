@@ -1,4 +1,10 @@
 """Inventory top-level PLATEAU building attributes without changing raw archives."""
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import json,csv,zipfile,collections,hashlib,time
@@ -10,7 +16,7 @@ def tag(e):return e.tag.rsplit('}',1)[-1]
 def first(e,name):return next((x.text.strip() for x in e.iter() if tag(x)==name and x.text and x.text.strip()),'')
 def save(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n')
 rows={};duplicates=0;conflicts=0;files=[];codes={};sources=[];started=time.time()
-for archive in sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')):
+for archive in sorted((moga_raw(ROOT, 'plateau/2025')).rglob('*citygml*.zip')):
  with zipfile.ZipFile(archive) as z:
   for n in ['Building_usage','BuildingDetailAttribute_detailedUsage']:
    e=ET.fromstring(z.read('codelists/'+n+'.xml'))
@@ -21,7 +27,7 @@ for archive in sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')):
     import io
     for r in csv.DictReader(io.StringIO(text)):
      if r['feature']=='bldg:Building' and r['property'] in ['bldg:usage','bldg:storeysAboveGround','bldg:lod1Solid']:
-      sources.append({'archive':str(archive.relative_to(ROOT)),**r})
+      sources.append({'archive':moga_source(archive, ROOT),**r})
   members=[x for x in z.infolist() if x.filename.startswith('udx/bldg/') and x.filename.endswith('.gml')]
   for j,m in enumerate(members):
    count=0
@@ -32,7 +38,7 @@ for archive in sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')):
      b=next(iter(e),None)
      if b is not None and tag(b)=='Building':
       ident=b.get(GML+'id','');count+=1
-      r={'gml_id':ident,'archive':str(archive.relative_to(ROOT)),'member':m.filename}
+      r={'gml_id':ident,'archive':moga_source(archive, ROOT),'member':m.filename}
       for name in ['usage','storeysAboveGround','storeysBelowGround','measuredHeight','detailedUsage','surveyYear','buildingRoofEdgeArea','buildingID','city','creationDate','yearOfConstruction','yearOfDemolition','totalFloorArea','numberOfHouseholds']:
        # Building standard attributes use direct children to avoid inheriting BuildingPart attributes.
        r[name]=next((x.text.strip() for x in b if tag(x)==name and x.text and x.text.strip()),'') if name in ['usage','storeysAboveGround','storeysBelowGround','measuredHeight','creationDate','yearOfConstruction','yearOfDemolition'] else first(b,name)
@@ -44,7 +50,7 @@ for archive in sorted((ROOT/'data/raw/plateau/2025').rglob('*citygml*.zip')):
        if any(r[k]!=rows[ident][k] for k in ['usage','storeysAboveGround','detailedUsage','surveyYear']):conflicts+=1
       else:rows[ident]=r
      root.clear()
-   files.append({'archive':str(archive.relative_to(ROOT)),'member':m.filename,'bytes':m.file_size,'crc32':f'{m.CRC:08x}','building_objects':count})
+   files.append({'archive':moga_source(archive, ROOT),'member':m.filename,'bytes':m.file_size,'crc32':f'{m.CRC:08x}','building_objects':count})
    if j%5==0 or j==len(members)-1:print(archive.parent.name,j+1,len(members),'unique',len(rows),'seconds',round(time.time()-started),flush=True)
 with (OUT/'plateau_building_attributes.csv').open('w',newline='') as f:
  w=csv.DictWriter(f,fieldnames=list(next(iter(rows.values()))));w.writeheader();w.writerows(rows.values())

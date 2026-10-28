@@ -3,6 +3,12 @@
 Run with .venv/bin/python src/preprocessing/acquire_hibiya_lowpoint_sources.py.
 Existing originals are verified, never replaced. No Git or DVC operations.
 """
+
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
 import hashlib
 import json
 import urllib.request
@@ -11,7 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW = ROOT / 'data/raw/tokyo_lidar_dem/2024'
+RAW = moga_raw(ROOT, 'tokyo_lidar_dem/2024')
 OUT = ROOT / 'data/exp/data-briefing/hibiya_lowpoint_verification'
 BASE = 'https://gic-tokyo.s3.ap-northeast-1.amazonaws.com/2024/dig/'
 
@@ -32,7 +38,7 @@ def main():
         if not path.exists():
             with urllib.request.urlopen(url, timeout=120) as response:
                 path.write_bytes(response.read())
-        entry = {'url': url, 'path': str(path.relative_to(ROOT)),
+        entry = {'url': url, 'path': moga_source(path, ROOT),
                  'bytes': path.stat().st_size,
                  'sha256': hashlib.file_digest(path.open('rb'), 'sha256').hexdigest()}
         if path.suffix == '.zip':

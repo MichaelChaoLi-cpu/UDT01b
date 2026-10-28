@@ -8,6 +8,12 @@ local WGS84 ellipsoidal tangent approximation and are not accuracy estimates.
 
 from __future__ import annotations
 
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
+
 import csv
 import json
 import math
@@ -141,8 +147,8 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     wards = []
     table = []
-    for path in sorted((ROOT / "data/raw/plateau").rglob("*citygml*.zip")):
-        ward = {"ward": path.parent.name, "archive": str(path.relative_to(ROOT))}
+    for path in sorted((moga_raw(ROOT, 'plateau')).rglob("*citygml*.zip")):
+        ward = {"ward": path.parent.name, "archive": moga_source(path, ROOT)}
         with zipfile.ZipFile(path) as archive:
             metadata = next(name for name in archive.namelist() if name.startswith("metadata/") and name.endswith("_2025_op.xml"))
             root = ET.fromstring(archive.read(metadata))

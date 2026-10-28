@@ -6,6 +6,12 @@ mesh file for each model family, not district-wide completeness statistics.
 
 from __future__ import annotations
 
+# Resolve original raw names to fixed Moga members; no local raw copies.
+import sys as _moga_sys
+from pathlib import Path as _MogaPath
+_moga_sys.path.insert(0, str(_MogaPath(__file__).resolve().parents[1]))
+from moga_raw_inputs import raw_path as moga_raw, source_reference as moga_source, project_path as moga_project_path
+
 import json
 import re
 import xml.etree.ElementTree as ET
@@ -90,7 +96,7 @@ def inspect_sample(archive: zipfile.ZipFile, filename: str, family: str) -> dict
 def main() -> None:
     OUTPUT.mkdir(parents=True, exist_ok=True)
     reports = []
-    for path in sorted((ROOT / "data/raw/plateau").rglob("*citygml*.zip")):
+    for path in sorted((moga_raw(ROOT, 'plateau')).rglob("*citygml*.zip")):
         ward = path.parent.name
         with zipfile.ZipFile(path) as archive:
             infos = archive.infolist()
@@ -98,7 +104,7 @@ def main() -> None:
             count = Counter(name.split("/")[1] for name in gml_files)
             report = {
                 "ward": ward,
-                "archive": str(path.relative_to(ROOT)),
+                "archive": moga_source(path, ROOT),
                 "compressed_bytes": path.stat().st_size,
                 "uncompressed_bytes": sum(item.file_size for item in infos),
                 "gml_file_counts_by_family": dict(sorted(count.items())),
@@ -114,7 +120,7 @@ def main() -> None:
                     # Copies of source text for inspection; original archive remains intact.
                     name = Path(item.filename).name + ".txt"
                     (evidence / name).write_text(text, encoding="utf-8")
-            report["readme_text_copy"] = str((evidence / "README.md.txt").relative_to(ROOT))
+            report["readme_text_copy"] = moga_source(evidence / "README.md.txt", ROOT)
             for family in ("bldg", "tran", "dem"):
                 candidates = [name for name in gml_files if name.startswith(f"udx/{family}/")]
                 if candidates:
